@@ -5,10 +5,15 @@ import pandas as pd
 import numpy as np
 from chooseLangauge import translate_word
 import socket
-hostname = socket.gethostname()
+import socket
+import requests
 
-ip_address = socket.gethostbyname(hostname)
+def get_public_ip():
+    response = requests.get('https://api64.ipify.org?format=json')
+    ip_data = response.json()
+    return ip_data['ip']
 
+public_ip = get_public_ip()
 json_file_path = "users.json"
 main_script_path = "test.py"
 
@@ -91,7 +96,7 @@ def end(username, password):
                 }
                 df = pd.DataFrame([d])
                 st.table(df)
-                st.write(translate_word(f"Do u know this?:  {ip_address}:)"))
+                st.write(translate_word(f"Do u know this?:  {public_ip}:)"))
                 return True
             else:
                 st.warning(translate_word("Incorrect password. Please check for spelling and try again."))
