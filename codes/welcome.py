@@ -20,18 +20,18 @@ def welcome_page():
     st.write(translate_word(
         "Feel free to explore the different functionalities and make the most out of the Stock Analyzer App! 📊📈"
     ))
-    def MarkDownCode(file_path):
+    def MarkDownCode(file_path,file_name):
         try:
             with open(file_path, "r", encoding="utf-8") as file:
                 text = file.read()
 
-            with st.expander("test.py"):
+            with st.expander(file_name):
                 st.text(text)
         except UnicodeDecodeError:
             st.error(f"Unable to decode the content of the file: {file_path}")
         st.markdown("---")
-    MarkDownCode(r"C:\Users\user\Documents\Stock_finnale_project\texts\code.txt")
-    
+    MarkDownCode(r"C:\Users\user\Documents\Stock_finnale_project\texts\code.txt",'test.py')
+    MarkDownCode(r"C:\Users\user\Documents\Stock_finnale_project\codes\welcome.py",'signIn')
     
     
     
