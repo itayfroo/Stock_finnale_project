@@ -83,8 +83,10 @@ def sign_in(username, password):
                     try:
                         if int(age) < 0 :
                             st.warning("Invalid input")
+                            age=""
                         elif int(age) >99:
                             st.warning("Invalid input")
+                            age = ""
                         else: 
                             additional_info['Age']=int(age)
                             st.balloons()
@@ -98,6 +100,7 @@ def sign_in(username, password):
                     try:
                         if int(amount_invested) < 0:
                             st.warning("Invalid input")
+                            amount_invested =""
                         else: 
                             additional_info['Amount_invested']=int(amount_invested)
                             st.balloons()
