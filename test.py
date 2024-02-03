@@ -340,32 +340,32 @@ def investment(stock_symbol,stock_data):
 
 def homepage():
     from israelcities import israeli_cities
-    st.title("User Authentication System")
+    st.title(print_word("User Authentication System"))
 
-    page = st.sidebar.radio("Navigation", ["Sign Up","Change info" ,"Sign In"])
+    page = st.sidebar.radio(print_word("Navigation"), [print_word("Sign Up"),print_word("Change info") ,print_word("Sign In")])
 
-    if page == "Sign Up":
-        st.header("Sign Up")
-        username = st.text_input("Enter your username:")
-        password = st.text_input("Enter your password:", type="password")
+    if page == print_word("Sign Up"):
+        st.header(print_word("Sign Up"))
+        username = st.text_input(print_word("Enter your username:"))
+        password = st.text_input(print_word("Enter your password:"), type="password")
         
-        st.button('Sign up', on_click=click_button)
+        st.button(print_word('Sign up'), on_click=click_button)
         if st.session_state.clicked:
             sign_up(username, password)
 
-    elif page == "Change info":
-        st.header("Change info")
-        username = st.text_input("Enter your username:")
-        password = st.text_input("Enter your password:", type="password")
-        st.button('Change info', on_click=click_button)
+    elif page == print_word("Change info"):
+        st.header(print_word("Change info"))
+        username = st.text_input(print_word("Enter your username:"))
+        password = st.text_input(print_word("Enter your password:"), type="password")
+        st.button(print_word('Change info'), on_click=click_button)
         if st.session_state.clicked:
             if sign_in(username, password):
                 pass
     else:
-        st.header("Sign in")
-        username = st.text_input("Enter your username:")
-        password = st.text_input("Enter your password:", type="password")
-        st.button('Sign in', on_click=click_button)
+        st.header(print_word("Sign in"))
+        username = st.text_input(print_word("Enter your username:"))
+        password = st.text_input(print_word("Enter your password:"), type="password")
+        st.button(print_word('Sign in'), on_click=click_button)
         from signIn import end
         if st.session_state.clicked:
             if end(username, password):
