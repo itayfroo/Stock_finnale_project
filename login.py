@@ -88,11 +88,11 @@ def sign_in(username, password):
                                 additional_info['Age']=int(age)
                                 st.balloons()
                         except:st.warning("Invalid input")
-                elif (additional_info['City']!=""):
+                if (additional_info['City']!=""):
                     city=  st.selectbox("Enter your city", israeli_cities)
                     
                     additional_info['City'] = city
-                elif(additional_info['Amount_invested']!=""):
+                if(additional_info['Amount_invested']!=""):
                     amount_invested= st.text_input("Enter the amount you want to invest")
                     st.button('Confirm', on_click=click_button)
                     if st.session_state.clicked:
@@ -103,23 +103,23 @@ def sign_in(username, password):
                                 additional_info['Amount_invested']=int(amount_invested)
                                 st.balloons()
                         except:st.warning("Invalid input")
-                else:
+                
                     
-                    users[username] = user_data
-                    users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
-                    with open(json_file_path, "w") as file:
-                        json.dump(users, file)
-                    d = {
-                        'Username': username,
-                        'Password': user_data['password'],
-                        'Age': additional_info['Age'],
-                        'City':additional_info['City'],
-                        'Amount invested':additional_info['Amount_invested']
-                    }
-                    df = pd.DataFrame([d])
-                    st.table(df)
+                users[username] = user_data
+                users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
+                with open(json_file_path, "w") as file:
+                    json.dump(users, file)
+                d = {
+                    'Username': username,
+                    'Password': user_data['password'],
+                    'Age': additional_info['Age'],
+                    'City':additional_info['City'],
+                    'Amount invested':additional_info['Amount_invested']
+                }
+                df = pd.DataFrame([d])
+                st.table(df)
                     
-                    return True
+                return True
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")
     else:
