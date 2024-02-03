@@ -27,7 +27,17 @@ def welcome_page():
         with open(file_path, "r", encoding="utf-8") as file:
             text = file.read()
 
-        with st.expander("Main.py"):
+        with st.expander("test.py"):
+            st.text(text)
+
+    except UnicodeDecodeError:
+        st.error(f"Unable to decode the content of the file: {file_path}")
+    file_path = r"C:\Users\user\Documents\Stock_finnale_project\texts\code1.text"
+    try:
+        with open(file_path, "r", encoding="utf-8") as file:
+            text = file.read()
+
+        with st.expander("signIn.py"):
             st.text(text)
 
     except UnicodeDecodeError:
