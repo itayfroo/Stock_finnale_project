@@ -21,7 +21,7 @@ def welcome_page():
         "Feel free to explore the different functionalities and make the most out of the Stock Analyzer App! 📊📈"
     ))
 
-    file_path = "code.txt"
+    file_path = r"C:\Users\user\Documents\Stock_finnale_project\code.txt"
 
     try:
         with open(file_path, "r", encoding="utf-8") as file:
