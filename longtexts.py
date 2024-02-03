@@ -1,8 +1,10 @@
 import streamlit as st
-from chooseLangauge import translate_word
-from test import LinearRegression
+import requests
+import yfinance as yf
 import pandas as pd
 import plotly.express as px
+from sklearn.linear_model import LinearRegression
+from chooseLangauge import translate_word
 
 def display_lstm_info():
     st.markdown(translate_word("""
