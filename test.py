@@ -176,9 +176,6 @@ if 'clicked' not in st.session_state:
 def click_button():
     st.session_state.clicked = True
 
-
-
-
 def load_company_dict():
     try:
         with open("stocks.json", "r") as json_file:
@@ -190,13 +187,7 @@ company_dict = load_company_dict()
 
 def stockanalyzer():
     st.title(translate_word("Stock Analyzer"))
-
-
     company_name = st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
-
-
-
-
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)
     start_date = st.date_input(translate_word("Select start date:"),
@@ -254,17 +245,13 @@ def stockanalyzer():
 
                         with st.expander(translate_word("💡 What is Linear Regression?")):
                             st.write(translate_word("Linear Regression Simulation:"))
-                            linear_Regression(stock_data)
-                        
-
-                        
+                            linear_Regression(stock_data)              
                     except:
                         st.warning(translate_word("Not enough info for an AI approximation, please try an earlier date."))
                     investment(stock_symbol,stock_data)
             else:
                 st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input.")) 
-               
-    
+                  
 def investment(stock_symbol,stock_data):
     st.title(translate_word("Investment"))
     if stock_data is not None:
@@ -275,15 +262,9 @@ def investment(stock_symbol,stock_data):
         potential_returns = value * (1 + percent_change / 100)
         st.write(translate_word(f"If you invest {value:.2f}$ in {stock_symbol} from the start of 2022 until today:"))
         st.success(translate_word(f"You would have approximately {potential_returns:.2f}$ based on the percentage change of {percent_change:.2f}%."))
-
     else:
         st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input."))
-
-
-
-
-
-
+        
 from homepage import homepage
 
 page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Home"), translate_word("Stock Analysis"),translate_word("Choose langauge")])
@@ -293,7 +274,3 @@ elif page == translate_word("Stock Analysis"):
     stockanalyzer()
 elif page == translate_word("Choose langauge"):
     language_chooser()
-
-
-
-
