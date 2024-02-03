@@ -11,7 +11,6 @@ import time
 import datetime
 import random
 import json
-import os
 from chooseLangauge import translate_word,language_chooser
 check = False
 
