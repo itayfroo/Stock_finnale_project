@@ -342,7 +342,7 @@ def homepage():
     from israelcities import israeli_cities
     st.title("User Authentication System")
 
-    page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
+    page = st.sidebar.radio("Navigation", ["Sign Up","Change info" ,"Sign In"])
 
     if page == "Sign Up":
         st.header("Sign Up")
@@ -353,11 +353,11 @@ def homepage():
         if st.session_state.clicked:
             sign_up(username, password)
 
-    elif page == "Sign In":
-        st.header("Sign In")
+    elif page == "Change info":
+        st.header("Change info")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
-        st.button('Sign in', on_click=click_button)
+        st.button('Change info', on_click=click_button)
         if st.session_state.clicked:
             if sign_in(username, password):
                 pass
