@@ -45,5 +45,13 @@ Make sure you have the following installed:
 
 1. Clone the repository:
 
-   ```bash
-   git clone https://github.com/your-username/stock-analyzer-app.git
+   git clone git@github.com:itayfroo/Stock_finnale_project.git
+
+   *****************************************************************
+   Can also fork from https://github.com/itayfroo/Stock_finnale_project.git
+   *****************************************************************
+   
+2. Run the app in the powershell:
+
+    streamlit run C:\Users\user\Documents\Stock_finnale_project\codes\test.py
+
