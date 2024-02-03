@@ -372,12 +372,12 @@ def homepage():
                 pass
 
 from chooseLanguage import language_chooser,translate_word,print_word
-page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis","Choose language"])
-if page == "Home":
+page = st.sidebar.radio(print_word("Select Page"), [print_word("Home"), print_word("Stock Analysis"),print_word("Choose language")])
+if page == print_word("Home"):
     homepage()
-elif page == "Stock Analysis":
+elif page == print_word("Stock Analysis"):
     stockanalyzer()
-elif page == "Choose language":
+elif page == print_word("Choose language"):
     language_chooser()
 
 
