@@ -7,12 +7,10 @@ from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 import tensorflow as tf
-import time  
-import datetime
+
 import random
 import json
 import os
-from login import sign_in, sign_up, user_exists
 from chooseLangauge import translate_word,language_chooser
 check = False
 
@@ -199,7 +197,3 @@ elif page == translate_word("Stock Analysis"):
     stockanalyzer()
 elif page == translate_word("Choose langauge"):
     language_chooser()
-
-
-
-
