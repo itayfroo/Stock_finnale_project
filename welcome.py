@@ -21,9 +21,16 @@ def welcome_page():
         "Feel free to explore the different functionalities and make the most out of the Stock Analyzer App! 📊📈"
     ))
 
-    st.markdown("---")
-    with open("code.text","r") as read:
-        text = read.read()
-    with st.beta_expander("Show Code"):
-        st.write(text)
+    file_path = "code.txt"
+
+    try:
+        with open(file_path, "r", encoding="utf-8") as file:
+            text = file.read()
+
+        with st.beta_expander("Show Code"):
+            st.write(text)
+
+    except UnicodeDecodeError:
+        st.error(f"Unable to decode the content of the file: {file_path}")
+
 
