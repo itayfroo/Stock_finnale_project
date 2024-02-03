@@ -341,7 +341,7 @@ def investment(stock_symbol,stock_data):
 def homepage():
     from israelcities import israeli_cities
     st.title("User Authentication System")
-
+    from signIn import end
     page = st.sidebar.radio("Navigation", ["Sign Up","Change info" ,"Sign In"])
 
     if page == "Sign Up":
@@ -361,13 +361,14 @@ def homepage():
         if st.session_state.clicked:
             if sign_in(username, password):
                 pass
+    
     else:
-        st.header("Change info")
+        st.header("Sign in")
         username = st.text_input("Enter your username:")
         password = st.text_input("Enter your password:", type="password")
-        st.button('Change info', on_click=click_button)
+        st.button('Sign in', on_click=click_button)
         if st.session_state.clicked:
-            if sign_in(username, password):
+            if end(username, password):
                 pass
 
 
