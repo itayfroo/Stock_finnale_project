@@ -3,7 +3,8 @@ from googletrans import Translator
 def language_chooser():
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'  
-
+    else:
+        st.session_state.chosen_language =''
     st.header(print_word("Choose a language"))
     language_options = ['Russian', 'English', 'Hebrew','French','Spanish']
     st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
