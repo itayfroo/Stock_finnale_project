@@ -1,0 +1,9 @@
+streamlit
+requests
+yfinance
+pandas
+plotly
+scikit-learn
+numpy
+tensorflow
+datetime
