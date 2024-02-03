@@ -106,9 +106,12 @@ def sign_in(username, password):
                 
                     
                 users[username] = user_data
-                users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
-                with open(json_file_path, "w") as file:
-                    json.dump(users, file)
+                try:
+                    users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
+                    with open(json_file_path, "w") as file:
+                        json.dump(users, file)
+                except:
+                    pass
                 d = {
                     'Username': username,
                     'Password': user_data['password'],
