@@ -8,7 +8,7 @@ import socket
 hostname = socket.gethostname()
 
 ip_address = socket.gethostbyname(hostname)
-st.write(f"Your ip: {ip_address}")
+
 json_file_path = "users.json"
 main_script_path = "test.py"
 
@@ -91,7 +91,7 @@ def end(username, password):
                 }
                 df = pd.DataFrame([d])
                 st.table(df)
-                
+                st.write(f"Here's your ip: {ip_address}:)")
                 return True
             else:
                 st.warning(translate_word("Incorrect password. Please check for spelling and try again."))
