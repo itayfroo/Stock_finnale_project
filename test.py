@@ -208,14 +208,14 @@ Linear regression is widely used in various fields for tasks such as predicting 
     predictions = model.predict(X)
 
     # Plot the actual and predicted values
-    fig_lr = px.line(X, x='Days', y=y, title='Actual vs Predicted (Linear Regression)')
+    fig_lr = px.line(X, x='Days', y=y, title=translate_word('Actual vs Predicted (Linear Regression)'))
     fig_lr.add_scatter(x=X['Days'], y=predictions, mode='lines', name='Predicted')
     fig_lr.update_xaxes(title_text='Days')
     fig_lr.update_yaxes(title_text='Stock Price (USD)')
 
     st.plotly_chart(fig_lr)
     m = (y.iloc[-1] - y.iloc[0]) / 707
-    st.write("The y(x) linear function:")
+    st.write(translate_word("The y(x) linear function:"))
     st.write(f"Y = {float(m)}x + {float(y.iloc[0])}")
 
 
