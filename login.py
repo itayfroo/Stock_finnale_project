@@ -51,7 +51,7 @@ def sign_up(username, password, additional_info="default_value"):
     elif username=="":
         st.warning(print_word("You have to enter a username"))
     elif password=="":
-        st.warning(print_word("print_word(You have to enter a password"))
+        st.warning(print_word("You have to enter a password"))
     else:
         user_data = {"password": password}
         age =""
