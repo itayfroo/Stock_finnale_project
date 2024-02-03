@@ -29,7 +29,7 @@ def language_chooser():
         st.session_state.chosen_language = lang
         st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
     except:
-        st.warning("An error acourred, please try other langauge")
+        pass
 
 
 
