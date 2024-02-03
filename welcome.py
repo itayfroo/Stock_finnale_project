@@ -22,4 +22,8 @@ def welcome_page():
     ))
 
     st.markdown("---")
-    st.markdown(f"🌐 **{translate_word('App Language')}:** ") 
+    with open("code.text","r") as read:
+        text = read.read()
+    with st.beta_expander("Show Code"):
+        st.write(text)
+
