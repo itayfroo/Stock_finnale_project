@@ -77,7 +77,7 @@ def sign_in(username, password):
                 st.caption(f"welcome back, {username}")
                 st.write("User info")
                 from israelcities import israeli_cities
-                if (additional_info['Age']==""):
+                if (additional_info['Age']!=""):
                     age= st.text_input("Enter your age")
                     st.button('Okay', on_click=click_button)
                     if st.session_state.clicked:
@@ -86,18 +86,11 @@ def sign_in(username, password):
                                 st.warning("Invalid input")
                             else: 
                                 additional_info['Age']=int(age)
-                                users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
-                                with open(json_file_path, "w") as file:
-                                    json.dump(users, file)
                                 st.balloons()
                         except:st.warning("Invalid input")
                 if (additional_info['City']==""):
                     city=  st.selectbox("Enter your city", israeli_cities)
-                    users[username] = user_data
-               
-                    users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
-                    with open(json_file_path, "w") as file:
-                        json.dump(users, file)
+                    
                     additional_info['City'] = city
                 if(additional_info['Amount_invested']==""):
                     amount_invested= st.text_input("Enter the amount you want to invest")
@@ -108,17 +101,17 @@ def sign_in(username, password):
                                 st.warning("Invalid input")
                             else: 
                                 additional_info['Amount_invested']=int(amount_invested)
-                                users[username] = user_data
-               
-                                users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
-                                with open(json_file_path, "w") as file:
-                                    json.dump(users, file)
                                 st.balloons()
                         except:st.warning("Invalid input")
                 
                     
-                
-               
+                users[username] = user_data
+                try:
+                    users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
+                    with open(json_file_path, "w") as file:
+                        json.dump(users, file)
+                except:
+                    pass
                 d = {
                     'Username': username,
                     'Password': user_data['password'],
