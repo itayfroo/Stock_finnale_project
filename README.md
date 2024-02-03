@@ -57,5 +57,7 @@ Make sure you have the following installed:
 
 2. Run the app in the powershell:
 
-    streamlit run C:\Users\user\Documents\Stock_finnale_project\codes\test.py
+    streamlit run codes\test.py
+
+
 
