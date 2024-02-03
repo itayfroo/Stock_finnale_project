@@ -1,6 +1,9 @@
 import streamlit as st
 from googletrans import Translator
+
+lang = "en"    
 def language_chooser():
+    global lang
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'
 
@@ -22,8 +25,10 @@ def language_chooser():
         'Fijian', 'Samoan', 'Tongan', 'Maori', 'Hawaiian',
         'Marshallese', 'Chamorro', 'Palauan', 'Kiribati', 'Nauruan'
     ]
-    st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
+    lang = st.selectbox("Choose a language", language_options)
+    st.session_state.chosen_language = lang
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
+    
 
 
 
