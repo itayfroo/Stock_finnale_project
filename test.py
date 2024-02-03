@@ -226,11 +226,7 @@ st.set_page_config(
 
 
 # Function to clear session state
-def clear_session_state():
-    st.session_state.clear()
 
-# Example usage in Streamlit
-st.button("Clear Session State", on_click=clear_session_state)
 
 
 
