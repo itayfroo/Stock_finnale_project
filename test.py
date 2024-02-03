@@ -250,7 +250,7 @@ def stockanalyzer():
                         st.write(translate_word(f"Approximate tomorrow's stock value (LSTM): {predicted_value_lstm:.2f}$"))
 
                         with st.expander(translate_word("💡 What is LSTM?")):
-                            display_lstm_info()
+                            display_lstm_info(stock_data)
 
                         with st.expander(translate_word("💡 What is Linear Regression?")):
                             st.write(translate_word("Linear Regression Simulation:"))
