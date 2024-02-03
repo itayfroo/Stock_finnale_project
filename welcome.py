@@ -4,7 +4,7 @@ from chooseLangauge import translate_word,lang
 def welcome_page():
     st.title(translate_word("🚀 Welcome to Stock Analyzer App!"))
 
-    st.image("your_app_logo.png", width=200)  # Add your app logo
+    st.image("icons8-stock-48.png", width=200)  
 
     st.write(translate_word(
         "Explore the world of stocks with our powerful Stock Analyzer App! This app provides you with tools to analyze stock prices, make predictions, and discover investment opportunities. "
@@ -22,4 +22,4 @@ def welcome_page():
     ))
 
     st.markdown("---")
-    st.markdown(f"🌐 **{translate_word('App Language')}:** {lang}")  # Include the selected language
+    st.markdown(f"🌐 **{translate_word('App Language')}:** {lang}") 
