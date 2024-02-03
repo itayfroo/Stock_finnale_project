@@ -4,7 +4,7 @@ def language_chooser():
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'
 
-    st.header(print_word("Choose a language"))
+    st.header(translate_word("Choose a language"))
     language_options = [ 'English','Russian','Hebrew']
     st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
     st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
@@ -12,16 +12,9 @@ def language_chooser():
 
 
 
-def translate_word(word, chosen_language):
+def translate_word(word):
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'  
     translator = Translator()
     translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
     return translated_word
-
-def print_word(word):
-    if 'chosen_language' in st.session_state:
-        translated_word = translate_word(word, st.session_state.chosen_language)
-        return translated_word
-    else:
-        return word

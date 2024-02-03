@@ -3,7 +3,7 @@ import os
 import streamlit as st
 import pandas as pd
 import numpy as np
-from chooseLangauge import print_word
+from chooseLangauge import translate_word
 
 json_file_path = "users.json"
 main_script_path = "test.py"
@@ -48,11 +48,11 @@ def sign_up(username, password, additional_info="default_value"):
         users = {}
 
     if username in users:
-        st.warning(print_word("Username is already taken. Please choose another one"))
+        st.warning(translate_word("Username is already taken. Please choose another one"))
     elif username=="":
-        st.warning(print_word("You have to enter a username"))
+        st.warning(translate_word("You have to enter a username"))
     elif password=="":
-        st.warning(print_word("You have to enter a password"))
+        st.warning(translate_word("You have to enter a password"))
     else:
         user_data = {"password": password}
         age =""
@@ -63,7 +63,7 @@ def sign_up(username, password, additional_info="default_value"):
         users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
         with open(json_file_path, "w") as file:
             json.dump(users, file)
-        st.success(print_word("You have successfully signed up!"))
+        st.success(translate_word("You have successfully signed up!"))
 
 
 
@@ -76,8 +76,8 @@ def end(username, password):
             if user_data and user_data.get("password") == password:
                 additional_info = users.get(f"{username}_info")
                 
-                st.caption(print_word(f"welcome back, {username}"))
-                st.write(print_word("User info"))
+                st.caption(translate_word(f"welcome back, {username}"))
+                st.write(translate_word("User info"))
                 d = {
                     'Username': username,
                     'Password': user_data['password'],
@@ -90,6 +90,6 @@ def end(username, password):
                 
                 return True
             else:
-                st.warning(print_word("Incorrect password. Please check for spelling and try again."))
+                st.warning(translate_word("Incorrect password. Please check for spelling and try again."))
     else:
-        st.warning(print_word("User does not exist. Please sign up or check the username."))
+        st.warning(translate_word("User does not exist. Please sign up or check the username."))

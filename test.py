@@ -13,7 +13,7 @@ import random
 import json
 import os
 from login import sign_in, sign_up, user_exists
-from chooseLangauge import print_word,language_chooser
+from chooseLangauge import translate_word,language_chooser
 check = False
 
 data=[]
@@ -160,7 +160,7 @@ def predict_tomorrows_stock_value_lstm(stock_data):
 
 # Function to display information about LSTM
 def display_lstm_info():
-    st.markdown(print_word("""
+    st.markdown(translate_word("""
         Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) architecture that is designed to overcome the limitations of traditional RNNs in capturing long-term dependencies in sequential data. RNNs, in theory, can learn from past information to make predictions on future data points, but in practice, they often struggle to learn and remember information from distant past time steps due to the vanishing gradient problem.
 
 LSTM was introduced to address the vanishing gradient problem by incorporating memory cells and gating mechanisms. The key components of an LSTM cell include:
@@ -180,7 +180,7 @@ In the context of time series prediction, like predicting stock prices, LSTM mod
     """))
 
 def linear_Regression(stock_data):
-    st.markdown(print_word("""
+    st.markdown(translate_word("""
 Linear regression is a statistical method used for modeling the relationship between a dependent variable and one or more independent variables by fitting a linear equation to the observed data. The most common form is simple linear regression, which deals with the relationship between two variables, while multiple linear regression deals with two or more predictors.
 
 The linear regression equation has the form:
@@ -246,40 +246,40 @@ def load_company_dict():
 company_dict = load_company_dict()
 
 def stockanalyzer():
-    st.title(print_word("Stock Analyzer"))
+    st.title(translate_word("Stock Analyzer"))
 
 
-    company_name = st.selectbox(print_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
+    company_name = st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
 
 
 
 
     min_date = datetime.date(2022, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)
-    start_date = st.date_input(print_word("Select start date:"),
+    start_date = st.date_input(translate_word("Select start date:"),
                                min_value=min_date,
                                max_value=max_date,
                                value=min_date)
 
     end_date = datetime.datetime.now().date() 
 
-    st.button(print_word('Analyze'), on_click=click_button)
+    st.button(translate_word('Analyze'), on_click=click_button)
     if st.session_state.clicked:
         if company_name =="":
-            st.warning(print_word("You have to enter a stock or a company name."))
+            st.warning(translate_word("You have to enter a stock or a company name."))
         else:
             if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
                 stock_symbol = "AAPL"
             elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
                 stock_symbol = "NVDA"
             else:
-                with st.spinner(print_word("Fetching stock symbol...")):
+                with st.spinner(translate_word("Fetching stock symbol...")):
                     stock_symbol = get_stock_symbol(company_name)
             if stock_symbol:
-                st.title(print_word("Stock Price Visualization App"))
-                st.write(print_word(f"Displaying stock data for {stock_symbol}"))
+                st.title(translate_word("Stock Price Visualization App"))
+                st.write(translate_word(f"Displaying stock data for {stock_symbol}"))
 
-                with st.spinner(print_word("Fetching stock data...")):
+                with st.spinner(translate_word("Fetching stock data...")):
                     stock_data = get_stock_data(stock_symbol, start_date, end_date)
 
                 if stock_data is not None:
@@ -294,91 +294,91 @@ def stockanalyzer():
                                                     'Highest Point': highest_point
                                             })
                     st.line_chart(chart_data.set_index('Date'))
-                    st.info(print_word(f"Today's Stock Price: {round(today_point, 2)}$"))
-                    st.success(print_word(f"Highest Stock Price: {round(highest_point, 2)}$"))
-                    st.warning(print_word(f"Lowest Stock Price: {round(lowest_point, 2)}$"))
+                    st.info(translate_word(f"Today's Stock Price: {round(today_point, 2)}$"))
+                    st.success(translate_word(f"Highest Stock Price: {round(highest_point, 2)}$"))
+                    st.warning(translate_word(f"Lowest Stock Price: {round(lowest_point, 2)}$"))
                     try:
-                        with st.spinner(print_word("Performing predictions...")):
+                        with st.spinner(translate_word("Performing predictions...")):
                             predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
                             predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
                             time.sleep(1)  
 
-                        st.write(print_word(f"Approximate tomorrow's stock value (Linear Regression): {predicted_value_lr:.2f}$"))
-                        st.write(print_word(f"Approximate tomorrow's stock value (LSTM): {predicted_value_lstm:.2f}$"))
+                        st.write(translate_word(f"Approximate tomorrow's stock value (Linear Regression): {predicted_value_lr:.2f}$"))
+                        st.write(translate_word(f"Approximate tomorrow's stock value (LSTM): {predicted_value_lstm:.2f}$"))
 
-                        with st.expander(print_word("💡 What is LSTM?")):
+                        with st.expander(translate_word("💡 What is LSTM?")):
                             display_lstm_info()
 
-                        with st.expander(print_word("💡 What is Linear Regression?")):
-                            st.write(print_word("Linear Regression Simulation:"))
+                        with st.expander(translate_word("💡 What is Linear Regression?")):
+                            st.write(translate_word("Linear Regression Simulation:"))
                             linear_Regression(stock_data)
                         
 
                         
                     except:
-                        st.warning(print_word("Not enough info for an AI approximation, please try an earlier date."))
+                        st.warning(translate_word("Not enough info for an AI approximation, please try an earlier date."))
                     investment(stock_symbol,stock_data)
             else:
-                st.warning(print_word(f"Stock doesn't exist.\ntry again or check your input.")) 
+                st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input.")) 
                
     
 def investment(stock_symbol,stock_data):
-    st.title(print_word("Investment"))
+    st.title(translate_word("Investment"))
     if stock_data is not None:
-        value = st.slider(print_word("If you were to invest:"), min_value=100, max_value=5000, value=100, step=50,key = "level1")
+        value = st.slider(translate_word("If you were to invest:"), min_value=100, max_value=5000, value=100, step=50,key = "level1")
         start_price = stock_data['Close'].iloc[0]
         end_price = stock_data['Close'].iloc[-1]
         percent_change = ((end_price - start_price) / start_price) * 100
         potential_returns = value * (1 + percent_change / 100)
-        st.write(print_word(f"If you invest {value:.2f}$ in {stock_symbol} from the start of 2022 until today:"))
-        st.success(print_word(f"You would have approximately {potential_returns:.2f}$ based on the percentage change of {percent_change:.2f}%."))
+        st.write(translate_word(f"If you invest {value:.2f}$ in {stock_symbol} from the start of 2022 until today:"))
+        st.success(translate_word(f"You would have approximately {potential_returns:.2f}$ based on the percentage change of {percent_change:.2f}%."))
 
     else:
-        st.warning(print_word(f"Stock doesn't exist.\ntry again or check your input."))
+        st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input."))
 
 
 
 
 def homepage():
     from israelcities import israeli_cities
-    st.title(print_word("User Authentication System"))
+    st.title(translate_word("User Authentication System"))
     from signIn import end
-    page = st.sidebar.radio(print_word("Navigation"), [print_word("Sign Up"),print_word("Change info") ,print_word("Sign In")])
+    page = st.sidebar.radio(translate_word("Navigation"), [translate_word("Sign Up"),translate_word("Change info") ,translate_word("Sign In")])
 
-    if page == print_word("Sign Up"):
-        st.header(print_word("Sign Up"))
-        username = st.text_input(print_word("Enter your username:"))
-        password = st.text_input(print_word("Enter your password:"), type="password")
+    if page == translate_word("Sign Up"):
+        st.header(translate_word("Sign Up"))
+        username = st.text_input(translate_word("Enter your username:"))
+        password = st.text_input(translate_word("Enter your password:"), type="password")
         
-        st.button(print_word('Sign up'), on_click=click_button)
+        st.button(translate_word('Sign up'), on_click=click_button)
         if st.session_state.clicked:
             sign_up(username, password)
 
-    elif page == print_word("Change info"):
-        st.header(print_word("Change info"))
-        username = st.text_input(print_word("Enter your username:"))
-        password = st.text_input(print_word("Enter your password:"), type="password")
-        st.button(print_word('Change info'), on_click=click_button)
+    elif page == translate_word("Change info"):
+        st.header(translate_word("Change info"))
+        username = st.text_input(translate_word("Enter your username:"))
+        password = st.text_input(translate_word("Enter your password:"), type="password")
+        st.button(translate_word('Change info'), on_click=click_button)
         if st.session_state.clicked:
             if sign_in(username, password):
                 pass
     
     else:
-        st.header(print_word("Sign in"))
-        username = st.text_input(print_word("Enter your username:"))
-        password = st.text_input(print_word("Enter your password:"), type="password")
-        st.button(print_word('Sign in'), on_click=click_button)
+        st.header(translate_word("Sign in"))
+        username = st.text_input(translate_word("Enter your username:"))
+        password = st.text_input(translate_word("Enter your password:"), type="password")
+        st.button(translate_word('Sign in'), on_click=click_button)
         if st.session_state.clicked:
             if end(username, password):
                 pass
 
 
-page = st.sidebar.radio(print_word("Select Page"), [print_word("Home"), print_word("Stock Analysis"),print_word("Choose langauge")])
-if page == print_word("Home"):
+page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Home"), translate_word("Stock Analysis"),translate_word("Choose langauge")])
+if page == translate_word("Home"):
     homepage()
-elif page == print_word("Stock Analysis"):
+elif page == translate_word("Stock Analysis"):
     stockanalyzer()
-elif page == print_word("Choose langauge"):
+elif page == translate_word("Choose langauge"):
     language_chooser()
 
 
