@@ -81,7 +81,9 @@ def sign_in(username, password):
                 st.button('Okay', on_click=click_button)
                 if st.session_state.clicked:
                     try:
-                        if int(age) < 0 or int(age) >99:
+                        if int(age) < 0 :
+                            st.warning("Invalid input")
+                        elif int(age) >99:
                             st.warning("Invalid input")
                         else: 
                             additional_info['Age']=int(age)
