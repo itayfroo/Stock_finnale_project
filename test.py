@@ -13,7 +13,7 @@ import random
 import json
 import os
 from login import sign_in, sign_up, user_exists
-from chooseLangauge import print_word,translate_word
+from chooseLangauge import print_word,language_chooser
 check = False
 
 data=[]
@@ -378,6 +378,8 @@ if page == print_word("Home"):
     homepage()
 elif page == print_word("Stock Analysis"):
     stockanalyzer()
+elif page == print_word("Choose langauge"):
+    language_chooser()
 
 
 
