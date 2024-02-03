@@ -32,8 +32,11 @@ def language_chooser():
 
 
 def translate_word(word):
-    if 'chosen_language' not in st.session_state:
-        st.session_state.chosen_language = 'en'  
-    translator = Translator()
-    translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
-    return translated_word
+    try:
+        translator = Translator()
+        translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
+        return translated_word
+    except Exception as e:
+        st.error(f"Translation error: {e}")
+        return word  # Return the original word in case of an error
+
