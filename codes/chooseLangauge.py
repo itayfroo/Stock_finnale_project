@@ -1,42 +1,27 @@
+from googletrans import LANGUAGES, Translator
 import streamlit as st
-from googletrans import Translator
 
-lang =""
 def language_chooser():
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'
     global lang
-    st.header(translate_word("Choose a language"))
-    language_options = [
-        'English', 'Russian', 'Hebrew', 'French', 'Spanish', 
-        'German', 'Italian', 'Chinese', 'Japanese', 
-        'Arabic', 'Portuguese', 'Dutch', 'Korean', 'Turkish',
-        'Swedish', 'Greek', 'Polish', 'Thai', 'Hindi',
-        'Czech', 'Finnish', 'Danish', 'Norwegian', 'Indonesian',
-        'Romanian', 'Hungarian', 'Bulgarian', 'Vietnamese', 'Malay',
-        'Slovak', 'Slovenian', 'Croatian', 'Serbian', 'Ukrainian',
-        'Lithuanian', 'Latvian', 'Estonian', 'Albanian', 'Macedonian',
-        'Bosnian', 'Montenegrin', 'Georgian', 'Azerbaijani', 'Kazakh',
-        'Uzbek', 'Tajik', 'Kyrgyz', 'Turkmen', 'Mongolian',
-        'Burmese', 'Khmer', 'Lao', 'Tagalog', 'Malagasy',
-        'Swahili', 'Amharic', 'Tigrinya', 'Somali', 'Hausa',
-        'Yoruba', 'Igbo', 'Zulu', 'Xhosa', 'Sesotho',
-        'Fijian', 'Samoan', 'Tongan', 'Maori', 'Hawaiian',
-        'Marshallese', 'Chamorro', 'Palauan', 'Kiribati', 'Nauruan'
-    ]
+    st.header("Choose a language")
+    language_options = list(LANGUAGES.values())
     st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
-    st.session_state.chosen_language = st.session_state.chosen_language[:2].lower()
-    
+    st.session_state.chosen_language = get_language_code(st.session_state.chosen_language)
 
-
-
+def get_language_code(language_name):
+    return next((code for code, name in LANGUAGES.items() if name == language_name), 'en')
 
 def translate_word(word):
+    if 'chosen_language' not in st.session_state:
+        st.session_state.chosen_language = 'en'
+    
+    translator = Translator()
+    dest_language = st.session_state.chosen_language
     try:
-        translator = Translator()
-        translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
+        translated_word = translator.translate(word, dest=dest_language).text
         return translated_word
     except Exception as e:
         st.error(f"Translation error: {e}")
-        return word  # Return the original word in case of an error
-
+        return word  
