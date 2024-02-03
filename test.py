@@ -30,9 +30,9 @@ def get_stock_symbol_from_json(company_name):
             if company_name in data:
                 return data[company_name]
     except FileNotFoundError:
-        pass  # File not found, proceed to API call
+        pass  
     except json.JSONDecodeError:
-        pass  # JSON decoding error, proceed to API call
+        pass  
 
     return None
         
@@ -72,7 +72,7 @@ def get_stock_symbol(company_name):
         if "bestMatches" in data and data["bestMatches"]:
             stock_symbol = data["bestMatches"][0]["1. symbol"].upper()
 
-            # Update JSON file with the new entry
+       
             update_stock_symbol_in_json(company_name, stock_symbol)
 
             return stock_symbol
@@ -87,19 +87,19 @@ def get_stock_data(symbol, start_date, end_date):
     try:
         stock_data = yf.download(symbol, start=start_date, end=end_date)
         
-        # Check if the retrieved data is empty
+    
         if stock_data.empty:
             st.warning("No data available for the specified date range.")
             return None
         
-        # Check if there are missing values in the data
+       
         if stock_data.isnull().values.any():
             st.warning("Data contains missing values. Please check the data for completeness.")
             return None
 
         return stock_data
     except yf.YFinanceError as yf_error:
-        # Handle the specific exception related to the failed download
+       
         if "No timezone found, symbol may be delisted" in str(yf_error):
             st.warning(f"Error retrieving data: {yf_error}. The symbol may be delisted.")
         else:
@@ -158,7 +158,7 @@ def predict_tomorrows_stock_value_lstm(stock_data):
     check =True
     return predicted_value
 
-# Function to display information about LSTM
+
 
 from longtexts import linear_Regression,display_lstm_info
 
