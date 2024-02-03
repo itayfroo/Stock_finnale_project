@@ -12,7 +12,6 @@ import datetime
 import random
 import json
 import os
-from login import sign_in, sign_up, user_exists
 from chooseLangauge import translate_word,language_chooser
 check = False
 
@@ -81,8 +80,6 @@ def get_stock_symbol(company_name):
 
     return None
 
-
-
 def get_stock_data(symbol, start_date, end_date):
     try:
         stock_data = yf.download(symbol, start=start_date, end=end_date)
@@ -106,7 +103,6 @@ def get_stock_data(symbol, start_date, end_date):
             st.error(f"Error retrieving data: {yf_error}")
         
         return None
-
 
 def plot_stock_data(stock_data):
     fig = px.line(stock_data, x=stock_data.index, y='Close', title='Stock Prices Over the Last Year')
@@ -158,8 +154,6 @@ def predict_tomorrows_stock_value_lstm(stock_data):
     check =True
     return predicted_value
 
-
-
 from longtexts import linear_Regression,display_lstm_info
 
 st.set_page_config(
@@ -167,8 +161,6 @@ st.set_page_config(
     page_icon=r"icons8-stock-48.png",
     
 )
-
-
 
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
