@@ -258,8 +258,8 @@ def investment(stock_symbol,stock_data):
         
 from homepage import homepage
 
-page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Choose langauge"),translate_word("Home"), translate_word("Stock Analysis")])
-if page == translate_word("Home"):
+page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Choose langauge"),translate_word("User entrance field"), translate_word("Stock Analysis")])
+if page == translate_word("User entrance field"):
     homepage()
 elif page == translate_word("Stock Analysis"):
     stockanalyzer()
