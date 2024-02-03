@@ -361,6 +361,15 @@ def homepage():
         if st.session_state.clicked:
             if sign_in(username, password):
                 pass
+    else:
+        st.header("Sign in")
+        username = st.text_input("Enter your username:")
+        password = st.text_input("Enter your password:", type="password")
+        st.button('Sign in', on_click=click_button)
+        from signIn import end
+        if st.session_state.clicked:
+            if end(username, password):
+                pass
 
 
 page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis"])
