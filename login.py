@@ -77,44 +77,49 @@ def sign_in(username, password):
                 st.caption(f"welcome back, {username}")
                 st.write("User info")
                 from israelcities import israeli_cities
-                age= st.text_input("Enter your age")
-                st.button('Okay', on_click=click_button)
-                if st.session_state.clicked:
-                    try:
-                        if int(age) < 0 or int(age) >99:
-                            st.warning("Invalid input")
-                        else: 
-                            additional_info['Age']=int(age)
-                            st.balloons()
-                    except:st.warning("Invalid input")
-                city=  st.selectbox("Enter your city", israeli_cities)
-                
-                additional_info['City'] = city
-                amount_invested= st.text_input("Enter the amount you want to invest")
-                st.button('Confirm', on_click=click_button)
-                if st.session_state.clicked:
-                    try:
-                        if int(amount_invested) < 0:
-                            st.warning("Invalid input")
-                        else: 
-                            additional_info['Amount_invested']=int(amount_invested)
-                            st.balloons()
-                    except:st.warning("Invalid input")
-                users[username] = user_data
-                users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
-                with open(json_file_path, "w") as file:
-                    json.dump(users, file)
-                d = {
-                    'Username': username,
-                    'Password': user_data['password'],
-                    'Age': additional_info['Age'],
-                    'City':additional_info['City'],
-                    'Amount invested':additional_info['Amount_invested']
-                }
-                df = pd.DataFrame([d])
-                st.table(df)
-                
-                return True
+                if (additional_info['Age']!=""):
+                    age= st.text_input("Enter your age")
+                    st.button('Okay', on_click=click_button)
+                    if st.session_state.clicked:
+                        try:
+                            if int(age) < 0 or int(age) >99:
+                                st.warning("Invalid input")
+                            else: 
+                                additional_info['Age']=int(age)
+                                st.balloons()
+                        except:st.warning("Invalid input")
+                elif (additional_info['City']!=""):
+                    city=  st.selectbox("Enter your city", israeli_cities)
+                    
+                    additional_info['City'] = city
+                elif(additional_info['Amount_invested']!=""):
+                    amount_invested= st.text_input("Enter the amount you want to invest")
+                    st.button('Confirm', on_click=click_button)
+                    if st.session_state.clicked:
+                        try:
+                            if int(amount_invested) < 0:
+                                st.warning("Invalid input")
+                            else: 
+                                additional_info['Amount_invested']=int(amount_invested)
+                                st.balloons()
+                        except:st.warning("Invalid input")
+                else:
+                    
+                    users[username] = user_data
+                    users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
+                    with open(json_file_path, "w") as file:
+                        json.dump(users, file)
+                    d = {
+                        'Username': username,
+                        'Password': user_data['password'],
+                        'Age': additional_info['Age'],
+                        'City':additional_info['City'],
+                        'Amount invested':additional_info['Amount_invested']
+                    }
+                    df = pd.DataFrame([d])
+                    st.table(df)
+                    
+                    return True
             else:
                 st.warning("Incorrect password. Please check for spelling and try again.")
     else:
