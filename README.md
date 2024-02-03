@@ -9,7 +9,11 @@ Welcome to the Stock Analyzer App! This web application is built using Streamlit
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Requirements](#Requirements)
+- [Progrramers](#Pro-Grammers)
+### Pro-Grammers
 
+- Mark Kolesnik
+- Itay Froomer
 
 ## Features
 
@@ -50,7 +54,7 @@ Make sure you have the following installed:
    *****************************************************************
    Can also fork from https://github.com/itayfroo/Stock_finnale_project.git
    *****************************************************************
-   
+
 2. Run the app in the powershell:
 
     streamlit run C:\Users\user\Documents\Stock_finnale_project\codes\test.py
