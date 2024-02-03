@@ -29,7 +29,7 @@ def welcome_page():
                 st.text(text)
         except UnicodeDecodeError:
             st.error(f"Unable to decode the content of the file: {file_path}")
-        st.markdown("---")
+    st.markdown("---")    
     MarkDownCode(r"C:\Users\user\Documents\Stock_finnale_project\texts\code.txt",'test.py')
     MarkDownCode(r"C:\Users\user\Documents\Stock_finnale_project\codes\welcome.py",'signIn')
     
