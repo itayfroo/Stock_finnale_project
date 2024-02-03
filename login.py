@@ -4,7 +4,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from chooseLangauge import translate_word
-json_file_path = "users.json"
+json_file_path = r"C:\Users\user\Documents\Stock_finnale_project\texts\users.json"
 main_script_path = "test.py"
 
 if 'clicked' not in st.session_state:

@@ -23,7 +23,7 @@ api_key = api_keys[random.randint(0,len(api_keys)-1)]
 
 def get_stock_symbol_from_json(company_name):
     try:
-        with open("stocks.json", "r") as json_file:
+        with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "r") as json_file:
             data = json.load(json_file)
             if company_name in data:
                 return data[company_name]
@@ -36,14 +36,14 @@ def get_stock_symbol_from_json(company_name):
         
 def update_stock_symbol_in_json(company_name, stock_symbol):
     try:
-        with open("stocks.json", "r") as json_file:
+        with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "r") as json_file:
             data = json.load(json_file)
     except FileNotFoundError:
         data = {}
 
     data[company_name] = stock_symbol
 
-    with open("stocks.json", "w") as json_file:
+    with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "w") as json_file:
         json.dump(data, json_file)
         
 def get_stock_symbol(company_name):
@@ -169,7 +169,7 @@ def click_button():
 
 def load_company_dict():
     try:
-        with open("stocks.json", "r") as json_file:
+        with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "r") as json_file:
             return json.load(json_file)
     except FileNotFoundError:
         return {}
