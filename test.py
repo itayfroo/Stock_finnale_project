@@ -257,11 +257,15 @@ def investment(stock_symbol,stock_data):
         st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input."))
         
 from homepage import homepage
+from welcome import welcome_page
 
-page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Choose langauge"),translate_word("User entrance field"), translate_word("Stock Analysis")])
-if page == translate_word("User entrance field"):
+page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Welcome"), translate_word("Choose Language"), translate_word("User Entrance Field"), translate_word("Stock Analysis")])
+
+if page == translate_word("Welcome"):
+    welcome_page()
+elif page == translate_word("User Entrance Field"):
     homepage()
 elif page == translate_word("Stock Analysis"):
     stockanalyzer()
-elif page == translate_word("Choose langauge"):
+elif page == translate_word("Choose Language"):
     language_chooser()
