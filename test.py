@@ -263,7 +263,7 @@ def stockanalyzer():
 
     end_date = datetime.datetime.now().date() 
 
-    st.button(print_word('Analyze', on_click=click_button))
+    st.button(print_word('Analyze'), on_click=click_button)
     if st.session_state.clicked:
         if company_name =="":
             st.warning(print_word("You have to enter a stock or a company name."))
