@@ -4,7 +4,11 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from chooseLangauge import translate_word
+import socket
+hostname = socket.gethostname()
 
+ip_address = socket.gethostbyname(hostname)
+st.write(f"Your ip: {ip_address}")
 json_file_path = "users.json"
 main_script_path = "test.py"
 
