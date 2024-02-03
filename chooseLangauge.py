@@ -1,12 +1,11 @@
 import streamlit as st
 from googletrans import Translator
 
-lang = "en"    
+lang =""
 def language_chooser():
-    global lang
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'
-
+    global lang
     st.header(translate_word("Choose a language"))
     language_options = [
         'English', 'Russian', 'Hebrew', 'French', 'Spanish', 
