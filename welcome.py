@@ -22,12 +22,12 @@ def welcome_page():
     ))
 
     st.markdown("---")
-    file_path = r"C:\Users\user\Documents\Stock_finnale_project\code.txt"
+    file_path = r"C:\Users\user\Documents\Stock_finnale_project\texts\code.txt"
     try:
         with open(file_path, "r", encoding="utf-8") as file:
             text = file.read()
 
-        with st.expander("Show Code"):
+        with st.expander("Main.py"):
             st.text(text)
 
     except UnicodeDecodeError:
