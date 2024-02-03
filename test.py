@@ -225,10 +225,6 @@ st.set_page_config(
 )
 
 
-# Function to clear session state
-
-
-
 
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
@@ -344,46 +340,34 @@ def investment(stock_symbol,stock_data):
 
 def homepage():
     from israelcities import israeli_cities
-    st.title(print_word("User Authentication System"))
+    st.title("User Authentication System")
 
-    page = st.sidebar.radio(print_word("Navigation"), [print_word("Sign Up"),print_word("Change info") ,print_word("Sign In")])
+    page = st.sidebar.radio("Navigation", ["Sign Up", "Sign In"])
 
-    if page == print_word("Sign Up"):
-        st.header(print_word("Sign Up"))
-        username = st.text_input(print_word("Enter your username:"))
-        password = st.text_input(print_word("Enter your password:"), type="password")
+    if page == "Sign Up":
+        st.header("Sign Up")
+        username = st.text_input("Enter your username:")
+        password = st.text_input("Enter your password:", type="password")
         
-        st.button(print_word('Sign up'), on_click=click_button)
+        st.button('Sign up', on_click=click_button)
         if st.session_state.clicked:
             sign_up(username, password)
 
-    elif page == print_word("Change info"):
-        st.header(print_word("Change info"))
-        username = st.text_input(print_word("Enter your username:"))
-        password = st.text_input(print_word("Enter your password:"), type="password")
-        st.button(print_word('Change info'), on_click=click_button)
+    elif page == "Sign In":
+        st.header("Sign In")
+        username = st.text_input("Enter your username:")
+        password = st.text_input("Enter your password:", type="password")
+        st.button('Sign in', on_click=click_button)
         if st.session_state.clicked:
             if sign_in(username, password):
                 pass
-    else:
-        st.header(print_word("Sign in"))
-        username = st.text_input(print_word("Enter your username:"))
-        password = st.text_input(print_word("Enter your password:"), type="password")
-        st.button(print_word('Sign in'), on_click=click_button)
-        from signIn import end
-        if st.session_state.clicked:
-            if end(username, password):
-                pass
 
-from chooseLanguage import language_chooser,translate_word,print_word
-page = st.sidebar.radio(print_word("Select Page"), [print_word("Home"), print_word("Stock Analysis"),print_word("Choose language")])
-if page == print_word("Home"):
+
+page = st.sidebar.radio("Select Page", ["Home", "Stock Analysis"])
+if page == "Home":
     homepage()
-elif page == print_word("Stock Analysis"):
+elif page == "Stock Analysis":
     stockanalyzer()
-elif page == print_word("Choose language"):
-    language_chooser()
-
 
 
 
