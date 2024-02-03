@@ -30,8 +30,14 @@ def welcome_page():
         except UnicodeDecodeError:
             st.error(f"Unable to decode the content of the file: {file_path}")
     st.markdown("---")    
-    MarkDownCode(r"C:\Users\user\Documents\Stock_finnale_project\texts\code.txt",'test.py')
-    MarkDownCode(r"C:\Users\user\Documents\Stock_finnale_project\codes\welcome.py",'signIn')
+    MarkDownCode(r"C:\Users\user\Documents\Stock_finnale_project\codes\test.py",'test.py')
+    MarkDownCode(r"C:\Users\user\Documents\Stock_finnale_project\codes\signIn.py",'signIn')
+    MarkDownCode(r'C:\Users\user\Documents\Stock_finnale_project\codes\longtexts.py','longtexts.py')
+    MarkDownCode(r'C:\Users\user\Documents\Stock_finnale_project\codes\login.py','login.py')
+    MarkDownCode(r'C:\Users\user\Documents\Stock_finnale_project\codes\israelcities.py','israelcities.py')
+    MarkDownCode(r'C:\Users\user\Documents\Stock_finnale_project\codes\homepage.py','homepage.py')
+    MarkDownCode(r'C:\Users\user\Documents\Stock_finnale_project\codes\chooseLangauge.py','chooseLangauge.py')
+    MarkDownCode(r'C:\Users\user\Documents\Stock_finnale_project\codes\welcome.py','welcome.py')
     
     
     
