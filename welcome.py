@@ -26,7 +26,7 @@ def welcome_page():
             text = file.read()
 
         with st.expander("Show Code"):
-            st.write(text)
+            st.text(text)
 
     except UnicodeDecodeError:
         st.error(f"Unable to decode the content of the file: {file_path}")
