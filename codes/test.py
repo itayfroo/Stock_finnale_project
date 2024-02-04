@@ -187,58 +187,61 @@ def stockanalyzer():
 
     st.button(translate_word('Analyze'), on_click=click_button)
     if st.session_state.clicked:
-        if company_name =="":
-            st.warning(translate_word("You have to enter a stock or a company name."))
-        else:
-            if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
-                stock_symbol = "AAPL"
-            elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
-                stock_symbol = "NVDA"
+        try:
+            if company_name =="":
+                st.warning(translate_word("You have to enter a stock or a company name."))
             else:
-                with st.spinner(translate_word("Fetching stock symbol...")):
-                    stock_symbol = get_stock_symbol(company_name)
-            if stock_symbol:
-                st.title(translate_word("Stock Price Visualization App"))
-                st.write(translate_word(f"Displaying stock data for {stock_symbol}"))
+                if company_name.upper() == "APPLE" or company_name.upper() == "AAPL" or company_name.upper() == "APLE":
+                    stock_symbol = "AAPL"
+                elif company_name.upper() == "NVDA" or company_name.upper() == "NVIDIA" or company_name.upper() == "NVIDA":
+                    stock_symbol = "NVDA"
+                else:
+                    with st.spinner(translate_word("Fetching stock symbol...")):
+                        stock_symbol = get_stock_symbol(company_name)
+                if stock_symbol:
+                    st.title(translate_word("Stock Price Visualization App"))
+                    st.write(translate_word(f"Displaying stock data for {stock_symbol}"))
 
-                with st.spinner(translate_word("Fetching stock data...")):
-                    stock_data = get_stock_data(stock_symbol, start_date, end_date)
+                    with st.spinner(translate_word("Fetching stock data...")):
+                        stock_data = get_stock_data(stock_symbol, start_date, end_date)
 
-                if stock_data is not None:
-                    plot_stock_data(stock_data,start_date)
-                    lowest_point = stock_data['Close'].min()
-                    highest_point = stock_data['Close'].max()
-                    today_point = stock_data['Close'][-1]
-                    chart_data = pd.DataFrame({
-                                                    'Date': stock_data.index,
-                                                    'Stock Price': stock_data['Close'],
-                                                    'Lowest Point': lowest_point,
-                                                    'Highest Point': highest_point
-                                            })
-                    st.line_chart(chart_data.set_index('Date'))
-                    st.info(translate_word(f"Today's Stock Price: {round(today_point, 2)}$"))
-                    st.success(translate_word(f"Highest Stock Price: {round(highest_point, 2)}$"))
-                    st.warning(translate_word(f"Lowest Stock Price: {round(lowest_point, 2)}$"))
-                    try:
-                        with st.spinner(translate_word("Performing predictions...")):
-                            predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
-                            predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
-                            time.sleep(1)  
+                    if stock_data is not None:
+                        plot_stock_data(stock_data,start_date)
+                        lowest_point = stock_data['Close'].min()
+                        highest_point = stock_data['Close'].max()
+                        today_point = stock_data['Close'][-1]
+                        chart_data = pd.DataFrame({
+                                                        'Date': stock_data.index,
+                                                        'Stock Price': stock_data['Close'],
+                                                        'Lowest Point': lowest_point,
+                                                        'Highest Point': highest_point
+                                                })
+                        st.line_chart(chart_data.set_index('Date'))
+                        st.info(translate_word(f"Today's Stock Price: {round(today_point, 2)}$"))
+                        st.success(translate_word(f"Highest Stock Price: {round(highest_point, 2)}$"))
+                        st.warning(translate_word(f"Lowest Stock Price: {round(lowest_point, 2)}$"))
+                        try:
+                            with st.spinner(translate_word("Performing predictions...")):
+                                predicted_value_lr = predict_tomorrows_stock_value_linear_regression(stock_data)
+                                predicted_value_lstm = predict_tomorrows_stock_value_lstm(stock_data)
+                                time.sleep(1)  
 
-                        st.write(translate_word(f"Approximate tomorrow's stock value (Linear Regression): {predicted_value_lr:.2f}$"))
-                        st.write(translate_word(f"Approximate tomorrow's stock value (LSTM): {predicted_value_lstm:.2f}$"))
+                            st.write(translate_word(f"Approximate tomorrow's stock value (Linear Regression): {predicted_value_lr:.2f}$"))
+                            st.write(translate_word(f"Approximate tomorrow's stock value (LSTM): {predicted_value_lstm:.2f}$"))
 
-                        with st.expander(translate_word("💡 What is LSTM?")):
-                            display_lstm_info()
+                            with st.expander(translate_word("💡 What is LSTM?")):
+                                display_lstm_info()
 
-                        with st.expander(translate_word("💡 What is Linear Regression?")):
-                            st.write(translate_word("Linear Regression Simulation:"))
-                            linear_Regression(stock_data)              
-                    except:
-                        st.warning(translate_word("Not enough info for an AI approximation, please try an earlier date."))
-                    investment(stock_symbol,stock_data,start_date)
-            else:
-                st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input.")) 
+                            with st.expander(translate_word("💡 What is Linear Regression?")):
+                                st.write(translate_word("Linear Regression Simulation:"))
+                                linear_Regression(stock_data)              
+                        except:
+                            st.warning(translate_word("Not enough info for an AI approximation, please try an earlier date."))
+                        investment(stock_symbol,stock_data,start_date)
+                else:
+                    st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input.")) 
+        except:
+            st.warning("You should try another date, maybe 1.1.2022?")
 def investment(stock_symbol,stock_data,start_date):
     st.title(translate_word("Investment"))
     if stock_data is not None:
