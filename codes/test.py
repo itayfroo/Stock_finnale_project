@@ -99,10 +99,10 @@ def get_stock_data(symbol, start_date, end_date):
             st.error(f"Error retrieving data: {yf_error}")
         
         return None
-def plot_stock_data(stock_data):
-    fig = px.line(stock_data, x=stock_data.index, y='Close', title='Stock Prices Over the Last Year')
-    fig.update_xaxes(title_text='Date')
-    fig.update_yaxes(title_text='Stock Price (USD)')
+def plot_stock_data(stock_data,start_date):
+    fig = px.line(stock_data, x=stock_data.index, y='Close', title=translate_word(f'Stock Prices Over since: {start_date}'))
+    fig.update_xaxes(title_text=translate_word('Date'))
+    fig.update_yaxes(title_text=translate_word('Stock Price (USD)'))
     st.plotly_chart(fig)
     
 @st.cache_data(experimental_allow_widgets=True)               
@@ -205,7 +205,7 @@ def stockanalyzer():
                     stock_data = get_stock_data(stock_symbol, start_date, end_date)
 
                 if stock_data is not None:
-                    plot_stock_data(stock_data)
+                    plot_stock_data(stock_data,start_date)
                     lowest_point = stock_data['Close'].min()
                     highest_point = stock_data['Close'].max()
                     today_point = stock_data['Close'][-1]
