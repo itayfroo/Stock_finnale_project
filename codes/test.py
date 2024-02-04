@@ -236,10 +236,10 @@ def stockanalyzer():
                             linear_Regression(stock_data)              
                     except:
                         st.warning(translate_word("Not enough info for an AI approximation, please try an earlier date."))
-                    investment(stock_symbol,stock_data)
+                    investment(stock_symbol,stock_data,start_date)
             else:
                 st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input.")) 
-def investment(stock_symbol,stock_data):
+def investment(stock_symbol,stock_data,start_date):
     st.title(translate_word("Investment"))
     if stock_data is not None:
         value = st.slider(translate_word("If you were to invest:"), min_value=100, max_value=5000, value=100, step=50,key = "level1")
@@ -247,7 +247,7 @@ def investment(stock_symbol,stock_data):
         end_price = stock_data['Close'].iloc[-1]
         percent_change = ((end_price - start_price) / start_price) * 100
         potential_returns = value * (1 + percent_change / 100)
-        st.write(translate_word(f"If you invest {value:.2f}$ in {stock_symbol} from the start of 2022 until today:"))
+        st.write(translate_word(f"If you invest {value:.2f}$ in {stock_symbol} since {start_date}:"))
         st.success(translate_word(f"You would have approximately {potential_returns:.2f}$ based on the percentage change of {percent_change:.2f}%."))
     else:
         st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input."))
