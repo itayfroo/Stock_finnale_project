@@ -239,7 +239,6 @@ def stockanalyzer():
                     investment(stock_symbol,stock_data)
             else:
                 st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input.")) 
-@st.cache_data(experimental_allow_widgets=True)              
 def investment(stock_symbol,stock_data):
     st.title(translate_word("Investment"))
     if stock_data is not None:
