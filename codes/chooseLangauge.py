@@ -5,7 +5,7 @@ def language_chooser():
         st.session_state.chosen_language = 'en'
     st.header("Choose a language")
     language_options = list(LANGUAGES.values())
-    default_language_index = language_options.index('English') if 'English' in language_options else 0
+    default_language_index = language_options.index('english') if 'english' in language_options else 0
     st.session_state.chosen_language = st.selectbox("Choose a language", language_options, index=default_language_index)
     st.session_state.chosen_language = get_language_code(st.session_state.chosen_language)
 
