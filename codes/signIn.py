@@ -21,7 +21,7 @@ def user_exists(username):
                 try:
                     users = json.loads(file_contents)
                 except json.JSONDecodeError:
-                    st.error("Error decoding JSON. Please check the file format.")
+                    st.error(translate_word("Error decoding JSON. Please check the file format."))
                     return False
             else:
                 users = {}
@@ -40,7 +40,7 @@ def sign_up(username, password, additional_info="default_value"):
                 try:
                     users = json.loads(file_contents)
                 except json.JSONDecodeError:
-                    st.error("Error decoding JSON. Please check the file format.")
+                    st.error(translate_word("Error decoding JSON. Please check the file format."))
                     return
             else:
                 users = {}
@@ -79,11 +79,11 @@ def end(username, password):
                 st.caption(translate_word(f"welcome back, {username}"))
                 st.write(translate_word("User info"))
                 d = {
-                    'Username': username,
-                    'Password': user_data['password'],
-                    'Age': additional_info['Age'],
-                    'City':additional_info['City'],
-                    'Amount invested':additional_info['Amount_invested']
+                    translate_word('Username'): username,
+                    translate_word('Password'): user_data['password'],
+                    translate_word('Age'): additional_info['Age'],
+                    translate_word('City'):additional_info['City'],
+                    translate_word('Amount invested'):additional_info['Amount_invested']
                 }
                 df = pd.DataFrame([d])
                 st.table(df)
