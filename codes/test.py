@@ -248,7 +248,10 @@ def investment(stock_symbol,stock_data,start_date):
         percent_change = ((end_price - start_price) / start_price) * 100
         potential_returns = value * (1 + percent_change / 100)
         st.write(translate_word(f"If you invest {value:.2f}$ in {stock_symbol} since {start_date}:"))
-        st.success(translate_word(f"You would have approximately {potential_returns:.2f}$ based on the percentage change of {percent_change:.2f}%."))
+        if (percent_change >0):
+            st.success(translate_word(f"You would have approximately {potential_returns:.2f}$ based on the percentage change of {percent_change:.2f}%."))
+        else:
+            st.warning(translate_word(f"You would have approximately {potential_returns:.2f}$ based on the percentage change of {percent_change:.2f}%."))
     else:
         st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input."))
         
