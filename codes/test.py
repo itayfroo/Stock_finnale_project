@@ -241,7 +241,7 @@ def stockanalyzer():
                 else:
                     st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input.")) 
         except:
-            st.warning("You should try another date, maybe 1.1.2022?")
+            st.error("You should try another date, maybe 1.1.2022")
 def investment(stock_symbol,stock_data,start_date):
     st.title(translate_word("Investment"))
     if stock_data is not None:
