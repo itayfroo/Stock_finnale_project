@@ -6,23 +6,15 @@ def language_chooser():
     st.header("Choose a language")
     language_options = list(LANGUAGES.values())
     default_language_index = language_options.index('english') if 'english' in language_options else 0
-    st.session_state.chosen_language = st.selectbox("Choose a language", language_options, index=default_language_index)
-    st.session_state.chosen_language = get_language_code(st.session_state.chosen_language)
-
+    new_language = st.selectbox("Choose a language", language_options, index=language_options.index(st.session_state.chosen_language))
+    if new_language != st.session_state.chosen_language:
+        st.session_state.chosen_language = new_language
+        st.cache_data.clear()  
+        st.experimental_rerun()
     
 
-def get_language_code(language_name):
-    return next((code for code, name in LANGUAGES.items() if name == language_name), 'en')
-@st.cache_data()       
+@st.cache_data
 def translate_word(word):
-    if 'chosen_language' not in st.session_state:
-        st.session_state.chosen_language = 'en'
-    
     translator = Translator()
-    dest_language = st.session_state.chosen_language
-    try:
-        translated_word = translator.translate(word, dest=dest_language).text
-        return translated_word
-    except Exception as e:
-        st.error(f"Translation error: {e}")
-        return word  
+    translated_word = translator.translate(word, dest=st.session_state.chosen_language).text
+    return translated_word
