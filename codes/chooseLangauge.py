@@ -2,7 +2,7 @@ from googletrans import LANGUAGES, Translator
 import streamlit as st
 def language_chooser():
     if 'chosen_language' not in st.session_state:
-        st.session_state.chosen_language = 'english'
+        st.session_state.chosen_language = 'en'
     st.header("Choose a language")
     language_options = list(LANGUAGES.values())
     default_language_index = language_options.index('english') if 'english' in language_options else 0
