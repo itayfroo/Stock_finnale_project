@@ -254,9 +254,9 @@ def investment(stock_symbol,stock_data,start_date):
         if (percent_change >0):
             st.success(translate_word(f"You would have approximately {potential_returns:.2f}$ based on the percentage change of {percent_change:.2f}%."))
         else:
-            st.warning(translate_word(f"You would have approximately {potential_returns:.2f}$ based on the percentage change of {percent_change:.2f}%."))
+            st.error(translate_word(f"You would have approximately {potential_returns:.2f}$ based on the percentage change of {percent_change:.2f}%."))
     else:
-        st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input."))
+        st.error(translate_word(f"Stock doesn't exist.\ntry again or check your input."))
         
 from homepage import homepage
 from welcome import welcome_page
