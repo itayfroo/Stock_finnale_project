@@ -1,6 +1,6 @@
 from googletrans import LANGUAGES, Translator
 import streamlit as st
-@st.cache
+@st.cache_data
 def language_chooser():
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'
@@ -12,7 +12,7 @@ def language_chooser():
 
 def get_language_code(language_name):
     return next((code for code, name in LANGUAGES.items() if name == language_name), 'en')
-@st.cache
+@st.cache_data
 def translate_word(word):
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'

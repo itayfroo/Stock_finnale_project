@@ -33,7 +33,6 @@ def get_stock_symbol_from_json(company_name):
         pass  
 
     return None
-        
 def update_stock_symbol_in_json(company_name, stock_symbol):
     try:
         with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "r") as json_file:
@@ -45,7 +44,6 @@ def update_stock_symbol_in_json(company_name, stock_symbol):
 
     with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "w") as json_file:
         json.dump(data, json_file)
-        
 def get_stock_symbol(company_name):
     global api_key
 
@@ -78,7 +76,6 @@ def get_stock_symbol(company_name):
         st.error(f"Error: {e}")
 
     return None
-
 def get_stock_data(symbol, start_date, end_date):
     try:
         stock_data = yf.download(symbol, start=start_date, end=end_date)
@@ -102,13 +99,13 @@ def get_stock_data(symbol, start_date, end_date):
             st.error(f"Error retrieving data: {yf_error}")
         
         return None
-@st.cache
 def plot_stock_data(stock_data):
     fig = px.line(stock_data, x=stock_data.index, y='Close', title='Stock Prices Over the Last Year')
     fig.update_xaxes(title_text='Date')
     fig.update_yaxes(title_text='Stock Price (USD)')
     st.plotly_chart(fig)
-@st.cache
+    
+@st.cache_data        
 def predict_tomorrows_stock_value_linear_regression(stock_data):
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
     y = stock_data['Close']
@@ -120,7 +117,8 @@ def predict_tomorrows_stock_value_linear_regression(stock_data):
     predicted_value = model.predict([[tomorrow]])[0]
     check1 = True
     return predicted_value
-@st.cache
+
+@st.cache_data        
 def predict_tomorrows_stock_value_lstm(stock_data):
     scaler = MinMaxScaler()
     data_normalized = scaler.fit_transform(stock_data['Close'].values.reshape(-1, 1))
@@ -175,7 +173,7 @@ def load_company_dict():
         return {}
 
 company_dict = load_company_dict()
-@st.cache
+@st.cache_data        
 def stockanalyzer():
     st.title(translate_word("Stock Analyzer"))
     company_name = st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
@@ -242,7 +240,7 @@ def stockanalyzer():
                     investment(stock_symbol,stock_data)
             else:
                 st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input.")) 
-@st.cache                  
+@st.cache_data        
 def investment(stock_symbol,stock_data):
     st.title(translate_word("Investment"))
     if stock_data is not None:
