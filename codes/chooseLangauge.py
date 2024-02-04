@@ -11,16 +11,13 @@ def language_chooser():
 def get_language_code(language_name):
     return next((code for code, name in LANGUAGES.items() if name == language_name), 'en')
 
-@st.cache_data(key="translate_word-{word}-{chosen_language}")       
-def translate_word(word):
-    if 'chosen_language' not in st.session_state:
-        st.session_state.chosen_language = 'en'
-    
+@st.cache_data(key="translate_word-{word}-{chosen_language}")
+def translate_word(word, chosen_language):
     translator = Translator()
-    dest_language = st.session_state.chosen_language
+    dest_language = chosen_language
     try:
         translated_word = translator.translate(word, dest=dest_language).text
         return translated_word
     except Exception as e:
         st.error(f"Translation error: {e}")
-        return word  
+        return word
