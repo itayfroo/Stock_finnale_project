@@ -105,7 +105,7 @@ def plot_stock_data(stock_data):
     fig.update_yaxes(title_text='Stock Price (USD)')
     st.plotly_chart(fig)
     
-@st.cache_data        
+@st.cache_data(experimental_allow_widgets=True)               
 def predict_tomorrows_stock_value_linear_regression(stock_data):
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
     y = stock_data['Close']
@@ -118,7 +118,7 @@ def predict_tomorrows_stock_value_linear_regression(stock_data):
     check1 = True
     return predicted_value
 
-@st.cache_data        
+@st.cache_data(experimental_allow_widgets=True)               
 def predict_tomorrows_stock_value_lstm(stock_data):
     scaler = MinMaxScaler()
     data_normalized = scaler.fit_transform(stock_data['Close'].values.reshape(-1, 1))
@@ -240,7 +240,7 @@ def stockanalyzer():
                     investment(stock_symbol,stock_data)
             else:
                 st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input.")) 
-@st.cache_data        
+@st.cache_data(experimental_allow_widgets=True)              
 def investment(stock_symbol,stock_data):
     st.title(translate_word("Investment"))
     if stock_data is not None:
