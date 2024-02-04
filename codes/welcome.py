@@ -7,7 +7,7 @@ def welcome_page():
     st.image("icons8-stock-48.png", width=200)  
 
     st.write(translate_word(
-        "Explore the world of stocks with our powerful Stock Analyzer App! This app provides you with tools to analyze stock prices, make predictions, and discover investment opportunities. "
+        "Explore the world of stocks with our powerful Stock Analyzer App! \nThis app provides you with tools to analyze stock prices, make predictions, and discover investment opportunities. "
         "Navigate through the sidebar options to get started."
     ))
 
