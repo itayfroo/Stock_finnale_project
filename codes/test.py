@@ -173,7 +173,7 @@ def load_company_dict():
         return {}
 
 company_dict = load_company_dict()
-@st.cache_data        
+@st.cache_data(experimental_allow_widgets=True)       
 def stockanalyzer():
     st.title(translate_word("Stock Analyzer"))
     company_name = st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
