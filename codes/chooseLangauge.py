@@ -1,6 +1,5 @@
 from googletrans import LANGUAGES, Translator
 import streamlit as st
-@st.cache_data(experimental_allow_widgets=True)       
 def language_chooser():
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'
