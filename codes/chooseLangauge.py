@@ -3,7 +3,6 @@ import streamlit as st
 def language_chooser():
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'
-    global lang
     st.header("Choose a language")
     language_options = list(LANGUAGES.values())
     st.session_state.chosen_language = st.selectbox("Choose a language", language_options)
@@ -11,7 +10,8 @@ def language_chooser():
 
 def get_language_code(language_name):
     return next((code for code, name in LANGUAGES.items() if name == language_name), 'en')
-@st.cache_data(experimental_allow_widgets=True)       
+
+@st.cache_data(key="translate_word-{word}-{chosen_language}")       
 def translate_word(word):
     if 'chosen_language' not in st.session_state:
         st.session_state.chosen_language = 'en'
