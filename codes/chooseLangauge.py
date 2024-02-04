@@ -6,10 +6,11 @@ def language_chooser():
     st.header("Choose a language")
     language_options = list(LANGUAGES.values())
     new_language = st.selectbox("Choose a language", language_options)
-    st.session_state.chosen_language = get_language_code(new_language)
+    st.session_state.chosen_language = new_language
+    st.session_state.chosen_language = get_language_code(st.session_state.chosen_language)
     if new_language != st.session_state.chosen_language:
         st.session_state.chosen_language = new_language
-        st.cache_data.clear()  
+        st.cache_data.clear()  # Clear the cache when the language changes
         st.cache_data.clear()
         st.experimental_rerun()
 
