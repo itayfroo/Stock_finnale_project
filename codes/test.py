@@ -184,17 +184,19 @@ def plot_dividend_data(dividend_data):
 def additional_info(stock_symbol):
     stock = yf.Ticker(stock_symbol)
     with st.expander(translate_word("More info")):
+        #Dividends
         try:
+            st.title(translate_word("Dividends"))
             dividend_data = get_dividend_data(stock_symbol)
             if not dividend_data.empty:
                 plot_dividend_data(dividend_data)
             else:
                 st.info(translate_word('No dividend data available.'))
-            
-        except Exception as e:
-            st.error("No dividends")
+        except:pass
         
+        #Information
         try:
+            st.title(translate_word("Information"))
             stock_info = stock.info
             if 'companyOfficers' in stock_info:
                 del stock_info['companyOfficers']
@@ -202,9 +204,22 @@ def additional_info(stock_symbol):
                 stock_info['longBusinessSummary'] = translate_word(stock_info['longBusinessSummary'])
             df_stock_info = pd.DataFrame.from_dict(stock_info, orient='index')
             st.table(df_stock_info)
-        except Exception as e:
-            st.error("Error fetching additional information.")
-
+        except:pass
+        
+        #News
+        try:
+            if stock.news:
+                st.subheader(translate_word("Latest News"))
+                news_data = []
+                for news_item in stock.news:
+                    news_title = news_item['title']
+                    
+                    news_publisher = news_item['publisher']
+                    news_link = news_item['link']
+                    news_data.append({translate_word('Title'): news_title, translate_word('Publisher'): news_publisher, translate_word('Link'): news_link})
+                news_df = pd.DataFrame(news_data)
+                st.table(news_df)
+        except:pass
                         
 from longtexts import linear_Regression,display_lstm_info
 
