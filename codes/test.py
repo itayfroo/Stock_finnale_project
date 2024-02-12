@@ -151,6 +151,18 @@ def predict_tomorrows_stock_value_lstm(stock_data):
     check =True
     return predicted_value
 
+def get_dividend_data(symbol, start_date, end_date):
+    stock = yf.Ticker(symbol)
+    dividend_data = stock.dividends
+    dividend_data = dividend_data[(dividend_data.index >= start_date) & (dividend_data.index <= end_date)]
+    return dividend_data
+
+def plot_dividend_data(dividend_data):
+    fig = px.line(dividend_data, x=dividend_data.index, y='Dividends', title='Dividend History')
+    fig.update_xaxes(title_text='Date')
+    fig.update_yaxes(title_text='Dividends')
+    st.plotly_chart(fig)
+    
 from longtexts import linear_Regression,display_lstm_info
 
 st.set_page_config(
@@ -206,6 +218,7 @@ def stockanalyzer():
                         stock_data = get_stock_data(stock_symbol, start_date, end_date)
 
                     if stock_data is not None:
+                        
                         plot_stock_data(stock_data,start_date)
                         lowest_point = stock_data['Close'].min()
                         highest_point = stock_data['Close'].max()
@@ -234,7 +247,8 @@ def stockanalyzer():
 
                             with st.expander(translate_word("💡 What is Linear Regression?")):
                                 st.write(translate_word("Linear Regression Simulation:"))
-                                linear_Regression(stock_data)              
+                                linear_Regression(stock_data) 
+                                             
                         except:
                             st.warning(translate_word("Not enough info for an AI approximation, please try an earlier date."))
                         investment(stock_symbol,stock_data,start_date)
