@@ -21,6 +21,8 @@ api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAK
             ,"QOHMIEDH92482YHC","ZL7O0XZCYX1QQAIB"]
 api_key = api_keys[random.randint(0,len(api_keys)-1)]  
 
+
+#gets the stock symbole from stock.json if already exists
 def get_stock_symbol_from_json(company_name):
     try:
         with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "r") as json_file:
@@ -33,6 +35,8 @@ def get_stock_symbol_from_json(company_name):
         pass  
 
     return None
+
+#If a new stock symbole is given, it loads it to stocks.json 
 def update_stock_symbol_in_json(company_name, stock_symbol):
     try:
         with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "r") as json_file:
@@ -44,6 +48,8 @@ def update_stock_symbol_in_json(company_name, stock_symbol):
 
     with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "w") as json_file:
         json.dump(data, json_file)
+        
+#Fetches the stock symbole from given company name
 def get_stock_symbol(company_name):
     global api_key
 
@@ -76,6 +82,8 @@ def get_stock_symbol(company_name):
         st.error(f"Error: {e}")
 
     return None
+
+#Gives money info about the stock
 def get_stock_data(symbol, start_date, end_date):
     try:
         stock_data = yf.download(symbol, start=start_date, end=end_date)
@@ -99,12 +107,15 @@ def get_stock_data(symbol, start_date, end_date):
             st.error(f"Error retrieving data: {yf_error}")
         
         return None
+    
+#Graph of the stock's value
 def plot_stock_data(stock_data,start_date):
     fig = px.line(stock_data, x=stock_data.index, y='Close', title=translate_word(f'Stock Prices Over since: {start_date}'))
     fig.update_xaxes(title_text=translate_word('Date'))
     fig.update_yaxes(title_text=translate_word('Stock Price (USD)'))
     st.plotly_chart(fig)
     
+#Predicts the potentional stock value for tomrrow using Linear Regrrestion   
 @st.cache_data(experimental_allow_widgets=True)               
 def predict_tomorrows_stock_value_linear_regression(stock_data):
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
@@ -118,6 +129,8 @@ def predict_tomorrows_stock_value_linear_regression(stock_data):
     check1 = True
     return predicted_value
 
+
+#Predicts the potentional stock value for tomrrow using LSTM   
 @st.cache_data(experimental_allow_widgets=True)               
 def predict_tomorrows_stock_value_lstm(stock_data):
     scaler = MinMaxScaler()
@@ -151,18 +164,48 @@ def predict_tomorrows_stock_value_lstm(stock_data):
     check =True
     return predicted_value
 
-def get_dividend_data(symbol, start_date, end_date):
+#Gets dividend info as dictionary
+def get_dividend_data(symbol):
     stock = yf.Ticker(symbol)
     dividend_data = stock.dividends
-    dividend_data = dividend_data[(dividend_data.index >= start_date) & (dividend_data.index <= end_date)]
+    
+    dividend_data = dividend_data[-15:-1]
     return dividend_data
 
+#Sets the dividents in a table
 def plot_dividend_data(dividend_data):
-    fig = px.line(dividend_data, x=dividend_data.index, y='Dividends', title='Dividend History')
-    fig.update_xaxes(title_text='Date')
-    fig.update_yaxes(title_text='Dividends')
-    st.plotly_chart(fig)
-    
+    dividend_data_transposed = dividend_data.transpose()
+    st.table(dividend_data_transposed)
+
+
+
+
+#All of the info which wasn't presented in the main page 
+def additional_info(stock_symbol):
+    stock = yf.Ticker(stock_symbol)
+    with st.expander(translate_word("More info")):
+        try:
+            dividend_data = get_dividend_data(stock_symbol)
+            if not dividend_data.empty:
+                plot_dividend_data(dividend_data)
+            else:
+                st.info(translate_word('No dividend data available.'))
+            
+        except Exception as e:
+            st.error("No dividends")
+        
+        try:
+            stock_info = stock.info
+            if 'companyOfficers' in stock_info:
+                del stock_info['companyOfficers']
+            if 'longBusinessSummary' in stock_info:
+                stock_info['longBusinessSummary'] = translate_word(stock_info['longBusinessSummary'])
+            df_stock_info = pd.DataFrame.from_dict(stock_info, orient='index')
+            st.table(df_stock_info)
+        except Exception as e:
+            st.error("Error fetching additional information.")
+
+                        
 from longtexts import linear_Regression,display_lstm_info
 
 st.set_page_config(
@@ -185,6 +228,8 @@ def load_company_dict():
         return {}
 
 company_dict = load_company_dict()
+
+#Stock analyze page
 def stockanalyzer():
     st.title(translate_word("Stock Analyzer"))
     company_name = st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
@@ -252,10 +297,14 @@ def stockanalyzer():
                         except:
                             st.warning(translate_word("Not enough info for an AI approximation, please try an earlier date."))
                         investment(stock_symbol,stock_data,start_date)
+                        
+                        additional_info(stock_symbol)
                 else:
                     st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input.")) 
         except:
-            st.error("You should try another date, maybe 1.1.2022")
+            st.error("An error acourred, maybe try 1.1.2022")
+            
+#Ivestment returns section
 def investment(stock_symbol,stock_data,start_date):
     st.title(translate_word("Investment"))
     if stock_data is not None:
@@ -275,13 +324,17 @@ def investment(stock_symbol,stock_data,start_date):
 from homepage import homepage
 from welcome import welcome_page
 
-page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Welcome"), translate_word("Choose Language"), translate_word("User Entrance Field"), translate_word("Stock Analysis")])
+#Pages managements
+def Pages_managements():
+    page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Welcome"), translate_word("Choose Language"), translate_word("User Entrance Field"), translate_word("Stock Analysis")])
 
-if page == translate_word("Welcome"):
-    welcome_page()
-elif page == translate_word("User Entrance Field"):
-    homepage()
-elif page == translate_word("Stock Analysis"):
-    stockanalyzer()
-elif page == translate_word("Choose Language"):
-    language_chooser()
+    if page == translate_word("Welcome"):
+        welcome_page()
+    elif page == translate_word("User Entrance Field"):
+        homepage()
+    elif page == translate_word("Stock Analysis"):
+        stockanalyzer()
+    elif page == translate_word("Choose Language"):
+        language_chooser()
+
+Pages_managements()
