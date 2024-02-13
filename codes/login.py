@@ -5,7 +5,14 @@ import pandas as pd
 from chooseLangauge import translate_word
 json_file_path = r"C:\Users\user\Documents\Stock_finnale_project\texts\users.json"
 main_script_path = "test.py"
+def load_company_dict():
+    try:
+        with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "r") as json_file:
+            return json.load(json_file)
+    except FileNotFoundError:
+        return {}
 
+company_dict = load_company_dict()
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
 
@@ -92,8 +99,9 @@ def sign_in(username, password):
                             st.balloons()
                     except:st.warning(translate_word("Invalid input"))
                 city=  st.selectbox(translate_word("Enter your city"), israeli_cities)
-                
+                stock =st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
                 additional_info['City'] = city
+                additional_info['Stock_investment'] = stock
                 amount_invested= st.text_input(translate_word("Enter the amount you want to invest"))
                 st.button('Confirm', on_click=click_button)
                 if st.session_state.clicked:
@@ -106,13 +114,14 @@ def sign_in(username, password):
                             st.balloons()
                     except:st.warning(translate_word("Invalid input"))
                 users[username] = user_data
-                users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
+                users[f"{username}_info"] = {'Age':age,'City':city,'Stock_investment':stock,'Amount_invested':amount_invested}
                 with open(json_file_path, "w") as file:
                     json.dump(users, file)
                 d = {
                     'Username': username,
                     'Password': user_data['password'],
                     'Age': additional_info['Age'],
+                    'Stock':additional_info['Stock_investment'],
                     'City':additional_info['City'],
                     'Amount invested':additional_info['Amount_invested']
                 }
