@@ -32,7 +32,7 @@ Make sure you have the following installed:
 
 1. Clone the repository:
 
-   git clone git@github.com:itayfroo/Stock_finnale_project.git
+   git clone [git@github.com:itayfroo/Stock_finnale_project.git](#)
 
    Can also fork from https://github.com/itayfroo/Stock_finnale_project.git
    *****************************************************************
