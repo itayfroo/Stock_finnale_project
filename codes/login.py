@@ -56,9 +56,9 @@ def sign_up(username, password, additional_info="default_value"):
         age =""
         city =""
         amount_invested = ""
-        
+        stock_investment=0
         users[username] = user_data
-        users[f"{username}_info"] = {'Age':age,'City':city,'Amount_invested':amount_invested}
+        users[f"{username}_info"] = {'Age':age,'City':city,'Stock_investment':stock_investment,'Amount_invested':amount_invested}
         with open(json_file_path, "w") as file:
             json.dump(users, file)
         st.success(translate_word("You have successfully signed up!"))
