@@ -29,22 +29,6 @@ Make sure you have the following installed:
 
 - Python 3.6 or later
 - pip (Python package installer)
-
-### Requirements
-- streamlit
-- requests
-- yfinance
-- pandas
-- plotly
-- scikit-learn
-- numpy
-- tensorflow
-- datetime
-- googletrans==4.0.0-rc1
-- google_trans_new
-
-
-
 ### Installation
 
 1. Clone the repository:
@@ -61,6 +45,22 @@ Make sure you have the following installed:
 3. Run the app in the powershell:
 
     streamlit run codes\test.py
+### Requirements
+- streamlit
+- requests
+- yfinance
+- pandas
+- plotly
+- scikit-learn
+- numpy
+- tensorflow
+- datetime
+- googletrans==4.0.0-rc1
+- google_trans_new
+
+
+
+
 
 
 
