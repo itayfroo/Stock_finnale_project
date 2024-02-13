@@ -5,10 +5,9 @@ Welcome to the Stock Analyzer App! This web application is built using Streamlit
 ## Table of Contents
 
 - [Features](#features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-  - [Requirements](#Requirements)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Requirements](#Requirements)
 - [Progrramers](#Pro-Grammers)
 ### Pro-Grammers
 
@@ -21,7 +20,7 @@ Welcome to the Stock Analyzer App! This web application is built using Streamlit
 - Make predictions using Linear Regression and LSTM models.
 - Explore investment opportunities based on historical stock data.
 
-## Getting Started
+
 
 ### Prerequisites
 
