@@ -33,7 +33,7 @@ def welcome_page():
     st.sidebar.subheader("Matirials")
     st.sidebar.markdown("- [Repo](https://github.com/itayfroo/Stock_finnale_project.git)")
     st.sidebar.markdown("- [Trello](https://trello.com/invite/b/IyuMvsIu/ATTI2efaf2747c29302d9c6d9b2e34de2adbD83CB449/stock-fetching-itayf-markk)")
-    st.sidebar.markdown("- [Tk app](https://github.com/itayfroo/stock-analyzer.git)")
+    st.sidebar.markdown("- [Tk app repo](https://github.com/itayfroo/stock-analyzer.git)")
     st.markdown("---")    
     MarkDownCode(r"C:\Users\user\Documents\Stock_finnale_project\codes\test.py",'test.py')
     MarkDownCode(r"C:\Users\user\Documents\Stock_finnale_project\codes\signIn.py",'signIn')
