@@ -1,6 +1,6 @@
 from chooseLangauge import translate_word
 import streamlit as st
-from login import sign_in, sign_up, user_exists
+from login import sign_in, sign_up
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
 

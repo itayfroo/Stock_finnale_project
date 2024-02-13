@@ -1,5 +1,5 @@
 import streamlit as st
-from chooseLangauge import translate_word,language_chooser
+from chooseLangauge import translate_word
 
 def welcome_page():
     st.title(translate_word("🚀 Welcome to Stock Analyzer App!"))
