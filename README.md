@@ -39,7 +39,7 @@ Make sure you have the following installed:
    Can also fork from https://github.com/itayfroo/Stock_finnale_project.git
    *****************************************************************
 2. Install packages
-  - [Installation](#installation)
+    - [Requirements](#Requirements)
   
 
 3. Run the app in the powershell:
