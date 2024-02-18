@@ -2,7 +2,7 @@ import streamlit as st
 from chooseLangauge import translate_word
 
 def welcome_page():
-    st.balloons
+    st.balloons()
     st.title(translate_word("🚀 Welcome to Stock Analyzer App!"))
 
     st.image("icons8-stock-48.png", width=200)  
