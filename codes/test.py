@@ -25,7 +25,7 @@ api_key = api_keys[random.randint(0,len(api_keys)-1)]
 #gets the stock symbole from stock.json if already exists
 def get_stock_symbol_from_json(company_name):
     try:
-        with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "r") as json_file:
+        with open(r"texts\stocks.json", "r") as json_file:
             data = json.load(json_file)
             if company_name in data:
                 return data[company_name]
@@ -39,14 +39,14 @@ def get_stock_symbol_from_json(company_name):
 #If a new stock symbole is given, it loads it to stocks.json 
 def update_stock_symbol_in_json(company_name, stock_symbol):
     try:
-        with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "r") as json_file:
+        with open(r"texts\stocks.json", "r") as json_file:
             data = json.load(json_file)
     except FileNotFoundError:
         data = {}
 
     data[company_name] = stock_symbol
 
-    with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "w") as json_file:
+    with open(r"texts\stocks.json", "w") as json_file:
         json.dump(data, json_file)
         
 #Fetches the stock symbole from given company name
@@ -237,7 +237,7 @@ def click_button():
 
 def load_company_dict():
     try:
-        with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "r") as json_file:
+        with open(r"texts\stocks.json", "r") as json_file:
             return json.load(json_file)
     except FileNotFoundError:
         return {}
