@@ -35,14 +35,14 @@ def welcome_page():
     st.sidebar.markdown("- [Trello](https://trello.com/invite/b/IyuMvsIu/ATTI2efaf2747c29302d9c6d9b2e34de2adbD83CB449/stock-fetching-itayf-markk)")
     st.sidebar.markdown("- [Tk app repo](https://github.com/itayfroo/stock-analyzer.git)")
     st.markdown("---")    
-    MarkDownCode(r"C:\Users\user\Documents\Stock_finnale_project\codes\test.py",'test.py')
-    MarkDownCode(r"C:\Users\user\Documents\Stock_finnale_project\codes\signIn.py",'signIn')
-    MarkDownCode(r'C:\Users\user\Documents\Stock_finnale_project\codes\longtexts.py','longtexts.py')
-    MarkDownCode(r'C:\Users\user\Documents\Stock_finnale_project\codes\login.py','login.py')
-    MarkDownCode(r'C:\Users\user\Documents\Stock_finnale_project\codes\israelcities.py','israelcities.py')
-    MarkDownCode(r'C:\Users\user\Documents\Stock_finnale_project\codes\homepage.py','homepage.py')
-    MarkDownCode(r'C:\Users\user\Documents\Stock_finnale_project\codes\chooseLangauge.py','chooseLangauge.py')
-    MarkDownCode(r'C:\Users\user\Documents\Stock_finnale_project\codes\welcome.py','welcome.py')
+    MarkDownCode(r"codes\test.py",'test.py')
+    MarkDownCode(r"codes\signIn.py",'signIn')
+    MarkDownCode(r'codes\longtexts.py','longtexts.py')
+    MarkDownCode(r'codes\login.py','login.py')
+    MarkDownCode(r'codes\israelcities.py','israelcities.py')
+    MarkDownCode(r'codes\homepage.py','homepage.py')
+    MarkDownCode(r'codes\chooseLangauge.py','chooseLangauge.py')
+    MarkDownCode(r'codes\welcome.py','welcome.py')
     
     
     
