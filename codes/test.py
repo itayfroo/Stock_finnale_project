@@ -247,7 +247,7 @@ company_dict = load_company_dict()
 #Stock analyze page
 def stockanalyzer():
     st.title(translate_word("Stock Analyzer"))
-    company_name = st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0)
+    company_name = st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
     min_date = datetime.date(2020, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)
     start_date = st.date_input(translate_word("Select start date:"),
