@@ -3,11 +3,11 @@ import os
 import streamlit as st
 import pandas as pd
 from chooseLangauge import translate_word
-json_file_path = r"C:\Users\user\Documents\Stock_finnale_project\texts\users.json"
+json_file_path = r"texts\users.json"
 main_script_path = "test.py"
 def load_company_dict():
     try:
-        with open(r"C:\Users\user\Documents\Stock_finnale_project\texts\stocks.json", "r") as json_file:
+        with open(r"texts\stocks.json", "r") as json_file:
             return json.load(json_file)
     except FileNotFoundError:
         return {}
