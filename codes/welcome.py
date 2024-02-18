@@ -37,7 +37,7 @@ def welcome_page():
     st.sidebar.markdown("- [Tk app repo](https://github.com/itayfroo/stock-analyzer.git)")
     st.sidebar.markdown("- [Read me!](https://github.com/itayfroo/Stock_finnale_project/blob/main/README.md)")
     st.markdown("---")    
-    MarkDownCode(r"codes\main.py",'test.py')
+    MarkDownCode(r"codes\main.py",'main.py')
     MarkDownCode(r"codes\signIn.py",'signIn.py')
     MarkDownCode(r'codes\longtexts.py','longtexts.py')
     MarkDownCode(r'codes\login.py','login.py')
