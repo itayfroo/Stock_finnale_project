@@ -42,7 +42,7 @@ Make sure you have the following installed:
    *****************************************************************
 3. Run the app in the powershell:
 
-    - [streamlit run codes\test.py](#)
+    - [streamlit run codes\main.py](#)
    *****************************************************************
 
 ### Requirements
