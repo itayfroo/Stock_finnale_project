@@ -38,7 +38,7 @@ def welcome_page():
     st.sidebar.markdown("- [Read me!](https://github.com/itayfroo/Stock_finnale_project/blob/main/README.md)")
     st.markdown("---")    
     MarkDownCode(r"codes\test.py",'test.py')
-    MarkDownCode(r"codes\signIn.py",'signIn')
+    MarkDownCode(r"codes\signIn.py",'signIn.py')
     MarkDownCode(r'codes\longtexts.py','longtexts.py')
     MarkDownCode(r'codes\login.py','login.py')
     MarkDownCode(r'codes\israelcities.py','israelcities.py')
