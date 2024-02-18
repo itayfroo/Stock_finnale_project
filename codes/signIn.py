@@ -6,7 +6,7 @@ from chooseLangauge import translate_word
 
 
 json_file_path = r"texts\users.json"
-main_script_path = "codes/test.py"
+main_script_path = "codes/main.py"
 
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False

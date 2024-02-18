@@ -4,7 +4,7 @@ import streamlit as st
 import pandas as pd
 from chooseLangauge import translate_word
 json_file_path = r"texts\users.json"
-main_script_path = "test.py"
+main_script_path = "codes/main.py"
 def load_company_dict():
     try:
         with open(r"texts\stocks.json", "r") as json_file:
