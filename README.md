@@ -9,6 +9,7 @@ Welcome to the Stock Analyzer App! This web application is built using Streamlit
 - [Installation](#installation)
 - [Requirements](#Requirements)
 - [Progrramers](#Pro-Grammers)
+- [Notes](#Notes)
 ### Pro-Grammers
 
 - Mark Kolesnik
@@ -59,8 +60,9 @@ Make sure you have the following installed:
 - google_trans_new
 
 
-
-
+### Notes
+- if you can't open venv(ExecutionPolicy is restricted):
+- [Set-ExecutionPolicy -Scope CurrentUser RemoteSigned](#) 
 
 
 
