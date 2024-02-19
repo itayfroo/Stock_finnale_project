@@ -68,7 +68,7 @@ def sign_up(username, password, additional_info="default_value"):
 
 
 def end(username, password):
-    users ={}
+    users = {}
     if user_exists(username):
         with open(json_file_path, "r") as file:
             users = json.load(file)
@@ -76,21 +76,25 @@ def end(username, password):
             if user_data and user_data.get("password") == password:
                 additional_info = users.get(f"{username}_info")
                 
-                
-                st.write(translate_word("User info"))
-                d = {
-                    translate_word('Username'): username,
-                    translate_word('Password'): user_data['password'],
-                    translate_word('Age'): additional_info['Age'],
-                    translate_word('City'):additional_info['City'],
-                    translate_word('Stock investment'):additional_info['Stock_investment'],
-                    translate_word('Amount invested'):additional_info['Amount_invested']
-                }
-                df = pd.DataFrame([d])
-                st.table(df)
+                st.markdown("---")
+                st.subheader("👤 " + translate_word("User Information"))            
+                st.write(f"**{translate_word('Username')}:** {username} 👩‍💻")
+                st.write(f"**{translate_word('Password')}:** {user_data['password']} 🔒")
+                if additional_info['Age']!="":
+                    st.write(f"**{translate_word('Age')}:** {additional_info.get('Age', 'N/A')} 🎂")
+                else:
+                    st.write(f"**{translate_word('Age')}:** {additional_info.get('Age', 'N/A')}")
+                st.write(f"**{translate_word('City')}:** {additional_info.get('City', 'N/A')} 🌆")
+                st.write(f"**{translate_word('Stock Investment')}:** {additional_info.get('Stock_investment', 'N/A')} 💹")
+                if additional_info['Amount_invested']!="" and additional_info['Amount_invested']!=0:
+                    st.write(f"**{translate_word('Amount Invested')}:** {additional_info.get('Amount_invested', 'N/A')} 💰")
+                else: 
+                    st.write(f"**{translate_word('Amount Invested')}:** {additional_info.get('Amount_invested', 'N/A')} ")
+                st.markdown("---")
                 
                 return True
             else:
-                st.warning(translate_word("Incorrect password. Please check for spelling and try again."))
+                st.error("❌ " + translate_word("Incorrect password. Please try again."))
     else:
-        st.warning(translate_word("User does not exist. Please sign up or check the username."))
+        st.error("❌ " + translate_word("User does not exist. Please sign up or check the username."))
+

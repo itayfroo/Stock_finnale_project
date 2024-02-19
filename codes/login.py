@@ -80,7 +80,7 @@ def sign_in(username, password):
             user_data = users.get(username)    
             if user_data and user_data.get("password") == password:
                 additional_info = users.get(f"{username}_info")
-                
+                rememberAge = additional_info["Age"]
                 st.write(translate_word("User info"))
                 from israelcities import israeli_cities
                 age= st.text_input(translate_word("Enter your age"))
@@ -97,6 +97,8 @@ def sign_in(username, password):
                             additional_info['Age']=int(age)
                             st.balloons()
                     except:st.warning(translate_word("Invalid input"))
+                if age ==0 or age =="":
+                    age = rememberAge
                 city=  st.selectbox(translate_word("Enter your city"), israeli_cities)
                 stock =st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
                 additional_info['City'] = city
