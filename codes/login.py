@@ -3,6 +3,7 @@ import os
 import streamlit as st
 import pandas as pd
 from chooseLangauge import translate_word
+import datetime
 json_file_path = r"texts\users.json"
 main_script_path = "codes/main.py"
 def load_company_dict():
@@ -59,13 +60,14 @@ def sign_up(username, password, additional_info="default_value"):
     elif password=="":
         st.warning(translate_word("You have to enter a password"))
     else:
+        date = str(datetime.datetime.now())
         user_data = {"password": password}
         age =""
         city =""
         amount_invested = ""
         stock_investment=0
         users[username] = user_data
-        users[f"{username}_info"] = {'Age':age,'City':city,'Stock_investment':stock_investment,'Amount_invested':amount_invested}
+        users[f"{username}_info"] = {'Age':age,'City':city,'Stock_investment':stock_investment,'Amount_invested':amount_invested,'date':date}
         with open(json_file_path, "w") as file:
             json.dump(users, file)
         st.success(translate_word("You have successfully signed up!"))
@@ -117,8 +119,9 @@ def sign_in(username, password):
                         except:st.warning(translate_word("Invalid input"))
                 else:
                     amount_invested=additional_info['Amount_invested']
+                date = additional_info['date']
                 users[username] = user_data
-                users[f"{username}_info"] = {'Age':age,'City':city,'Stock_investment':stock,'Amount_invested':amount_invested}
+                users[f"{username}_info"] = {'Age':age,'City':city,'Stock_investment':stock,'Amount_invested':amount_invested,'date':date}
                 with open(json_file_path, "w") as file:
                     json.dump(users, file)
                 d = {
