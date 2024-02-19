@@ -181,31 +181,32 @@ def end(username, password):
                     st.write(f"**{translate_word('Amount Invested')}:** {additional_info.get('Amount_invested', 'N/A')} ")
                 st.write(f"**{translate_word('Time of investment')}:** {additional_info.get('date', 'N/A')[0:19]}  📅")
                 st.markdown("---")
-                stock_symbol = get_stock_symbol(additional_info['Stock_investment'])
-                end_date = datetime.now()
-                start_date = additional_info['date']
-                start_date = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S.%f")
-                    
-                stock_data = get_stock_data(stock_symbol, start_date, end_date)
-                try:
-                    if stock_data is not None:
-                        start_price = stock_data['Close'].iloc[0]
-                        end_price = stock_data['Close'].iloc[-1]
+                if (additional_info['Amount_invested']!=0):
+                    stock_symbol = get_stock_symbol(additional_info['Stock_investment'])
+                    end_date = datetime.now()
+                    start_date = additional_info['date']
+                    start_date = datetime.strptime(start_date, "%Y-%m-%d %H:%M:%S.%f")
                         
-                        percent_change = ((end_price - start_price) / start_price) * 100
-                        
-                        # Calculate the potential final value of the investment
-                        potential_returns = float(additional_info['Amount_invested']) * (1 + percent_change / 100)
-                        
-                        
-                        gain_loss = potential_returns
-                        
-                        st.success(translate_word(f"Based on current stock prices, you could potentially gain: {gain_loss:.2f}$ with the precentage of {percent_change:.2f}%"))
+                    stock_data = get_stock_data(stock_symbol, start_date, end_date)
+                    try:
+                        if stock_data is not None:
+                            start_price = stock_data['Close'].iloc[0]
+                            end_price = stock_data['Close'].iloc[-1]
+                            
+                            percent_change = ((end_price - start_price) / start_price) * 100
+                            
+                            # Calculate the potential final value of the investment
+                            potential_returns = float(additional_info['Amount_invested']) * (1 + percent_change / 100)
+                            
+                            
+                            gain_loss = potential_returns
+                            
+                            st.success(translate_word(f"Based on current stock prices, you could potentially gain: {gain_loss:.2f}$ with the precentage of {percent_change:.2f}%"))
 
-                    else:
-                        pass
-                except Exception as e:
-                    st.warning(e)
+                        else:
+                            pass
+                    except Exception as e:
+                        st.warning(e)
                 
                 return True
             else:
