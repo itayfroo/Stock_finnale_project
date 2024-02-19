@@ -77,7 +77,8 @@ def end(username, password):
                 additional_info = users.get(f"{username}_info")
                 
                 st.markdown("---")
-                st.subheader("👤 " + translate_word("User Information"))            
+                st.subheader("👤 " + translate_word("User Information"))
+                
                 st.write(f"**{translate_word('Username')}:** {username} 👩‍💻")
                 st.write(f"**{translate_word('Password')}:** {user_data['password']} 🔒")
                 if additional_info['Age']!="":
