@@ -102,7 +102,7 @@ def sign_in(username, password):
                 stock =st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
                 additional_info['City'] = city
                 additional_info['Stock_investment'] = stock
-                if additional_info['Amount_invested'] !="":
+                if additional_info['Amount_invested'] =="":
                     amount_invested= st.text_input(translate_word("Enter the amount you want to invest"))
                     st.button('Confirm', on_click=click_button)
                     if st.session_state.clicked:
