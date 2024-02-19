@@ -81,7 +81,6 @@ def sign_in(username, password):
             if user_data and user_data.get("password") == password:
                 additional_info = users.get(f"{username}_info")
                 
-                st.caption(translate_word(f"welcome back, {username}"))
                 st.write(translate_word("User info"))
                 from israelcities import israeli_cities
                 age= st.text_input(translate_word("Enter your age"))
