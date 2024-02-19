@@ -102,17 +102,20 @@ def sign_in(username, password):
                 stock =st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
                 additional_info['City'] = city
                 additional_info['Stock_investment'] = stock
-                amount_invested= st.text_input(translate_word("Enter the amount you want to invest"))
-                st.button('Confirm', on_click=click_button)
-                if st.session_state.clicked:
-                    try:
-                        if int(amount_invested) < 0:
-                            st.warning(translate_word("Invalid input"))
-                            amount_invested =""
-                        else: 
-                            additional_info['Amount_invested']=int(amount_invested)
-                            st.balloons()
-                    except:st.warning(translate_word("Invalid input"))
+                if additional_info['Amount_invested'] !="":
+                    amount_invested= st.text_input(translate_word("Enter the amount you want to invest"))
+                    st.button('Confirm', on_click=click_button)
+                    if st.session_state.clicked:
+                        try:
+                            if int(amount_invested) < 0:
+                                st.warning(translate_word("Invalid input"))
+                                amount_invested =""
+                            else: 
+                                additional_info['Amount_invested']=int(amount_invested)
+                                st.balloons()
+                        except:st.warning(translate_word("Invalid input"))
+                else:
+                    additional_info['Amount_invested']=additional_info['Amount_invested']
                 users[username] = user_data
                 users[f"{username}_info"] = {'Age':age,'City':city,'Stock_investment':stock,'Amount_invested':amount_invested}
                 with open(json_file_path, "w") as file:
