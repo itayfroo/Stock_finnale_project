@@ -62,7 +62,7 @@ Make sure you have the following installed:
 
 ### Notes
 - if you can't open venv(ExecutionPolicy is restricted):
-  [Set-ExecutionPolicy -Scope CurrentUser RemoteSigned](#) 
+  [Set-ExecutionPolicy -Scope CurrentUser RemoteSigned](#) in the PowerShell.
 
 
 
