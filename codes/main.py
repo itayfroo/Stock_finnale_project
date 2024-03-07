@@ -338,10 +338,10 @@ def investment(stock_symbol,stock_data,start_date):
         
 from homepage import homepage
 from welcome import welcome_page
-
+from stockCompare import pages
 #Pages managements
 def Pages_managements():
-    page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Welcome"), translate_word("Choose Language"), translate_word("User Entrance Field"), translate_word("Stock Analysis")])
+    page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Welcome"), translate_word("Choose Language"), translate_word("User Entrance Field"), translate_word("Stock Analysis"),translate_word("Stock Comparation")])
 
     if page == translate_word("Welcome"):
         welcome_page()
@@ -351,5 +351,8 @@ def Pages_managements():
         stockanalyzer()
     elif page == translate_word("Choose Language"):
         language_chooser()
+    elif page == translate_word("Stock Comparation"):
+        pages()
+        
 if __name__ == "__main__":
     Pages_managements()
