@@ -29,7 +29,7 @@ def load_recom(stock_name):
             for key in recom_data:
                 if recom_data[key][0] == stock_symbol and recom_data[key][1].strip():
                     counter+=1
-                    st.write(f"{key[0:key.index('_')]}: {recom_data[key][1]}")
+                    st.text(f"{key[0:key.index('_')]}: {recom_data[key][1]}")
                 
             if counter == 0:
                 st.info(translate_word("No recomendations about this stock yet"))

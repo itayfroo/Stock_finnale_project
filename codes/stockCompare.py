@@ -90,6 +90,8 @@ def Compare():
                 st.table(df_comparison)
                 st.title(translate_word("Recomendation"))
                 username = st.text_input(translate_word("Enter your recommender name"))
+                if username =="":
+                    username="itay"
                 stock_recommend = st.selectbox(translate_word("Which stock do you recommend?"), stocks, index=list(stocks).index(bigger)) 
                 recommendation = st.text_area(translate_word("Leave a comment"))
                 st.button(translate_word('Send'), on_click=click_button)
@@ -105,7 +107,7 @@ def Compare():
 
 from recommendations import recommendations    
     
-def update_recom(username="default", stock_symbol="NVIDIA", comment=""):
+def update_recom(username="itay", stock_symbol="NVIDIA", comment=""):
     try:
         with open(r"texts\recommendations.json", "r") as json_file:
             # Check if the file is empty
