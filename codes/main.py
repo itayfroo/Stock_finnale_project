@@ -351,5 +351,5 @@ def Pages_managements():
         stockanalyzer()
     elif page == translate_word("Choose Language"):
         language_chooser()
-
-Pages_managements()
+if __name__ == "__main__":
+    Pages_managements()
