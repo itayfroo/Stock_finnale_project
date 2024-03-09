@@ -30,12 +30,13 @@ def display_stock_values(stock_symbol1, stock_value1, stock_symbol2, stock_value
     ])
     fig.update_layout(title=translate_word("Stock Values Today"), xaxis_title=translate_word("Stock Symbol"), yaxis_title=translate_word("Stock Value (USD)"))
     st.plotly_chart(fig)
-        
+
+st.cache
 def get_stock_data(symbol, start_date, end_date):
     try:
         stock_data = yf.download(symbol, start=start_date, end=end_date)
         return stock_data
-    except yf.YFinanceError as yf_error:
+    except Exception as yf_error:
         st.error(translate_word(f"Error retrieving data: {yf_error}"))
         return None
 
@@ -106,14 +107,13 @@ def Compare():
                 st.table(df_comparison)
                 st.title(translate_word("Recomendation"))
                 username = st.text_input(translate_word("Enter your recommender name"))
-                if username =="":
-                    username="itay"
                 stock_recommend = st.selectbox(translate_word("Which stock do you recommend?"), stocks, index=list(stocks).index(bigger)) 
                 recommendation = st.text_area(translate_word("Leave a comment"))
                 st.button(translate_word('Send'), on_click=click_button)
                 if st.session_state.clicked:
-                    update_recom(username,stock_recommend,recommendation)
-                
+                    if update_recom(username,stock_recommend,recommendation) is True:
+                        st.success("Comment uploaded.")
+
                 
             else:
                 st.warning(translate_word("Failed to fetch data for one or both of the stocks. Please try again."))
@@ -123,23 +123,30 @@ def Compare():
 
 from recommendations import recommendations    
     
-def update_recom(username="itay", stock_symbol="NVIDIA", comment=""):
-    try:
-        with open(r"texts\recommendations.json", "r") as json_file:
-            # Check if the file is empty
-            if json_file.read().strip() == '':
+def update_recom(username, stock_symbol, comment):
+    try:    
+        if username !="" and comment !="":
+            try:
+                with open(r"texts\recommendations.json", "r") as json_file:
+                    # Check if the file is empty
+                    if json_file.read().strip() == '':
+                        data = {}
+                    else:
+                        json_file.seek(0)  
+                        data = json.load(json_file)
+                
+            except FileNotFoundError:
                 data = {}
-            else:
-                json_file.seek(0)  
-                data = json.load(json_file)
-    except FileNotFoundError:
-        data = {}
+            try:
+                data[f"{username}_{stock_symbol}"] = [stock_symbol, comment]
 
-    data[f"{username}_{stock_symbol}"] = [stock_symbol, comment]
-
-    with open(r"texts\recommendations.json", "w") as json_file:
-        json.dump(data, json_file)
-    
+                with open(r"texts\recommendations.json", "w") as json_file:
+                    json.dump(data, json_file)
+                return True
+            except:
+                return False
+    except:
+        return False
 def pages():
     page = st.sidebar.radio(translate_word("Navigation"), [translate_word("Comparation"),translate_word("Recommendations")])
     if page == translate_word("Comparation"):
