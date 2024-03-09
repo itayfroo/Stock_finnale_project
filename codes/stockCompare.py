@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.graph_objects as go
 import json
 from chooseLangauge import translate_word
-
+import datetime
 
 class PrecentChange():
     def __init__(self,values):
@@ -23,7 +23,14 @@ if 'clicked' not in st.session_state:
 def click_button():
     st.session_state.clicked = True
     
-    
+
+def display_stock_values(stock_symbol1, stock_value1, stock_symbol2, stock_value2):
+    fig = go.Figure(data=[
+        go.Bar(name=translate_word("Stock Value"), x=[stock_symbol1, stock_symbol2], y=[stock_value1, stock_value2])
+    ])
+    fig.update_layout(title=translate_word("Stock Values Today"), xaxis_title=translate_word("Stock Symbol"), yaxis_title=translate_word("Stock Value (USD)"))
+    st.plotly_chart(fig)
+        
 def get_stock_data(symbol, start_date, end_date):
     try:
         stock_data = yf.download(symbol, start=start_date, end=end_date)
@@ -52,8 +59,14 @@ def Compare():
     # Select dropdown for second stock symbol
     stock_symbol2 = st.selectbox(translate_word("Select the second stock:"), list(stocks_dict.keys()), index=list(stocks_dict.keys()).index("APPLE"))
 
-    start_date = st.date_input(translate_word("Select start date:"), pd.to_datetime('2020-01-01'))
-    end_date = st.date_input(translate_word("Select end date:"), pd.to_datetime('today'))
+    min_date = datetime.date(2020, 1, 1)
+    max_date = datetime.datetime.now() - datetime.timedelta(days=16)
+    start_date = st.date_input(translate_word("Select start date:"),
+                            min_value=min_date,
+                            max_value=max_date,
+                            value=min_date)
+
+    end_date = datetime.datetime.now().date()
 
     st.button(translate_word('Compare'), on_click=click_button)
     if st.session_state.clicked:
@@ -74,12 +87,15 @@ def Compare():
                     st.success(translate_word(f"{stock_symbol2}'s value today: {stock_data2['Close'][-1]:.2f}$"))
                     st.error(translate_word(f"{stock_symbol1}'s value today: {stock_data1['Close'][-1]:.2f}$"))  
                     bigger = symbol2
+                
+                display_stock_values(stock_symbol1, stock_data1['Close'][-1], stock_symbol2, stock_data2['Close'][-1])
+
                 change1 = PrecentChange(stock_data1['Close'])
                 change2 = PrecentChange(stock_data2['Close'])
                 
                 st.subheader(translate_word("Comparison Table"))
                 comparison_data = {
-                    "Attribute": [translate_word("Max Close"), translate_word("Min Close"), translate_word("Average Close"), translate_word("Percent Change")],
+                    "Attribute": [translate_word("Max Close"), translate_word("Min Close"), translate_word("Average Close"), translate_word(f"Percent Change(since{start_date})")],
                     stock_symbol1: [f"{stock_data1['Close'].max():.2f}", f"{stock_data1['Close'].min():.2f}", f"{stock_data1['Close'].mean():.2f}", f"{change1.precentChange():.2f}%"],
                     stock_symbol2: [f"{stock_data2['Close'].max():.2f}", f"{stock_data2['Close'].min():.2f}", f"{stock_data2['Close'].mean():.2f}", f"{change2.precentChange():.2f}%"]
                 }
