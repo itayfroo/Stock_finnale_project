@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 import json
 from chooseLangauge import translate_word
 import datetime
-
+import random
 class PrecentChange():
     def __init__(self,values):
         self.value = values
@@ -22,6 +22,7 @@ if 'clicked' not in st.session_state:
 
 def click_button():
     st.session_state.clicked = True
+    
     
 
 def display_stock_values(stock_symbol1, stock_value1, stock_symbol2, stock_value2):
@@ -46,6 +47,54 @@ def plot_stock_comparison(stock_data1, stock_data2, stock1="stock1", stock2="sto
     fig.add_trace(go.Scatter(x=stock_data2.index, y=stock_data2['Close'], mode='lines', name=f'{stock2}'))
     fig.update_layout(title=translate_word('Stock Price Comparison'), xaxis_title=translate_word('Date'), yaxis_title=translate_word('Stock Price (USD)'))
     st.plotly_chart(fig)
+
+def investment_return(stock_data, start_value=100):
+    start_price = stock_data['Close'].iloc[0]
+    end_price = stock_data['Close'].iloc[-1]
+    percent_change = ((end_price - start_price) / start_price)
+    end_value = start_value * (1 + percent_change)
+    return end_value
+
+def plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol2):
+    investment1 = investment_return(stock_data1)
+    investment2 = investment_return(stock_data2)
+
+    labels = [stock_symbol1, stock_symbol2]
+    values = [investment1, investment2]
+
+    fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
+    from israelcities import colors
+    chosen =[]
+    while len(chosen)!=3:
+        rnd =random.randint(0,6)
+        if colors[rnd] not in chosen:
+            chosen.append(colors[rnd])
+    # Set the color of each pie slice
+    fig.update_traces(marker=dict(colors=[chosen[0], chosen[1]]))
+    
+    fig.update_layout(
+        title=translate_word('Return on each stock: 100$'),
+        legend=dict(
+            orientation="v",
+            x=0,
+            y=0.5,
+            traceorder="normal",
+            title_font_family="Arial",
+            font=dict(family="Arial", size=12, color=chosen[2]),
+            itemsizing="constant",
+            itemwidth=90,  
+            itemclick=False,  
+            bgcolor="rgba(0, 0, 0, 0)",  
+            bordercolor="rgba(0,0,0,0)",
+            borderwidth=0
+        )
+    )
+
+    st.plotly_chart(fig)
+    st.button(translate_word('Change colors'), on_click=click_button)
+    if st.session_state.clicked:
+        pass
+
 
 def Compare():
     st.title(translate_word("Stock Comparison"))
@@ -90,22 +139,34 @@ def Compare():
                     bigger = symbol2
                 
                 display_stock_values(stock_symbol1, stock_data1['Close'][-1], stock_symbol2, stock_data2['Close'][-1])
-
                 change1 = PrecentChange(stock_data1['Close'])
                 change2 = PrecentChange(stock_data2['Close'])
-                
                 st.subheader(translate_word("Comparison Table"))
                 comparison_data = {
-                    "Attribute": [translate_word("Max Close"), translate_word("Min Close"), translate_word("Average Close"), translate_word(f"Percent Change(since{start_date})")],
+                    translate_word(f"since {start_date}"): [translate_word("Max Close"), translate_word("Min Close"), translate_word("Average Close"), translate_word(f"Percent Of Change")],
                     stock_symbol1: [f"{stock_data1['Close'].max():.2f}", f"{stock_data1['Close'].min():.2f}", f"{stock_data1['Close'].mean():.2f}", f"{change1.precentChange():.2f}%"],
                     stock_symbol2: [f"{stock_data2['Close'].max():.2f}", f"{stock_data2['Close'].min():.2f}", f"{stock_data2['Close'].mean():.2f}", f"{change2.precentChange():.2f}%"]
                 }
                 
-                
                 stocks = [symbol1,symbol2]
                 df_comparison = pd.DataFrame(comparison_data)
-                st.table(df_comparison)
-                st.title(translate_word("Recomendation"))
+                col1, col2 = st.columns([2, 1])
+                with col1:
+                    st.text(f"""Real time updated
+                            
+                            
+                            
+                            Table
+                            """) 
+                    st.table(df_comparison)
+                     
+                with col2:
+                    st.text("")  
+                    plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol2)
+
+                
+                
+                st.title(translate_word("Recommendation"))
                 username = st.text_input(translate_word("Enter your recommender name"))
                 stock_recommend = st.selectbox(translate_word("Which stock do you recommend?"), stocks, index=list(stocks).index(bigger)) 
                 recommendation = st.text_area(translate_word("Leave a comment"))
@@ -113,12 +174,12 @@ def Compare():
                 if st.session_state.clicked:
                     if update_recom(username,stock_recommend,recommendation) is True:
                         st.success("Comment uploaded.")
-
                 
             else:
                 st.warning(translate_word("Failed to fetch data for one or both of the stocks. Please try again."))
         else:
             st.warning(translate_word("Please select both stocks."))
+
 
 
 from recommendations import recommendations    

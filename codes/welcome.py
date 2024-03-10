@@ -30,12 +30,13 @@ def welcome_page():
         except UnicodeDecodeError:
             st.error(f"Unable to decode the content of the file: {file_path}")
 
-    st.sidebar.subheader("Matirials")
+    st.sidebar.subheader(translate_word("Should Read"))
     st.sidebar.markdown("- [Repo](https://github.com/itayfroo/Stock_finnale_project.git)")
     st.sidebar.markdown("- [Trello](https://trello.com/invite/b/IyuMvsIu/ATTI2efaf2747c29302d9c6d9b2e34de2adbD83CB449/stock-fetching-itayf-markk)")
     st.sidebar.markdown("- [Tk app repo](https://github.com/itayfroo/stock-analyzer.git)")
     st.sidebar.markdown("- [Read me!](https://github.com/itayfroo/Stock_finnale_project/blob/main/README.md)")
     st.markdown("---")    
+    st.subheader(translate_word("Scripts"))
     MarkDownCode(r"codes\main.py",'main.py')
     MarkDownCode(r"codes\signIn.py",'signIn.py')
     MarkDownCode(r'codes\longtexts.py','longtexts.py')
@@ -43,6 +44,8 @@ def welcome_page():
     MarkDownCode(r'codes\israelcities.py','israelcities.py')
     MarkDownCode(r'codes\homepage.py','homepage.py')
     MarkDownCode(r'codes\chooseLangauge.py','chooseLangauge.py')
+    MarkDownCode(r'codes\stockCompare.py','stockCompare.py')
+    MarkDownCode(r'codes\recommendations.py','recommendations.py')
     MarkDownCode(r'codes\welcome.py','welcome.py')
     
     
