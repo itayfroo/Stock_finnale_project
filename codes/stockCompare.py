@@ -209,11 +209,9 @@ def update_recom(username, stock_symbol, comment):
     except:
         return False
 def pages():
-    page = st.sidebar.radio(translate_word("Navigation"), [translate_word("Comparation"),translate_word("Recommendations")])
+    page = translate_word("Comparation")
     if page == translate_word("Comparation"):
         Compare()
-    elif page==translate_word("Recommendations"):
         recommendations()
-
 if __name__ == "__main__":
     pages()
