@@ -24,6 +24,14 @@ def click_button():
     st.session_state.clicked = True
     
     
+def rating():
+    st.subheader(translate_word("Rating"))
+    st.markdown(translate_word("Please rate this stock (1-5 stars):"))
+    rating = st.empty()
+    stars = ['⭐☆☆☆☆', '⭐⭐☆☆☆', '⭐⭐⭐☆☆', '⭐⭐⭐⭐☆', '⭐⭐⭐⭐⭐']
+    user_rating = rating.radio(" ", stars,key='⭐⭐⭐⭐⭐')
+    return user_rating
+
 
 def display_stock_values(stock_symbol1, stock_value1, stock_symbol2, stock_value2):
     fig = go.Figure(data=[
@@ -31,6 +39,7 @@ def display_stock_values(stock_symbol1, stock_value1, stock_symbol2, stock_value
     ])
     fig.update_layout(title=translate_word("Stock Values Today"), xaxis_title=translate_word("Stock Symbol"), yaxis_title=translate_word("Stock Value (USD)"))
     st.plotly_chart(fig)
+
 
 @st.cache_data
 def get_stock_data(symbol, start_date, end_date):
@@ -41,12 +50,14 @@ def get_stock_data(symbol, start_date, end_date):
         st.error(translate_word(f"Error retrieving data: {yf_error}"))
         return None
 
+
 def plot_stock_comparison(stock_data1, stock_data2, stock1="stock1", stock2="stock2"):
     fig = go.Figure()
     fig.add_trace(go.Scatter(x=stock_data1.index, y=stock_data1['Close'], mode='lines', name=f'{stock1}'))
     fig.add_trace(go.Scatter(x=stock_data2.index, y=stock_data2['Close'], mode='lines', name=f'{stock2}'))
     fig.update_layout(title=translate_word('Stock Price Comparison'), xaxis_title=translate_word('Date'), yaxis_title=translate_word('Stock Price (USD)'))
     st.plotly_chart(fig)
+
 
 def investment_return(stock_data, start_value=100):
     start_price = stock_data['Close'].iloc[0]
@@ -55,13 +66,12 @@ def investment_return(stock_data, start_value=100):
     end_value = start_value * (1 + percent_change)
     return end_value
 
+
 def plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol2):
     investment1 = investment_return(stock_data1)
     investment2 = investment_return(stock_data2)
-
     labels = [stock_symbol1, stock_symbol2]
     values = [investment1, investment2]
-
     fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
     from israelcities import colors
     chosen =[]
@@ -69,7 +79,6 @@ def plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol
         rnd =random.randint(0,6)
         if colors[rnd] not in chosen:
             chosen.append(colors[rnd])
-    # Set the color of each pie slice
     fig.update_traces(marker=dict(colors=[chosen[0], chosen[1]]))
     st.button(translate_word('Change colors'), on_click=click_button)
     fig.update_layout(
@@ -86,16 +95,12 @@ def plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol
             itemclick=False,  
             bgcolor="rgba(0, 0, 0, 0)",  
             bordercolor="rgba(0,0,0,0)",
-            borderwidth=0
-            
+            borderwidth=0        
         )
     )
-
     st.plotly_chart(fig)
     
     
-
-
 def Compare():
     st.title(translate_word("Stock Comparison"))
     with open("texts/stocks.json", "r") as json_file:
@@ -157,10 +162,12 @@ def Compare():
                 username = st.text_input(translate_word("Enter your recommender name"))
                 stock_recommend = st.selectbox(translate_word("Which stock do you recommend?"), stocks, index=list(stocks).index(bigger)) 
                 recommendation = st.text_area(translate_word("Leave a comment"))
+                rate = rating()
                 st.button(translate_word('Send'), on_click=click_button)
                 if st.session_state.clicked:
-                    if update_recom(username,stock_recommend,recommendation) is True:
-                        st.success("Comment uploaded.")         
+                    if update_recom(username,stock_recommend,recommendation,rate) is True:
+                        st.success("Comment uploaded.")  
+                recommendations()       
             else:
                 st.warning(translate_word("Failed to fetch data for one or both of the stocks. Please try again."))
         else:
@@ -170,7 +177,7 @@ def Compare():
 
 from recommendations import recommendations    
     
-def update_recom(username, stock_symbol, comment):
+def update_recom(username, stock_symbol, comment,rating='⭐⭐⭐⭐⭐'):
     try:    
         if username !="" and comment !="":
             try:
@@ -185,7 +192,7 @@ def update_recom(username, stock_symbol, comment):
             except FileNotFoundError:
                 data = {}
             try:
-                data[f"{username}_{stock_symbol}"] = [stock_symbol, comment]
+                data[f"{username}_{stock_symbol}"] = [stock_symbol, comment,rating]
 
                 with open(r"texts\recommendations.json", "w") as json_file:
                     json.dump(data, json_file)
@@ -198,6 +205,6 @@ def pages():
     page = translate_word("Comparation")
     if page == translate_word("Comparation"):
         Compare()
-        recommendations()
+        
 if __name__ == "__main__":
     pages()
