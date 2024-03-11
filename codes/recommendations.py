@@ -17,7 +17,16 @@ def load_company_dict():
     except FileNotFoundError:
         return {}
     
-    
+def MarkDownCode(file_path,file_name):
+        try:
+            text = file_name
+
+            with st.expander(file_path):
+                st.text(text)
+        except UnicodeDecodeError:
+            st.error(f"Unable to decode the content of the file: {file_path}")
+            
+            
 def load_recom(stock_name):
     try:
         counter = 0
@@ -36,7 +45,8 @@ def load_recom(stock_name):
                     words = comment.split()
                     # Wrap the words after every 8 words
                     wrapped_comment = '\n'.join([' '.join(words[i:i+8]) for i in range(0, len(words), 8)])
-                    st.text(f"{stock_initial}: {translate_word(wrapped_comment)}")
+                    MarkDownCode(stock_initial,f"{translate_word(wrapped_comment)}")
+                    
                 
             if counter == 0:
                 st.info(translate_word("No recommendations about this stock yet"))
