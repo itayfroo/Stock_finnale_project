@@ -34,6 +34,7 @@ class Recommendations():
         stars = ['⭐☆☆☆☆', '⭐⭐☆☆☆', '⭐⭐⭐☆☆', '⭐⭐⭐⭐☆', '⭐⭐⭐⭐⭐']
         st.write(f"Averge is: {stars[self.avg.index(max(self.avg))]}")
        
+       
     def MarkDownCode(name,comment,rate):
             try:
                 with st.expander(name):
@@ -42,6 +43,7 @@ class Recommendations():
                     st.subheader(f'Rating: {rate}')
             except UnicodeDecodeError:
                 st.error(f"An error loading the comment: {UnicodeDecodeError}")
+              
               
     def average(self,rate):
         stars = ['⭐☆☆☆☆', '⭐⭐☆☆☆', '⭐⭐⭐☆☆', '⭐⭐⭐⭐☆', '⭐⭐⭐⭐⭐']
