@@ -71,7 +71,7 @@ def plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol
             chosen.append(colors[rnd])
     # Set the color of each pie slice
     fig.update_traces(marker=dict(colors=[chosen[0], chosen[1]]))
-    
+    st.button(translate_word('Change colors'), on_click=click_button)
     fig.update_layout(
         title=translate_word('Return on each stock: 100$'),
         legend=dict(
@@ -87,13 +87,13 @@ def plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol
             bgcolor="rgba(0, 0, 0, 0)",  
             bordercolor="rgba(0,0,0,0)",
             borderwidth=0
+            
         )
     )
 
     st.plotly_chart(fig)
-    st.button(translate_word('Change colors'), on_click=click_button)
-    if st.session_state.clicked:
-        pass
+    
+    
 
 
 def Compare():
