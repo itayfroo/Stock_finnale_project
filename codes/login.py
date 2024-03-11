@@ -102,7 +102,11 @@ def sign_in(username, password):
                 if age ==0 or age =="":
                     age = rememberAge
                 city=  st.selectbox(translate_word("Enter your city"), israeli_cities)
-                stock =st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
+                stocks = [""] + list(company_dict.keys())
+                if additional_info["Stock_investment"] =="" or additional_info["Stock_investment"] ==0:
+                    stock =st.selectbox(translate_word("Select or enter company name:"), stocks, index=0).upper()
+                else:
+                    stock=additional_info["Stock_investment"]
                 additional_info['City'] = city
                 additional_info['Stock_investment'] = stock
                 if (additional_info['Amount_invested']==0 or additional_info['Amount_invested']==""):
