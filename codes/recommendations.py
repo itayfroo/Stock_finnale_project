@@ -17,7 +17,9 @@ class Recommendations():
     def __init__(self,stock):
         self.company_dict = Recommendations.load_company_dict()
         self.stock_name = stock
+        self.avg =[0,0,0,0,0]
         self.load_recom()
+        self.printAverage()
         
         
     def load_company_dict():
@@ -27,7 +29,11 @@ class Recommendations():
         except FileNotFoundError:
             return {}
         
-        
+    
+    def printAverage(self):
+        stars = ['⭐☆☆☆☆', '⭐⭐☆☆☆', '⭐⭐⭐☆☆', '⭐⭐⭐⭐☆', '⭐⭐⭐⭐⭐']
+        st.write(f"Averge is: {stars[self.avg.index(max(self.avg))]}")
+       
     def MarkDownCode(name,comment,rate):
             try:
                 with st.expander(name):
@@ -37,7 +43,24 @@ class Recommendations():
             except UnicodeDecodeError:
                 st.error(f"An error loading the comment: {UnicodeDecodeError}")
               
-                       
+    def average(self,rate):
+        stars = ['⭐☆☆☆☆', '⭐⭐☆☆☆', '⭐⭐⭐☆☆', '⭐⭐⭐⭐☆', '⭐⭐⭐⭐⭐']
+        if rate == stars[0]:
+            self.avg[0]+=1 
+            
+        if rate == stars[1]:
+            self.avg[1]+=1 
+            
+        if rate == stars[2]:
+            self.avg[2]+=1 
+            
+        if rate == stars[3]:
+            self.avg[3]+=1 
+            
+        if rate == stars[4]:
+            self.avg[4]+=1 
+
+                               
     def load_recom(self):
         try:
             counter = 0
@@ -55,6 +78,7 @@ class Recommendations():
                             rating = recom_data[key][2]
                         except:
                             rating = '⭐⭐⭐⭐☆'
+                        Recommendations.average(self,rating)
                         words = comment.split()
                         wrapped_comment = '\n'.join([' '.join(words[i:i+8]) for i in range(0, len(words), 8)])
                         Recommendations.MarkDownCode(stock_initial,f"{translate_word(wrapped_comment)}",rating)

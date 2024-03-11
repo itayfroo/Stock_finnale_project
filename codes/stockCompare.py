@@ -100,7 +100,7 @@ def plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol
     )
     st.plotly_chart(fig)
     
-    
+@st.cache_data    
 def get_stock_info(symbol, info_type):
     try:
         stock = yf.Ticker(symbol)
