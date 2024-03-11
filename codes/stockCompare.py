@@ -101,6 +101,15 @@ def plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol
     st.plotly_chart(fig)
     
     
+def get_stock_info(symbol, info_type):
+    try:
+        stock = yf.Ticker(symbol)
+        info = stock.info
+        return info.get(info_type, translate_word("Unavailable"))
+    except Exception as e:
+        return translate_word("Unavailable")
+    
+    
 def Compare():
     st.title(translate_word("Stock Comparison"))
     with open("texts/stocks.json", "r") as json_file:
@@ -138,10 +147,84 @@ def Compare():
                 change2 = PrecentChange(stock_data2['Close'])
                 st.subheader(translate_word("Comparison Table"))
                 comparison_data = {
-                    translate_word(f"since {start_date}"): [translate_word("Max Close"), translate_word("Min Close"), translate_word("Average Close"), translate_word(f"Percent Of Change")],
-                    stock_symbol1: [f"{stock_data1['Close'].max():.2f}", f"{stock_data1['Close'].min():.2f}", f"{stock_data1['Close'].mean():.2f}", f"{change1.precentChange():.2f}%"],
-                    stock_symbol2: [f"{stock_data2['Close'].max():.2f}", f"{stock_data2['Close'].min():.2f}", f"{stock_data2['Close'].mean():.2f}", f"{change2.precentChange():.2f}%"]
-                }
+    translate_word(f"{start_date}"): [
+        translate_word("Max Close"), 
+        translate_word("Min Close"), 
+        translate_word("Average Close"), 
+        translate_word(f"Percent Of Change"), 
+        translate_word("Market Cap"), 
+        translate_word("Dividend Yield"), 
+        translate_word("EPS"), 
+        translate_word("P/E Ratio"), 
+        translate_word("Volume"), 
+        translate_word("Previous Close"), 
+        translate_word("Open Price"),
+        translate_word("Forward P/E"),
+        translate_word("PEG Ratio"),
+        translate_word("Book Value"),
+        translate_word("Price/Sales"),
+        translate_word("Price/Book"),
+        translate_word("Beta"),
+        translate_word("Short Ratio"),
+        translate_word("Forward EPS"),
+        translate_word("Dividend Rate"),
+        translate_word("Ex-Dividend Date"),
+        translate_word("Last Split Factor"),
+        translate_word("Last Split Date"),
+    ],
+    stock_symbol1: [
+        f"{stock_data1['Close'].max():.2f}",
+        f"{stock_data1['Close'].min():.2f}",
+        f"{stock_data1['Close'].mean():.2f}",
+        f"{change1.precentChange():.2f}%",
+        get_stock_info(symbol1, "marketCap"),
+        get_stock_info(symbol1, "dividendYield"),
+        get_stock_info(symbol1, "trailingEps"),
+        get_stock_info(symbol1, "trailingPE"),
+        get_stock_info(symbol1, "volume"),
+        get_stock_info(symbol1, "previousClose"),
+        get_stock_info(symbol1, "open"),
+        get_stock_info(symbol1, "forwardPE"),
+        get_stock_info(symbol1, "pegRatio"),
+        get_stock_info(symbol1, "bookValue"),
+        get_stock_info(symbol1, "priceToSalesTrailing12Months"),
+        get_stock_info(symbol1, "priceToBook"),
+        get_stock_info(symbol1, "beta"),
+        get_stock_info(symbol1, "shortRatio"),
+        get_stock_info(symbol1, "forwardEps"),
+        get_stock_info(symbol1, "dividendRate"),
+        get_stock_info(symbol1, "exDividendDate"),
+        get_stock_info(symbol1, "lastSplitFactor"),
+        get_stock_info(symbol1, "lastSplitDate"),
+    ],
+    stock_symbol2: [
+        f"{stock_data2['Close'].max():.2f}",
+        f"{stock_data2['Close'].min():.2f}",
+        f"{stock_data2['Close'].mean():.2f}",
+        f"{change2.precentChange():.2f}%",
+        get_stock_info(symbol2, "marketCap"),
+        get_stock_info(symbol2, "dividendYield"),
+        get_stock_info(symbol2, "trailingEps"),
+        get_stock_info(symbol2, "trailingPE"),
+        get_stock_info(symbol2, "volume"),
+        get_stock_info(symbol2, "previousClose"),
+        get_stock_info(symbol2, "open"),
+        get_stock_info(symbol2, "forwardPE"),
+        get_stock_info(symbol2, "pegRatio"),
+        get_stock_info(symbol2, "bookValue"),
+        get_stock_info(symbol2, "priceToSalesTrailing12Months"),
+        get_stock_info(symbol2, "priceToBook"),
+        get_stock_info(symbol2, "beta"),
+        get_stock_info(symbol2, "shortRatio"),
+        get_stock_info(symbol2, "forwardEps"),
+        get_stock_info(symbol2, "dividendRate"),
+        get_stock_info(symbol2, "exDividendDate"),
+        get_stock_info(symbol2, "lastSplitFactor"),
+        get_stock_info(symbol2, "lastSplitDate"),
+    ]
+}
+
+
                 
                 stocks = [symbol1,symbol2]
                 df_comparison = pd.DataFrame(comparison_data)
@@ -158,6 +241,8 @@ def Compare():
                 with col2:
                     st.text("")  
                     plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol2)
+                from longtexts import terms
+                terms()
                 st.title(translate_word("Recommendation"))
                 username = st.text_input(translate_word("Enter your recommender name"))
                 stock_recommend = st.selectbox(translate_word("Which stock do you recommend?"), stocks, index=list(stocks).index(bigger)) 

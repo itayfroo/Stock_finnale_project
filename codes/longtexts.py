@@ -62,3 +62,100 @@ Linear regression is widely used in various fields for tasks such as predicting 
     m = (y.iloc[-1] - y.iloc[0]) / 707
     st.write(translate_word("The y(x) linear function:"))
     st.write(f"Y = {float(m)}x + {float(y.iloc[0])}")
+
+def terms():
+    with st.expander(translate_word('Terms 💡')):
+        st.markdown("""
+            - **Max Close**: 
+              - Represents the highest closing price observed for the stock during the specified time period. 
+              - Indicates the peak value reached by the stock's price, reflecting high investor optimism or demand.
+              
+            - **Min Close**: 
+              - The lowest closing price recorded for the stock within the specified time frame. 
+              - Signifies the lowest point reached by the stock's price, indicating low investor sentiment or demand.
+              
+            - **Average Close**: 
+              - The mean value of all closing prices recorded for the stock during the specified time period. 
+              - Provides a balanced view of the stock's performance over the period.
+              
+            - **Percent of Change**: 
+              - Indicates the percentage change in the stock's price from the beginning to the end of the specified time period. 
+              - Measures the extent of price movement, showing if the stock has appreciated or depreciated over the period.
+              
+            - **Market Cap**: 
+              - The total value of a company's outstanding shares of stock, calculated by multiplying the current stock price by the total number of outstanding shares. 
+              - Represents the market's valuation of the company, used to compare the sizes of different companies.
+              
+            - **Dividend Yield**: 
+              - Shows how much a company pays out in dividends each year relative to its stock price, expressed as a percentage. 
+              - Indicates the return on investment in the form of dividends.
+              
+            - **EPS (Earnings Per Share)**: 
+              - A company's net profit divided by the number of outstanding shares, representing the portion of profit allocated to each outstanding share of common stock. 
+              - Used by investors to assess the company's profitability.
+              
+            - **P/E Ratio (Price-to-Earnings Ratio)**: 
+              - The ratio of a company's current stock price to its earnings per share (EPS). 
+              - Indicates how much investors are willing to pay for each dollar of the company's earnings.
+              
+            - **Volume**: 
+              - The total number of shares traded during a given period.
+              - Provides insight into the liquidity and interest in a particular stock.
+              
+              
+            - **Previous Close**: 
+              - The closing price of the stock in the previous trading session.
+              - Helps investors understand how the stock performed relative to the last trading day.
+              
+            - **Open Price**: 
+              - The price at which a stock first trades upon the opening of the market.
+              - Provides insight into market sentiment at the beginning of the trading day.
+              
+            - **Forward P/E**: 
+              - The P/E ratio using estimated future earnings rather than trailing earnings.
+              - Offers insight into the company's future earnings potential.
+              
+            - **PEG Ratio (Price/Earnings to Growth Ratio)**: 
+              - The ratio of the P/E ratio to the annual EPS growth rate.
+              - Helps investors assess the stock's valuation relative to its growth prospects.
+              
+            - **Book Value**: 
+              - The total value of a company's assets that shareholders would theoretically receive if the company were liquidated.
+              - Offers insight into the company's underlying value per share.
+              
+            - **Price/Sales**: 
+              - The ratio of a company's market capitalization to its revenue.
+              - Helps investors assess the company's valuation relative to its sales.
+              
+            - **Price/Book**: 
+              - The ratio of a company's stock price to its book value per share.
+              - Indicates whether a stock is undervalued or overvalued relative to its book value.
+              
+            - **Beta**: 
+              - A measure of a stock's volatility in relation to the overall market.
+              - Helps investors assess the risk associated with investing in a particular stock.
+              
+            - **Short Ratio**: 
+              - The ratio of the number of shares sold short to the average daily trading volume.
+              - Indicates market sentiment, with a higher ratio suggesting more bearish sentiment.
+              
+            - **Forward EPS (Earnings Per Share)**: 
+              - The forecasted earnings per share for a company for the next fiscal period.
+              - Provides insight into expected future profitability.
+              
+            - **Dividend Rate**: 
+              - The annualized dividend payout per share.
+              - Indicates the amount of income investors can expect to receive from dividends.
+              
+            - **Ex-Dividend Date**: 
+              - The date on which a stock begins trading without the dividend included in its price.
+              - Determines eligibility for receiving the upcoming dividend payment.
+              
+            - **Last Split Factor**: 
+              - The ratio by which a stock was split in its most recent stock split.
+              - Provides information about the magnitude of the stock split.
+              
+            - **Last Split Date**: 
+              - The date on which a stock underwent its most recent stock split.
+              - Indicates the timing of the split event.
+        """)
