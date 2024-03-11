@@ -32,7 +32,7 @@ def display_stock_values(stock_symbol1, stock_value1, stock_symbol2, stock_value
     fig.update_layout(title=translate_word("Stock Values Today"), xaxis_title=translate_word("Stock Symbol"), yaxis_title=translate_word("Stock Value (USD)"))
     st.plotly_chart(fig)
 
-st.cache
+@st.cache_data
 def get_stock_data(symbol, start_date, end_date):
     try:
         stock_data = yf.download(symbol, start=start_date, end=end_date)
@@ -98,37 +98,27 @@ def plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol
 
 def Compare():
     st.title(translate_word("Stock Comparison"))
-
-    # Load stocks from stocks.json
     with open("texts/stocks.json", "r") as json_file:
         stocks_dict = json.load(json_file)
-
-    # Select dropdown for first stock symbol
     stock_symbol1 = st.selectbox(translate_word("Select the first stock:"), list(stocks_dict.keys()))
-
-    # Select dropdown for second stock symbol
     stock_symbol2 = st.selectbox(translate_word("Select the second stock:"), list(stocks_dict.keys()), index=list(stocks_dict.keys()).index("APPLE"))
-
     min_date = datetime.date(2020, 1, 1)
     max_date = datetime.datetime.now() - datetime.timedelta(days=16)
     start_date = st.date_input(translate_word("Select start date:"),
                             min_value=min_date,
                             max_value=max_date,
                             value=min_date)
-
     end_date = datetime.datetime.now().date()
 
     st.button(translate_word('Compare'), on_click=click_button)
     if st.session_state.clicked:
-
         symbol1 = stocks_dict.get(stock_symbol1)
         symbol2 = stocks_dict.get(stock_symbol2)
         if symbol1 and symbol2:
             stock_data1 = get_stock_data(symbol1, start_date, end_date)
             stock_data2 = get_stock_data(symbol2, start_date, end_date)
             if stock_data1 is not None and stock_data2 is not None:
-                plot_stock_comparison(stock_data1, stock_data2, stock_symbol1, stock_symbol2)
-                
+                plot_stock_comparison(stock_data1, stock_data2, stock_symbol1, stock_symbol2)     
                 if max(stock_data1['Close'][-1],stock_data2['Close'][-1]) == stock_data1['Close'][-1]:
                     st.success(translate_word(f"{stock_symbol1}'s value today: {stock_data1['Close'][-1]:.2f}$"))
                     st.error(translate_word(f"{stock_symbol2}'s value today: {stock_data2['Close'][-1]:.2f}$"))
@@ -163,9 +153,6 @@ def Compare():
                 with col2:
                     st.text("")  
                     plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol2)
-
-                
-                
                 st.title(translate_word("Recommendation"))
                 username = st.text_input(translate_word("Enter your recommender name"))
                 stock_recommend = st.selectbox(translate_word("Which stock do you recommend?"), stocks, index=list(stocks).index(bigger)) 
@@ -173,8 +160,7 @@ def Compare():
                 st.button(translate_word('Send'), on_click=click_button)
                 if st.session_state.clicked:
                     if update_recom(username,stock_recommend,recommendation) is True:
-                        st.success("Comment uploaded.")
-                
+                        st.success("Comment uploaded.")         
             else:
                 st.warning(translate_word("Failed to fetch data for one or both of the stocks. Please try again."))
         else:
