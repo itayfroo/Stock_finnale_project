@@ -20,7 +20,8 @@ Welcome to the Stock Analyzer App! This web application is built using Streamlit
 - Analyze stock prices and trends.
 - Make predictions using Linear Regression and LSTM models.
 - Explore investment opportunities based on historical stock data.
-
+- Give and get recommendations about stocks.
+- Cross shares in order to determine which is best suited for you.
 
 
 ### Prerequisites
