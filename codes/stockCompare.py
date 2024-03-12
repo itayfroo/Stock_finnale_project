@@ -20,8 +20,10 @@ class PrecentChange():
         percent_change = ((end_price - start_price) / start_price) * 100
         return percent_change
         
+        
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
+
 
 def click_button():
     st.session_state.clicked = True
@@ -112,7 +114,11 @@ def get_stock_info(symbol, info_type):
     except Exception as e:
         return translate_word("Unavailable")
     
-    
+
+def get_time():
+    return (datetime.datetime.now())
+
+
 def Compare():
     st.title(translate_word("Stock Comparison"))
     with open("texts/stocks.json", "r") as json_file:
@@ -265,7 +271,7 @@ def Compare():
 
 from recommendations import recommendations    
     
-def update_recom(username, stock_symbol, comment,rating='⭐⭐⭐⭐⭐'):
+def update_recom(username, stock_symbol, comment,rating='⭐⭐⭐⭐⭐',date= str(datetime.datetime.now())):
     try:    
         if username !="" and comment !="":
             try:
@@ -280,7 +286,7 @@ def update_recom(username, stock_symbol, comment,rating='⭐⭐⭐⭐⭐'):
             except FileNotFoundError:
                 data = {}
             try:
-                data[f"{username}_{stock_symbol}"] = [stock_symbol, comment,rating]
+                data[f"{username}_{stock_symbol}"] = [stock_symbol, comment,rating,date]
 
                 with open(r"texts\recommendations.json", "w") as json_file:
                     json.dump(data, json_file)

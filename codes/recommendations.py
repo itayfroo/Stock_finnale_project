@@ -17,7 +17,8 @@ class Recommendations():
     def __init__(self,stock):
         self.company_dict = Recommendations.load_company_dict()
         self.stock_name = stock
-        self.avg =[0,0,0,0,0]
+        self.sum =0
+        self.counter=0
         self.load_recom()
         self.printAverage()
         
@@ -32,15 +33,20 @@ class Recommendations():
     
     def printAverage(self):
         stars = ['⭐☆☆☆☆', '⭐⭐☆☆☆', '⭐⭐⭐☆☆', '⭐⭐⭐⭐☆', '⭐⭐⭐⭐⭐']
-        st.write(f"Averge is: {stars[self.avg.index(max(self.avg))]}")
+        average = int(self.sum /self.counter)
+        if average>5:
+            st.write(f"Average is: {stars[4]}")
+        else:
+            st.write(f"Average is: {stars[average-1]}")
        
        
-    def MarkDownCode(name,comment,rate):
+    def MarkDownCode(name,comment,rate,date):
             try:
                 with st.expander(name):
                     st.subheader("Comment")
                     st.text(comment)
                     st.subheader(f'Rating: {rate}')
+                    st.subheader(f"Date: {date}")
             except UnicodeDecodeError:
                 st.error(f"An error loading the comment: {UnicodeDecodeError}")
               
@@ -48,19 +54,19 @@ class Recommendations():
     def average(self,rate):
         stars = ['⭐☆☆☆☆', '⭐⭐☆☆☆', '⭐⭐⭐☆☆', '⭐⭐⭐⭐☆', '⭐⭐⭐⭐⭐']
         if rate == stars[0]:
-            self.avg[0]+=1 
-            
+            self.sum+=1
+        
         if rate == stars[1]:
-            self.avg[1]+=1 
+            self.sum+=2
             
         if rate == stars[2]:
-            self.avg[2]+=1 
+            self.sum+=3
             
         if rate == stars[3]:
-            self.avg[3]+=1 
+            self.sum+=4
             
         if rate == stars[4]:
-            self.avg[4]+=1 
+            self.sum+=5
 
                                
     def load_recom(self):
@@ -82,8 +88,13 @@ class Recommendations():
                             rating = '⭐⭐⭐⭐☆'
                         Recommendations.average(self,rating)
                         words = comment.split()
+                        try:
+                            date=recom_data[key][3][:10]
+                        except:
+                            date='Two years ago'
                         wrapped_comment = '\n'.join([' '.join(words[i:i+8]) for i in range(0, len(words), 8)])
-                        Recommendations.MarkDownCode(stock_initial,f"{translate_word(wrapped_comment)}",rating)
+                        Recommendations.MarkDownCode(stock_initial,f"{translate_word(wrapped_comment)}",rating,date)
+                        self.counter+=1
                 if counter == 0:
                     st.info(translate_word("No recommendations about this stock yet"))
                 else:
