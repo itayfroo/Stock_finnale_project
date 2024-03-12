@@ -1,14 +1,17 @@
 from chooseLangauge import translate_word
 import streamlit as st
 from login import sign_in, sign_up
+
+
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
+
 
 def click_button():
     st.session_state.clicked = True
 
+
 def homepage():
-    from israelcities import israeli_cities
     st.title(translate_word("User Authentication System"))
     from signIn import end
     page = st.sidebar.radio(translate_word("Navigation"), [translate_word("Sign Up"),translate_word("Change info") ,translate_word("Sign In")])
