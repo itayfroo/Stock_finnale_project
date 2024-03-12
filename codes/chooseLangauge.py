@@ -10,7 +10,7 @@ def language_chooser():
     if new_language != st.session_state.chosen_language:
         st.session_state.chosen_language = new_language
         st.cache_data.clear()  
-        st.experimental_rerun()
+        st.rerun()
     
 
 @st.cache_data
