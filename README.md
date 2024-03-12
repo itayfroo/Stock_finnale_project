@@ -14,7 +14,7 @@ Welcome to the Stock Analyzer App! This web application is built using Streamlit
 
 - Mark Kolesnik
 - Itay Froomer
-
+- Lior Mishaiev
 ## Features
 
 - Analyze stock prices and trends.

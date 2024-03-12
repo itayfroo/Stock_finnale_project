@@ -34,10 +34,7 @@ class Recommendations():
     def printAverage(self):
         stars = ['⭐☆☆☆☆', '⭐⭐☆☆☆', '⭐⭐⭐☆☆', '⭐⭐⭐⭐☆', '⭐⭐⭐⭐⭐']
         average = int(self.sum /self.counter)
-        if average>5:
-            st.write(f"Average is: {stars[4]}")
-        else:
-            st.write(f"Average is: {stars[average-1]}")
+        st.write(translate_word(f"Average is: {stars[average-1]}"))
        
        
     def MarkDownCode(name,comment,rate,date):
