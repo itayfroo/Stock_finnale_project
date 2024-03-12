@@ -41,7 +41,7 @@ Make sure you have the following installed:
     - [Packages](#Requirements)
   
    *****************************************************************
-3. Run the app in the powershell:
+3. Run the app in the PowerShell:
 
     - [streamlit run codes\main.py](#)
    *****************************************************************
