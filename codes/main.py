@@ -12,6 +12,7 @@ import datetime
 import random
 import json
 from chooseLangauge import translate_word,language_chooser
+from recommendations import Recommendations
 check = False
 
 data=[]
@@ -341,16 +342,16 @@ from welcome import welcome_page
 from stockCompare import pages
 #Pages managements
 def Pages_managements():
-    page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Welcome"), translate_word("Choose Language"), translate_word("User Entrance Field"), translate_word("Stock Analysis"),translate_word("Stock Comparation")])
+    page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Welcome"), translate_word("User Entrance Field"), translate_word("Stock Analysis"),translate_word("Stock Comparation")])
 
     if page == translate_word("Welcome"):
         welcome_page()
+        language_chooser()
     elif page == translate_word("User Entrance Field"):
         homepage()
     elif page == translate_word("Stock Analysis"):
         stockanalyzer()
-    elif page == translate_word("Choose Language"):
-        language_chooser()
+    
     elif page == translate_word("Stock Comparation"):
         pages()
         
