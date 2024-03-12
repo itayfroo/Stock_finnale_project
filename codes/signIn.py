@@ -7,6 +7,8 @@ import yfinance as yf
 import requests
 import random
 from datetime import datetime
+
+
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAKCAXGAYNBG', "XUKT2LY2NIC35B83","9XZBYP0RSJFMOT4L"
             ,"L485NGI7NK2M6VFT","PS74H4D0OXVW2M22","X7RFFB0EHKNTH25O","EEINBBF6PX2GAO02","FLTAY1Z6W73ZVRQB","JDZLDTK95XWAYVEP"
             ,"QOHMIEDH92482YHC","ZL7O0XZCYX1QQAIB"]
@@ -14,11 +16,15 @@ api_key = api_keys[random.randint(0,len(api_keys)-1)]
 json_file_path = r"texts\users.json"
 main_script_path = "codes/main.py"
 
+
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
 
+
 def click_button():
     st.session_state.clicked = True
+    
+    
 def user_exists(username):
     if os.path.exists(json_file_path):
         with open(json_file_path, "r") as file:
@@ -71,6 +77,7 @@ def sign_up(username, password, additional_info="default_value"):
             json.dump(users, file)
         st.success(translate_word("You have successfully signed up!"))
 
+
 def get_stock_data(symbol, start_date, end_date):
     try:
         stock_data = yf.download(symbol, start=start_date, end=end_date)
@@ -95,6 +102,7 @@ def get_stock_data(symbol, start_date, end_date):
         
         return None
 
+
 def get_stock_symbol_from_json(company_name):
     try:
         with open(r"texts\stocks.json", "r") as json_file:
@@ -108,7 +116,7 @@ def get_stock_symbol_from_json(company_name):
 
     return None
 
-#If a new stock symbole is given, it loads it to stocks.json 
+
 def update_stock_symbol_in_json(company_name, stock_symbol):
     try:
         with open(r"texts\stocks.json", "r") as json_file:
@@ -154,6 +162,7 @@ def get_stock_symbol(company_name):
 
     return None
 
+
 def end(username, password):
     users = {}
     if user_exists(username):
@@ -194,8 +203,6 @@ def end(username, password):
                             end_price = stock_data['Close'].iloc[-1]
                             
                             percent_change = ((end_price - start_price) / start_price) * 100
-                            
-                            # Calculate the potential final value of the investment
                             potential_returns = float(additional_info['Amount_invested']) * (1 + percent_change / 100)
                             
                             

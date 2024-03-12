@@ -10,7 +10,7 @@ if 'clicked' not in st.session_state:
 def click_button():
     st.session_state.clicked = True
 
-
+#class number 1 - Handles recommendations displays
 class Recommendations():
 
     

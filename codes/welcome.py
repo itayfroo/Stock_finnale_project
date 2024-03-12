@@ -1,5 +1,28 @@
 import streamlit as st
 from chooseLangauge import translate_word
+import os
+
+
+#class number 3 - Displays each script in the code
+class Scripts():
+    
+    
+    def __init__(self,file):
+        self.file = file
+        self.name = os.path.basename(self.file)
+        self.MarkDownCode()
+    
+    
+    def MarkDownCode(self):
+        try:
+            with open(self.file, "r", encoding="utf-8") as file:
+                text = file.read()
+
+            with st.expander(self.name):
+                st.text(text)
+        except UnicodeDecodeError:
+            st.error(f"Unable to decode the content of the file: {self.file}")
+
 
 def welcome_page():
     st.title(translate_word("🚀 Welcome to Stock Analyzer App!"))
@@ -20,15 +43,6 @@ def welcome_page():
     st.write(translate_word(
         "Feel free to explore the different functionalities and make the most out of the Stock Analyzer App! 📊📈"
     ))
-    def MarkDownCode(file_path,file_name):
-        try:
-            with open(file_path, "r", encoding="utf-8") as file:
-                text = file.read()
-
-            with st.expander(file_name):
-                st.text(text)
-        except UnicodeDecodeError:
-            st.error(f"Unable to decode the content of the file: {file_path}")
 
     st.sidebar.subheader(translate_word("Should Read"))
     st.sidebar.markdown("- [Repo](https://github.com/itayfroo/Stock_finnale_project.git)")
@@ -36,18 +50,7 @@ def welcome_page():
     st.sidebar.markdown("- [Tk app repo](https://github.com/itayfroo/stock-analyzer.git)")
     st.sidebar.markdown("- [Read me!](https://github.com/itayfroo/Stock_finnale_project/blob/main/README.md)")
     st.markdown("---")    
+    codes = [r"codes\main.py",r"codes\signIn.py",r'codes\longtexts.py',r'codes\login.py',r'codes\israelcities.py',r'codes\homepage.py',r'codes\chooseLangauge.py',r'codes\stockCompare.py',r'codes\recommendations.py',r'codes\welcome.py']
     st.subheader(translate_word("Scripts"))
-    MarkDownCode(r"codes\main.py",'main.py')
-    MarkDownCode(r"codes\signIn.py",'signIn.py')
-    MarkDownCode(r'codes\longtexts.py','longtexts.py')
-    MarkDownCode(r'codes\login.py','login.py')
-    MarkDownCode(r'codes\israelcities.py','israelcities.py')
-    MarkDownCode(r'codes\homepage.py','homepage.py')
-    MarkDownCode(r'codes\chooseLangauge.py','chooseLangauge.py')
-    MarkDownCode(r'codes\stockCompare.py','stockCompare.py')
-    MarkDownCode(r'codes\recommendations.py','recommendations.py')
-    MarkDownCode(r'codes\welcome.py','welcome.py')
-    
-    
-    
-
+    for i in codes:
+        Scripts(i)

@@ -6,6 +6,9 @@ import json
 from chooseLangauge import translate_word
 import datetime
 import random
+
+
+#class number 2 - Calculates the precent of change of stock's close price
 class PrecentChange():
     def __init__(self,values):
         self.value = values
