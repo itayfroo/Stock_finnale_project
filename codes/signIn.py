@@ -60,11 +60,11 @@ def sign_up(username, password, additional_info="default_value"):
         users = {}
 
     if username in users:
-        st.warning(translate_word("Username is already taken. Please choose another one"))
+        st.caption(translate_word("Username is already taken. Please choose another one"))
     elif username=="":
-        st.warning(translate_word("You have to enter a username"))
+        st.caption(translate_word("You have to enter a username"))
     elif password=="":
-        st.warning(translate_word("You have to enter a password"))
+        st.caption(translate_word("You have to enter a password"))
     else:
         user_data = {"password": password}
         age =""
@@ -75,7 +75,7 @@ def sign_up(username, password, additional_info="default_value"):
         users[f"{username}_info"] = {'Age':age,'City':city,'Stock_investment':stock_investment,'Amount_invested':amount_invested}
         with open(json_file_path, "w") as file:
             json.dump(users, file)
-        st.success(translate_word("You have successfully signed up!"))
+        st.info(translate_word("You have successfully signed up!"))
 
 
 def get_stock_data(symbol, start_date, end_date):
@@ -84,22 +84,16 @@ def get_stock_data(symbol, start_date, end_date):
         
     
         if stock_data.empty:
-            st.info(translate_word("Check again tomrrow(:"))
+            st.caption(translate_word("Check again tomrrow(:"))
             return None
         
        
         if stock_data.isnull().values.any():
-            st.warning(translate_word("Data contains missing values. Please check the data for completeness."))
+            st.caption(translate_word("Data contains missing values. Please check the data for completeness."))
             return None
 
         return stock_data
-    except yf.YFinanceError as yf_error:
-       
-        if "No timezone found, symbol may be delisted" in str(yf_error):
-            st.warning(translate_word(f"Error retrieving data: {yf_error}. The symbol may be delisted."))
-        else:
-            st.error(translate_word(f"Error retrieving data: {yf_error}"))
-        
+    except: 
         return None
 
 
@@ -128,6 +122,7 @@ def update_stock_symbol_in_json(company_name, stock_symbol):
 
     with open(r"texts\stocks.json", "w") as json_file:
         json.dump(data, json_file)
+      
         
 def get_stock_symbol(company_name):
     global api_key
@@ -158,9 +153,32 @@ def get_stock_symbol(company_name):
 
             return stock_symbol
     except Exception as e:
-        st.error(translate_word(f"Error: {e}"))
+        st.caption(translate_word(f"Error: {e}"))
 
     return None
+
+
+#Class number 4 - Deletes users
+class RemoveUser():
+    
+    
+    def __init__(self,username) -> None:
+        self.name = username
+        self.delete_user(self.name)
+        self.delete_user(f"{self.name}_info")
+        
+        
+    def delete_user(self,content):
+        file_path = r"texts\users.json"
+        if os.path.exists(file_path):
+            with open(file_path, "r") as json_file:
+                data = json.load(json_file)
+                if content in data:
+                    del data[content]  
+            with open(file_path, "w") as json_file:
+                json.dump(data, json_file)
+        else:
+            print("JSON file does not exist.")
 
 
 def end(username, password):
@@ -188,7 +206,10 @@ def end(username, password):
                     st.write(f"**{translate_word('Amount Invested')}:** {additional_info.get('Amount_invested', 'N/A')} 💰")
                 else: 
                     st.write(f"**{translate_word('Amount Invested')}:** {additional_info.get('Amount_invested', 'N/A')} ")
-                st.write(f"**{translate_word('Time of investment')}:** {additional_info.get('date', 'N/A')[0:19]}  📅")
+                st.write(f"**{translate_word('Time of registration')}:** {additional_info.get('date', 'N/A')[0:19]}  📅")
+                
+                if st.button(translate_word('Delete account')):
+                    RemoveUser(username)
                 st.markdown("---")
                 if (additional_info['Amount_invested']!=0):
                     stock_symbol = get_stock_symbol(additional_info['Stock_investment'])
@@ -208,8 +229,15 @@ def end(username, password):
                             
                             gain_loss = potential_returns
                             
-                            st.success(translate_word(f"Based on current stock prices, you could potentially gain: {gain_loss:.2f}$ with the precentage of {percent_change:.2f}%"))
-
+                            st.text(translate_word(f"Based on current stock prices, you would now have: {gain_loss:.2f}$"))
+                            st.text(translate_word(f"with the precentage of change: {percent_change:.2f}%"))
+                            if int(additional_info['Amount_invested'])<gain_loss:
+                                st.text(translate_word(f"Your total gain: {int(additional_info['Amount_invested'])-gain_loss:.2f}$"))
+                                st.info(translate_word("Would recommend investing in this stock(;"))
+                            else:
+                                st.text(translate_word(f"Your total loss: {(gain_loss - int(additional_info['Amount_invested'])):.2f}$"))
+                                st.info(translate_word("Would't recommend investing in this stock(;"))
+                            
                         else:
                             pass
                     except Exception as e:
@@ -217,7 +245,7 @@ def end(username, password):
                 
                 return True
             else:
-                st.error("❌ " + translate_word("Incorrect password. Please try again."))
+                st.caption("❌ " + translate_word("Incorrect password. Please try again."))
     else:
-        st.error("❌ " + translate_word("User does not exist. Please sign up or check the username."))
+        st.caption("❌ " + translate_word("User does not exist. Please sign up or check the username."))
 

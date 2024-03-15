@@ -4,8 +4,12 @@ import streamlit as st
 import pandas as pd
 from chooseLangauge import translate_word
 import datetime
+
+
 json_file_path = r"texts\users.json"
 main_script_path = "codes/main.py"
+
+
 def load_company_dict():
     try:
         with open(r"texts\stocks.json", "r") as json_file:
@@ -13,9 +17,13 @@ def load_company_dict():
     except FileNotFoundError:
         return {}
 
+
 company_dict = load_company_dict()
+
+
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
+
 
 def click_button():
     st.session_state.clicked = True
@@ -27,7 +35,7 @@ def user_exists(username):
                 try:
                     users = json.loads(file_contents)
                 except json.JSONDecodeError:
-                    st.error("Error decoding JSON. Please check the file format.")
+                    st.caption("Error decoding JSON. Please check the file format.")
                     return False
             else:
                 users = {}
@@ -52,13 +60,12 @@ def sign_up(username, password, additional_info="default_value"):
                 users = {}
     else:
         users = {}
-
     if username in users:
-        st.warning(translate_word("Username is already taken. Please choose another one"))
+        st.caption(translate_word("Username is already taken. Please choose another one"))
     elif username=="":
-        st.warning(translate_word("You have to enter a username"))
+        st.caption(translate_word("You have to enter a username"))
     elif password=="":
-        st.warning(translate_word("You have to enter a password"))
+        st.caption(translate_word("You have to enter a password"))
     else:
         date = str(datetime.datetime.now())
         user_data = {"password": password}
@@ -70,7 +77,7 @@ def sign_up(username, password, additional_info="default_value"):
         users[f"{username}_info"] = {'Age':age,'City':city,'Stock_investment':stock_investment,'Amount_invested':amount_invested,'date':date}
         with open(json_file_path, "w") as file:
             json.dump(users, file)
-        st.success(translate_word("You have successfully signed up!"))
+        st.info(translate_word("You have successfully signed up!"))
 
 
 
@@ -90,10 +97,10 @@ def sign_in(username, password):
                 if st.session_state.clicked:
                     try:
                         if int(age) < 0 :
-                            st.warning(translate_word("Invalid input"))
+                            st.caption(translate_word("Invalid input"))
                             age=""
                         elif int(age) >99:
-                            st.warning(translate_word("Invalid input"))
+                            st.caption(translate_word("Invalid input"))
                             age = ""
                         else: 
                             additional_info['Age']=int(age)
@@ -120,7 +127,7 @@ def sign_in(username, password):
                             else: 
                                 additional_info['Amount_invested']=int(amount_invested)
                                 st.balloons()
-                        except:st.warning(translate_word("Invalid input"))
+                        except:st.caption(translate_word("Invalid input"))
                 else:
                     amount_invested=additional_info['Amount_invested']
                 date = additional_info['date']
@@ -141,6 +148,6 @@ def sign_in(username, password):
                 
                 return True
             else:
-                st.warning(translate_word("Incorrect password. Please check for spelling and try again."))
+                st.caption(translate_word("Incorrect password. Please check for spelling and try again."))
     else:
-        st.warning(translate_word("User does not exist. Please sign up or check the username."))
+        st.caption(translate_word("User does not exist. Please sign up or check the username."))
