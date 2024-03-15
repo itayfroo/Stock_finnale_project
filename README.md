@@ -62,8 +62,15 @@ Make sure you have the following installed:
 
 
 ### Notes
-- if you can't open venv(ExecutionPolicy is restricted) run
+- If you can't open venv(ExecutionPolicy is restricted) run
   [Set-ExecutionPolicy -Scope CurrentUser RemoteSigned](#) in the PowerShell.
 
+- Classes:
+   1. Recommendations(recommendations.py) - Handles everything about user recommendations
 
+   2. PrecentChange(stockCompare.py) - Calculates the precent of the change of the close price stocks
+
+   3. Scripts(welcome.py) - Displays the scripts of the project
+
+   4. RemoveUser(signIn.py) - Allows the option to remove a registred user
 
