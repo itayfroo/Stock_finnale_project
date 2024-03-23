@@ -96,7 +96,7 @@ def sign_in(username, password):
                 st.button(translate_word('Okay'), on_click=click_button)
                 if st.session_state.clicked:
                     try:
-                        if int(age) < 0 :
+                        if int(age) <= 0 :
                             st.caption(translate_word("Invalid input"))
                             age=""
                         elif int(age) >99:
@@ -105,7 +105,7 @@ def sign_in(username, password):
                         else: 
                             additional_info['Age']=int(age)
                             st.balloons()
-                    except:st.warning(translate_word("Invalid input"))
+                    except:st.caption(translate_word("Invalid input"))
                 if age ==0 or age =="":
                     age = rememberAge
                 city=  st.selectbox(translate_word("Enter your city"), israeli_cities)
