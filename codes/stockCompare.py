@@ -73,36 +73,49 @@ def investment_return(stock_data, start_value=100):
 
 
 def plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol2):
+
     investment1 = investment_return(stock_data1)
     investment2 = investment_return(stock_data2)
+    
     labels = [stock_symbol1, stock_symbol2]
     values = [investment1, investment2]
+    
     fig = go.Figure(data=[go.Pie(labels=labels, values=values)])
+    
     from israelcities import colors
-    chosen =[]
-    while len(chosen)!=3:
-        rnd =random.randint(0,6)
-        if colors[rnd] not in chosen:
-            chosen.append(colors[rnd])
-    fig.update_traces(marker=dict(colors=[chosen[0], chosen[1]]))
-    st.button(translate_word('Change colors'), on_click=click_button)
+    
+    first_color = st.selectbox("Choose a color for " + stock_symbol1, colors, index=0)
+    
+    available_colors = [color for color in colors if color != first_color]
+    
+    second_color = st.selectbox("Choose a color for " + stock_symbol2, available_colors, index=0)
+    
+    fig.update_traces(marker=dict(colors=[first_color, second_color]))
+    
+    if st.button("Generate random colors"):
+        random.shuffle(available_colors)
+        first_color = available_colors[0]
+        second_color = available_colors[1]
+        fig.update_traces(marker=dict(colors=[first_color, second_color]))
+    
     fig.update_layout(
-        title=translate_word('Return on each stock: 100$'),
+        title=translate_word('Return on each stock: $100'),
         legend=dict(
             orientation="v",
             x=0,
             y=0.5,
             traceorder="normal",
             title_font_family="Arial",
-            font=dict(family="Arial", size=12, color=chosen[2]),
+            font=dict(family="Arial", size=12),
             itemsizing="constant",
-            itemwidth=90,  
-            itemclick=False,  
-            bgcolor="rgba(0, 0, 0, 0)",  
+            itemwidth=90,
+            itemclick=False,
+            bgcolor="rgba(0, 0, 0, 0)",
             bordercolor="rgba(0,0,0,0)",
-            borderwidth=0        
+            borderwidth=0
         )
     )
+    
     st.plotly_chart(fig)
     
 @st.cache_data    
