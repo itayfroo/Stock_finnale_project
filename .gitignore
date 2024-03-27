@@ -4,3 +4,4 @@ codes\__pycache__/*
 *.pyc
 /codes
 /codes/__pycache__
+*.pyc
