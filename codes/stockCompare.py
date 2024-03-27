@@ -270,6 +270,7 @@ def Compare():
                     plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol2)
                 from longtexts import terms
                 terms()
+                
                 st.title(translate_word("Recommendation"))
                 username = st.text_input(translate_word("Enter your recommender name"))
                 stock_recommend = st.selectbox(translate_word("Which stock do you recommend?"), stocks) 
