@@ -248,8 +248,12 @@ def Compare():
     }
 
 
-                
+                with open(r"texts\stocks.json" ,"r") as r:
+                    super = json.load(r)
+                 
                 stocks = [symbol1,symbol2]
+                stocks[0] = [key for key, value in stocks_dict.items() if value == symbol1][0]
+                stocks[1] = [key for key, value in stocks_dict.items() if value == symbol2][0]
                 df_comparison = pd.DataFrame(comparison_data)
                 col1, col2 = st.columns([2, 1])
                 with col1:
@@ -268,13 +272,15 @@ def Compare():
                 terms()
                 st.title(translate_word("Recommendation"))
                 username = st.text_input(translate_word("Enter your recommender name"))
-                stock_recommend = st.selectbox(translate_word("Which stock do you recommend?"), stocks, index=list(stocks).index(bigger)) 
+                stock_recommend = st.selectbox(translate_word("Which stock do you recommend?"), stocks) 
+                stock_recommend = super[stock_recommend]
+                st.caption(stock_recommend)
                 recommendation = st.text_area(translate_word("Leave a comment"))
                 rate = rating()
                 st.button(translate_word('Send'), on_click=click_button)
                 if st.session_state.clicked:
                     if update_recom(username,stock_recommend,recommendation,rate) is True:
-                        st.success("Comment uploaded.")  
+                        st.caption(translate_word("Comment uploaded."))  
                 with st.spinner("Loading"):
                     recommendations()       
             else:
