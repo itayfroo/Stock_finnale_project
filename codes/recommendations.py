@@ -33,8 +33,12 @@ class Recommendations():
     
     def printAverage(self):
         stars = ['⭐☆☆☆☆', '⭐⭐☆☆☆', '⭐⭐⭐☆☆', '⭐⭐⭐⭐☆', '⭐⭐⭐⭐⭐']
-        average = int(self.sum /self.counter)
-        st.write(translate_word(f"Average is: {stars[average-1]}"))
+        try:
+            average = int(self.sum /self.counter)
+            st.write(translate_word(f"Average is: {stars[average-1]}"))
+        except:
+            pass
+        
        
        
     def MarkDownCode(name,comment,rate,date):
