@@ -274,6 +274,14 @@ def stockanalyzer():
                 if stock_symbol:
                     st.title(translate_word("Stock Price Visualization App"))
                     st.write(translate_word(f"Displaying stock data for {stock_symbol}"))
+                    try:
+                        st.image(f"company_logos/{stock_symbol.lower()}.png", width=200)
+                        st.caption(stock_symbol)
+                    except:
+                        try:
+                            st.image(f"company_logos/{stock_symbol.lower()}.jpg", width=200)
+                            st.caption(stock_symbol)
+                        except:pass
 
                     with st.spinner(translate_word("Fetching stock data...")):
                         stock_data = get_stock_data(stock_symbol, start_date, end_date)

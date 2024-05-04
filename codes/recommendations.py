@@ -105,9 +105,20 @@ class Recommendations():
     
     
 def recommendations():
+    with open("texts/stocks.json" ,'r') as file:
+        data = json.load(file)
     st.title(translate_word("Recommendations"))
     company_dict = Recommendations.load_company_dict()
     stock = st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
     st.button(translate_word('Search'), on_click=click_button)
     if st.session_state.clicked:
+        try:
+            st.image(f"company_logos/{data[stock].lower()}.png", width=200)
+            st.caption(stock)
+        except:
+            try:
+                st.image(f"company_logos/{data[stock].lower()}.jpg", width=200)
+                st.caption(stock)
+            except:
+                st.caption("No images avilavle")
         Recommendations(stock)

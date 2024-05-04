@@ -150,7 +150,27 @@ def Compare():
     if st.session_state.clicked:
         symbol1 = stocks_dict.get(stock_symbol1)
         symbol2 = stocks_dict.get(stock_symbol2)
-        if symbol1 and symbol2:
+        if (symbol1 and symbol2) and (symbol1 != symbol2):
+            try:
+                st.image(f"company_logos/{symbol1.lower()}.png",width=200)
+                st.caption(symbol1)
+            except :
+                try:
+                    st.image(f"company_logos/{symbol1.lower()}.jpg",width=200)
+                    st.caption(symbol1)
+                except:
+                    st.caption("No images avilavle")
+
+            try:
+                st.image(f"company_logos/{symbol2.lower()}.png", width=200)
+                st.caption(symbol2)
+            except:
+                try:
+                    st.image(f"company_logos/{symbol2.lower()}.jpg", width=200)
+                    st.caption(symbol2)
+                except:
+                    st.caption("No images avilavle")
+
             stock_data1 = get_stock_data(symbol1, start_date, end_date)
             stock_data2 = get_stock_data(symbol2, start_date, end_date)
             if stock_data1 is not None and stock_data2 is not None:
@@ -270,8 +290,9 @@ def Compare():
                     plot_investment_return(stock_data1, stock_data2, stock_symbol1, stock_symbol2)
                 from longtexts import terms
                 terms()
-                
-                st.title(translate_word("Recommendation"))
+                with st.spinner("Loading"):
+                    recommendations()
+
                 username = st.text_input(translate_word("Enter your recommender name"))
                 stock_recommend = st.selectbox(translate_word("Which stock do you recommend?"), stocks) 
                 stock_recommend = super[stock_recommend]
@@ -282,8 +303,7 @@ def Compare():
                 if st.session_state.clicked:
                     if update_recom(username,stock_recommend,recommendation,rate) is True:
                         st.caption(translate_word("Comment uploaded."))  
-                with st.spinner("Loading"):
-                    recommendations()       
+
             else:
                 st.warning(translate_word("Failed to fetch data for one or both of the stocks. Please try again."))
         else:
