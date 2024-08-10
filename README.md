@@ -38,7 +38,7 @@ Make sure you have the following installed:
 
    Can also fork from https://github.com/itayfroo/Stock_finnale_project.git
    *****************************************************************
-2. Install packages
+2. Install packages - pip install -r requirements.txt
     - [Packages](#Requirements)
   
    *****************************************************************
