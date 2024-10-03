@@ -177,13 +177,15 @@ def Compare():
                 plot_stock_comparison(stock_data1, stock_data2, stock_symbol1, stock_symbol2)     
                 if max(stock_data1['Close'][-1],stock_data2['Close'][-1]) == stock_data1['Close'][-1]:
                     st.success(translate_word(f"{stock_symbol1}'s value today: {stock_data1['Close'][-1]:.2f}$"))
-                    st.caption(f"Highest value: {stock_data1['Close'].max()}")
+                    st.caption(f"Highest value: {stock_data1['Close'].max():.2f}$")
                     st.error(translate_word(f"{stock_symbol2}'s value today: {stock_data2['Close'][-1]:.2f}$"))
-                    st.caption(f"Highest value: {stock_data2['Close'].max()}")
+                    st.caption(f"Highest value: {stock_data2['Close'].max():.2f}$")
                     bigger = symbol1
                 else:
                     st.success(translate_word(f"{stock_symbol2}'s value today: {stock_data2['Close'][-1]:.2f}$"))
-                    st.error(translate_word(f"{stock_symbol1}'s value today: {stock_data1['Close'][-1]:.2f}$"))  
+                    st.caption(f"Highest value: {stock_data2['Close'].max():.2f}$")
+                    st.error(translate_word(f"{stock_symbol1}'s value today: {stock_data1['Close'][-1]:.2f}$"))
+                    st.caption(f"Highest value: {stock_data1['Close'].max():.2f}$")
                     bigger = symbol2
                 
                 display_stock_values(stock_symbol1, stock_data1['Close'][-1], stock_symbol2, stock_data2['Close'][-1])
