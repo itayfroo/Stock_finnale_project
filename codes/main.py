@@ -87,7 +87,8 @@ def get_stock_symbol(company_name):
 #Gives money info about the stock
 def get_stock_data(symbol, start_date, end_date):
     try:
-        stock_data = yf.download(symbol, start=start_date, end=end_date)
+        stock_data = yf.download(symbol, start=start_date, end=end_date, auto_adjust=True)
+
         
     
         if stock_data.empty:
@@ -110,14 +111,19 @@ def get_stock_data(symbol, start_date, end_date):
         return None
     
 #Graph of the stock's value
-def plot_stock_data(stock_data,start_date):
+def plot_stock_data(stock_data, start_date):
+    # Flatten MultiIndex columns if they exist
+    if isinstance(stock_data.columns, pd.MultiIndex):
+        stock_data.columns = stock_data.columns.get_level_values(0)
+
     fig = px.line(stock_data, x=stock_data.index, y='Close', title=translate_word(f'Stock Prices Over since: {start_date}'))
     fig.update_xaxes(title_text=translate_word('Date'))
     fig.update_yaxes(title_text=translate_word('Stock Price (USD)'))
     st.plotly_chart(fig)
+
     
 #Predicts the potentional stock value for tomrrow using Linear Regrrestion   
-@st.cache_data(experimental_allow_widgets=True)               
+@st.cache_data
 def predict_tomorrows_stock_value_linear_regression(stock_data):
     X = pd.DataFrame({'Days': range(1, len(stock_data) + 1)})
     y = stock_data['Close']
@@ -132,7 +138,7 @@ def predict_tomorrows_stock_value_linear_regression(stock_data):
 
 
 #Predicts the potentional stock value for tomrrow using LSTM   
-@st.cache_data(experimental_allow_widgets=True)               
+@st.cache_data
 def predict_tomorrows_stock_value_lstm(stock_data):
     scaler = MinMaxScaler()
     data_normalized = scaler.fit_transform(stock_data['Close'].values.reshape(-1, 1))
@@ -325,8 +331,8 @@ def stockanalyzer():
                         additional_info(stock_symbol)
                 else:
                     st.warning(translate_word(f"Stock doesn't exist.\ntry again or check your input.")) 
-        except:
-            st.error("An error acourred, maybe try 1.1.2022")
+        except Exception as e:
+            st.error(f"An error acourred, maybe try 1.1.2022\n{e}")
             
 #Ivestment returns section
 def investment(stock_symbol,stock_data,start_date):
