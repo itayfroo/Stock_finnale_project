@@ -5,3 +5,5 @@ codes\__pycache__/*
 /codes
 /codes/__pycache__
 *.pyc
+.venv/*
+.idea/*

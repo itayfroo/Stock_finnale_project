@@ -11,11 +11,11 @@ def click_button():
     st.session_state.clicked = True
 
 #class number 1 - Handles recommendations displays
-class Recommendations():
+class Recommendations:
 
     
     def __init__(self,stock):
-        self.company_dict = Recommendations.load_company_dict()
+        self.company_dict = load_company_dict()
         self.stock_name = stock
         self.sum =0
         self.counter=0
@@ -23,13 +23,7 @@ class Recommendations():
         self.printAverage()
         
         
-    def load_company_dict():
-        try:
-            with open(r"texts\stocks.json", "r") as json_file:
-                return json.load(json_file)
-        except FileNotFoundError:
-            return {}
-        
+
     
     def printAverage(self):
         stars = ['⭐☆☆☆☆', '⭐⭐☆☆☆', '⭐⭐⭐☆☆', '⭐⭐⭐⭐☆', '⭐⭐⭐⭐⭐']
@@ -101,15 +95,21 @@ class Recommendations():
                 else:
                     st.caption(translate_word(f"{counter} recommendations found."))
         except Exception as e:
-            st.warning(e) 
-    
-    
+            st.warning(e)
+
+def load_company_dict():
+    try:
+        with open(r"texts\stocks.json", "r") as json_file:
+            return json.load(json_file)
+    except FileNotFoundError:
+        return {}
+
+
 def recommendations():
     with open("texts/stocks.json" ,'r') as file:
         data = json.load(file)
     st.title(translate_word("Recommendations"))
-    company_dict = Recommendations.load_company_dict()
-    stock = st.selectbox(translate_word("Select or enter company name:"), list(company_dict.keys()), index=0).upper()
+    stock = st.selectbox(translate_word("Select or enter company name:"), list(load_company_dict().keys()), index=0).upper()
     st.button(translate_word('Search'), on_click=click_button)
     if st.session_state.clicked:
         try:

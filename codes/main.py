@@ -263,7 +263,8 @@ def stockanalyzer():
                                value=min_date)
 
     end_date = datetime.datetime.now().date() 
-
+    st.write(start_date)
+    st.write(end_date)
     st.button(translate_word('Analyze'), on_click=click_button)
     if st.session_state.clicked:
         try:
