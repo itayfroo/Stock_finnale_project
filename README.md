@@ -28,7 +28,7 @@ Welcome to the Stock Analyzer App! This web application is built using Streamlit
 
 Make sure you have the following installed:
 
-- Python 3.6 or later
+- Python 3.11
 - pip (Python package installer)
 ### Installation
 
