@@ -5,10 +5,7 @@ import pandas as pd
 from chooseLangauge import translate_word
 import datetime
 
-
-json_file_path = r"texts\users.json"
-main_script_path = "codes/main.py"
-
+import HARDCODED
 
 def load_company_dict():
     try:

@@ -9,19 +9,15 @@ import numpy as np
 import tensorflow as tf
 import time  
 import datetime
-import random
 import json
 from chooseLangauge import translate_word,language_chooser
-from recommendations import Recommendations
+
 check = False
 
 data=[]
-
 api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAKCAXGAYNBG', "XUKT2LY2NIC35B83","9XZBYP0RSJFMOT4L"
             ,"L485NGI7NK2M6VFT","PS74H4D0OXVW2M22","X7RFFB0EHKNTH25O","EEINBBF6PX2GAO02","FLTAY1Z6W73ZVRQB","JDZLDTK95XWAYVEP"
             ,"QOHMIEDH92482YHC","ZL7O0XZCYX1QQAIB"]
-api_key = api_keys[random.randint(0,len(api_keys)-1)]  
-
 
 #gets the stock symbole from stock.json if already exists
 def get_stock_symbol_from_json(company_name):
@@ -51,9 +47,10 @@ def update_stock_symbol_in_json(company_name, stock_symbol):
         json.dump(data, json_file)
         
 #Fetches the stock symbole from given company name
-def get_stock_symbol(company_name):
-    global api_key
 
+def get_stock_symbol(company_name):
+    import HARDCODED
+    api_key = api_keys[random.randint(0, len(api_keys) - 1)]
     stock_symbol = get_stock_symbol_from_json(company_name)
 
     if stock_symbol:
@@ -262,9 +259,7 @@ def stockanalyzer():
                                max_value=max_date,
                                value=min_date)
 
-    end_date = datetime.datetime.now().date() 
-    st.write(start_date)
-    st.write(end_date)
+    end_date = datetime.datetime.now().date()
     st.button(translate_word('Analyze'), on_click=click_button)
     if st.session_state.clicked:
         try:
