@@ -395,7 +395,8 @@ def Compare():
     rate = rating()
     st.button(translate_word('Send'), on_click=click_button)
     if st.session_state.clicked:
-        if update_recom(username, stock_recommend, recommendation, rate) is True:
+        data = update_recom(username, stock_recommend, recommendation, rate)
+        if data != False:
             st.caption(translate_word("Comment uploaded."))
 
     else:
@@ -419,11 +420,11 @@ def update_recom(username, stock_symbol, comment, rating='⭐⭐⭐⭐⭐', date
             except FileNotFoundError:
                 data = {}
             try:
-                data[f"{username}_{stock_symbol}"] = [stock_symbol, comment, rating, date]
+                to_ciphe = data[f"{username}_{stock_symbol}"] = [stock_symbol, comment, rating, date]
 
                 with open(r"texts\recommendations.json", "w") as json_file:
                     json.dump(data, json_file)
-                return True
+                return to_ciphe
             except:
                 return False
     except:

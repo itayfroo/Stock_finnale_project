@@ -1,6 +1,6 @@
 from chooseLangauge import translate_word
 import streamlit as st
-from login import sign_in, sign_up
+from login import Users
 
 
 if 'clicked' not in st.session_state:
@@ -12,6 +12,7 @@ def click_button():
 
 
 def homepage():
+    user = Users()
     st.title(translate_word("User Authentication System"))
     from signIn import end
     page = st.sidebar.radio(translate_word("Navigation"), [translate_word("Sign Up"),translate_word("Change info") ,translate_word("Sign In")])
@@ -23,7 +24,7 @@ def homepage():
         
         st.button(translate_word('Sign up'), on_click=click_button)
         if st.session_state.clicked:
-            sign_up(username, password)
+            user.sign_up(username, password)
 
     elif page == translate_word("Change info"):
         st.header(translate_word("Change info"))
@@ -31,7 +32,7 @@ def homepage():
         password = st.text_input(translate_word("Enter your password:"), type="password")
         st.button(translate_word('Change info'), on_click=click_button)
         if st.session_state.clicked:
-            if sign_in(username, password):
+            if user.sign_in(username, password):
                 pass
     
     else:

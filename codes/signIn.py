@@ -188,8 +188,7 @@ def end(username, password):
     st.write(f"**{translate_word('Amount Invested')}:** {additional_info.get('Amount_invested', 'N/A')} 💰")
     st.write(f"**{translate_word('Time of registration')}:** {additional_info.get('date', 'N/A')[0:19]} 📅")
 
-    if st.button(translate_word('Delete account')):
-        RemoveUser(username)
+
 
     # Stock calculations
     try:
@@ -217,8 +216,12 @@ def end(username, password):
                     else:
                         st.text(translate_word(f"Your total loss: {(amount_invested - gain_loss):.2f}$"))
                         st.info(translate_word("Wouldn't recommend investing in this stock(;"))
+
     except Exception as e:
-        st.warning(e)
+        st.warning("You should definitely demo-invest in a stock(:")
+
+    if st.button(translate_word('Delete account')):
+        RemoveUser(username)
 
     st.markdown("---")
     return True
