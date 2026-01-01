@@ -11,7 +11,7 @@ import time
 import datetime
 import json
 from chooseLangauge import translate_word,language_chooser
-
+import random
 check = False
 
 data=[]
@@ -49,7 +49,6 @@ def update_stock_symbol_in_json(company_name, stock_symbol):
 #Fetches the stock symbole from given company name
 
 def get_stock_symbol(company_name):
-    import HARDCODED
     api_key = api_keys[random.randint(0, len(api_keys) - 1)]
     stock_symbol = get_stock_symbol_from_json(company_name)
 

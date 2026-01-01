@@ -5,21 +5,8 @@ import pandas as pd
 from chooseLangauge import translate_word
 import datetime
 
-import HARDCODED
-<<<<<<< Updated upstream
-
-def load_company_dict():
-    try:
-        with open(r"texts\stocks.json", "r") as json_file:
-            return json.load(json_file)
-    except FileNotFoundError:
-        return {}
-
-
-company_dict = load_company_dict()
-
-=======
->>>>>>> Stashed changes
+json_file_path = r"texts\users.json"
+main_script_path = "codes/main.py"
 
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False

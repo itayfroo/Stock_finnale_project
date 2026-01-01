@@ -5,7 +5,13 @@ from chooseLangauge import translate_word
 import yfinance as yf
 import requests
 from datetime import datetime
-import HARDCODED
+import random
+json_file_path = r"texts\users.json"
+main_script_path = "codes/main.py"
+
+api_keys = ['MNI5T6CU7KLSFJA8', 'QJFF49AEUN6NX884', '9ZZWS60Q2CZ6JYUK', 'ZX5XTAKCAXGAYNBG', "XUKT2LY2NIC35B83","9XZBYP0RSJFMOT4L"
+            ,"L485NGI7NK2M6VFT","PS74H4D0OXVW2M22","X7RFFB0EHKNTH25O","EEINBBF6PX2GAO02","FLTAY1Z6W73ZVRQB","JDZLDTK95XWAYVEP"
+            ,"QOHMIEDH92482YHC","ZL7O0XZCYX1QQAIB"]
 if 'clicked' not in st.session_state:
     st.session_state.clicked = False
 
@@ -115,7 +121,7 @@ def update_stock_symbol_in_json(company_name, stock_symbol):
 
 
 def get_stock_symbol(company_name):
-    from codes.HARDCODED import api_key
+    api_key = api_keys[random.randint(0, len(api_keys) - 1)]
 
     stock_symbol = get_stock_symbol_from_json(company_name)
 
