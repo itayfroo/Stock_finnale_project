@@ -2,11 +2,17 @@ import streamlit as st
 import yfinance as yf
 import pandas as pd
 import plotly.graph_objects as go
-import json
 from chooseLangauge import translate_word
 import datetime
 import random
+from recommendations import recommendations
+from encryptionRecomm import EncriptRecoms
+from server import *
+import time
 
+# --------------------------------------------------------
+# CLASS: EncriptRecoms
+# --------------------------------------------------------
 
 # --------------------------------------------------------
 # CLASS: Percent Change
@@ -395,105 +401,99 @@ def Compare():
     rate = rating()
     st.button(translate_word('Send'), on_click=click_button)
     if st.session_state.clicked:
-        data = update_recom(username, stock_recommend, recommendation, rate)
-        if data != False:
-            st.caption(translate_word("Comment uploaded."))
-
+        try:
+            data = update_recom(username, stock_recommend, recommendation, rate)
+            if data != False:
+                st.caption(translate_word("Comment uploaded."))
+            else:
+                st.caption("")
+        except:
+            st.caption(translate_word("Please fill all comments fields."))
     else:
         st.warning(translate_word("Failed to fetch data for one or both of the stocks. Please try again."))
 
-from recommendations import recommendations
 
 
 
+def update_recom(username, stock_symbol, comment,rating='⭐⭐⭐⭐⭐', date=str(datetime.datetime.now())):
+    connection = EncriptRecoms()
+    if username == "" or comment == "":
+        return False
 
-import socket
-import struct
-import json
-from Crypto.Random import get_random_bytes
-from Encription_System.crypto_utils import aes_encrypt_ecb, rsa_encrypt_aes_key
-from Crypto.PublicKey import RSA
-
-
-SERVER_HOST = "127.0.0.1"
-SERVER_PORT = 5000
-KEY_PORT = 5001
-
-def fetch_public_key():
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect((SERVER_HOST, KEY_PORT))
-        pub = s.recv(4096)
-    return RSA.import_key(pub)
-
-def build_packet(ip, port, enc_key, cipher_header, cipher_body):
-    ip_bytes = ip.encode("ascii")
-
-    packet = b"SSAP"
-    packet += struct.pack("!I", len(ip_bytes))
-    packet += ip_bytes
-    packet += struct.pack("!I", port)
-
-    packet += struct.pack("!I", len(enc_key))
-    packet += enc_key
-
-    packet += struct.pack("!I", len(cipher_header))
-    packet += cipher_header
-
-    packet += struct.pack("!I", len(cipher_body))
-    packet += cipher_body
-
-    return packet
-
-def start_client(data: dict):
-                    # dict format example:
-                    # {"Agam_NVDA": ["NVDA", "text", "⭐⭐⭐⭐⭐", "timestamp"]}
-
-    header = list(data.keys())[0]
-    body_json = json.dumps(data[header], ensure_ascii=False)
-
-    public_key = fetch_public_key()
-    aes_key = get_random_bytes(32)
-
-    cipher_header = aes_encrypt_ecb(header, aes_key)
-    cipher_body = aes_encrypt_ecb(body_json, aes_key)
-    enc_key = rsa_encrypt_aes_key(aes_key, public_key)
-
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.connect((SERVER_HOST, SERVER_PORT))
-        local_ip, local_port = s.getsockname()
-
-        packet = build_packet(local_ip, local_port, enc_key, cipher_header, cipher_body)
-        s.sendall(packet)
-
-
-def update_recom(username, stock_symbol, comment, rating='⭐⭐⭐⭐⭐', date=str(datetime.datetime.now())):
     try:
-        if username != "" and comment != "":
-            try:
-                with open(r"texts\recommendations.json", "r") as json_file:
-                    # Check if the file is empty
-                    if json_file.read().strip() == '':
-                        data = {}
-                    else:
-                        json_file.seek(0)
-                        data = json.load(json_file)
+        # encrypt + send
+        to_ciphe = {
+            f"{username}_{stock_symbol}":
+            [stock_symbol, comment, rating, date]
+        }
 
-            except FileNotFoundError:
-                data = {}
-            try:
-                to_ciphe = {f"{username}_{stock_symbol}" : [stock_symbol, comment, rating, date]}
-                start_client(to_ciphe)
+        connection.start_client(to_ciphe)
+        from server import push_recommendation
 
-                with open(r"texts\recommendations.json", "w") as json_file:
-                        json.dump(data, json_file)
-                return to_ciphe
+        with st.status("🔐 Preparing SSAP protocol transmission...", expanded=True) as main_status:
+            st.write("📦 Packing recommendation payload...")
+            time.sleep(1)
 
-            except Exception as e:
-                st.warning(e)
-                return False
+            # Inner status for RSA
+            with st.status("🔑 Fetching RSA public key...", expanded=True) as rsa_status:
+                key = connection.fetch_public_key()
+                pem_text = key.export_key().decode()
+
+                mid = len(pem_text) // 2
+                display = st.empty()
+                display.code(pem_text[:mid])
+                time.sleep(1)
+
+                display.code(pem_text)
+                time.sleep(1.5)
+
+                rsa_status.update(
+                    label="✅ Fetched RSA public key",
+                    state="complete",
+                    expanded=False
+                )
+
+            time.sleep(0.5)
+
+            with st.status("🧮 Generating AES session key...", expanded=True) as aesStatus:
+                time.sleep(1)
+                st.code(connection._aesKey)
+            aesStatus.update(
+                label="✅ SSAP transmission completed successfully",
+                state="complete",
+                expanded=False
+            )
+            time.sleep(1)
+
+            st.write("⚙️ Encrypting header + body with AES-ECB...")
+            time.sleep(0.7)
+
+
+
+            st.write("🗝️ Encrypting AES key using RSA-2048...")
+            time.sleep(0.7)
+
+            st.write("📡 Sending encrypted packet to server...")
+            time.sleep(0.7)
+
+            # Now this correctly updates the OUTER status
+            main_status.update(
+                label="✅ SSAP transmission completed successfully",
+                state="complete",
+                expanded=False
+            )
+
+        push_recommendation(
+            f"{username}_{stock_symbol}",
+            [stock_symbol, comment, rating, date]
+        )
+
+        return to_ciphe
+
     except Exception as e:
         st.warning(e)
         return False
+
 
 
 def pages():

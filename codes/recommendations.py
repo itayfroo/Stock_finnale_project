@@ -66,6 +66,7 @@ class Recommendations:
                                
     def load_recom(self):
         try:
+
             counter = 0
             with open(r"texts\stocks.json", "r") as stocks_file:
                 stocks_data = json.load(stocks_file)
