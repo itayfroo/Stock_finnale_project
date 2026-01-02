@@ -405,6 +405,67 @@ def Compare():
 from recommendations import recommendations
 
 
+
+
+import socket
+import struct
+import json
+from Crypto.Random import get_random_bytes
+from Encription_System.crypto_utils import aes_encrypt_ecb, rsa_encrypt_aes_key
+from Crypto.PublicKey import RSA
+
+
+SERVER_HOST = "127.0.0.1"
+SERVER_PORT = 5000
+KEY_PORT = 5001
+
+def fetch_public_key():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((SERVER_HOST, KEY_PORT))
+        pub = s.recv(4096)
+    return RSA.import_key(pub)
+
+def build_packet(ip, port, enc_key, cipher_header, cipher_body):
+    ip_bytes = ip.encode("ascii")
+
+    packet = b"SSAP"
+    packet += struct.pack("!I", len(ip_bytes))
+    packet += ip_bytes
+    packet += struct.pack("!I", port)
+
+    packet += struct.pack("!I", len(enc_key))
+    packet += enc_key
+
+    packet += struct.pack("!I", len(cipher_header))
+    packet += cipher_header
+
+    packet += struct.pack("!I", len(cipher_body))
+    packet += cipher_body
+
+    return packet
+
+def start_client(data: dict):
+                    # dict format example:
+                    # {"Agam_NVDA": ["NVDA", "text", "⭐⭐⭐⭐⭐", "timestamp"]}
+
+    header = list(data.keys())[0]
+    body_json = json.dumps(data[header], ensure_ascii=False)
+
+    public_key = fetch_public_key()
+    aes_key = get_random_bytes(32)
+
+    cipher_header = aes_encrypt_ecb(header, aes_key)
+    cipher_body = aes_encrypt_ecb(body_json, aes_key)
+    enc_key = rsa_encrypt_aes_key(aes_key, public_key)
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect((SERVER_HOST, SERVER_PORT))
+        local_ip, local_port = s.getsockname()
+
+        packet = build_packet(local_ip, local_port, enc_key, cipher_header, cipher_body)
+        s.sendall(packet)
+
+
 def update_recom(username, stock_symbol, comment, rating='⭐⭐⭐⭐⭐', date=str(datetime.datetime.now())):
     try:
         if username != "" and comment != "":
@@ -420,14 +481,18 @@ def update_recom(username, stock_symbol, comment, rating='⭐⭐⭐⭐⭐', date
             except FileNotFoundError:
                 data = {}
             try:
-                to_ciphe = data[f"{username}_{stock_symbol}"] = [stock_symbol, comment, rating, date]
+                to_ciphe = {f"{username}_{stock_symbol}" : [stock_symbol, comment, rating, date]}
+                start_client(to_ciphe)
 
                 with open(r"texts\recommendations.json", "w") as json_file:
-                    json.dump(data, json_file)
+                        json.dump(data, json_file)
                 return to_ciphe
-            except:
+
+            except Exception as e:
+                st.warning(e)
                 return False
-    except:
+    except Exception as e:
+        st.warning(e)
         return False
 
 
