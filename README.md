@@ -10,11 +10,10 @@ Welcome to the Stock Analyzer App! This web application is built using Streamlit
 - [Requirements](#Requirements)
 - [Progrramers](#Pro-Grammers)
 - [Notes](#Notes)
-### Pro-Grammers
-
-- Mark Kolesnik
+  
+### Pro-Grammer
 - Itay Froomer
-- Lior Mishaiev
+- 
 ## Features
 
 - Analyze stock prices and trends.
