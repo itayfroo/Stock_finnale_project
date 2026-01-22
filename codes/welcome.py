@@ -19,7 +19,7 @@ class Scripts():
                 text = file.read()
 
             with st.expander(self.name):
-                st.text(text)
+                st.code(text)
         except UnicodeDecodeError:
             st.error(f"Unable to decode the content of the file: {self.file}")
 
@@ -50,7 +50,7 @@ def welcome_page():
     st.sidebar.markdown("- [Tk app repo](https://github.com/itayfroo/stock-analyzer.git)")
     st.sidebar.markdown("- [Read me!](https://github.com/itayfroo/Stock_finnale_project/blob/main/README.md)")
     st.markdown("---")    
-    codes = [r"codes\main.py",r"codes\signIn.py",r'codes\longtexts.py',r'codes\login.py',r'codes\israelcities.py',r'codes\homepage.py',r'codes\chooseLangauge.py',r'codes\stockCompare.py',r'codes\recommendations.py',r'codes\welcome.py']
+    codes = [r"codes\main.py",r"codes\signIn.py",r'codes\longtexts.py',r'codes\login.py',r'codes\israelcities.py',r'codes\homepage.py',r'codes\chooseLangauge.py',r'codes\stockCompare.py',r'codes\recommendations.py',r'codes\welcome.py',r'codes\recommendations.py',r'codes\server.py']
     st.subheader(translate_word("Scripts"))
     for i in codes:
         Scripts(i)

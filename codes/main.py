@@ -351,7 +351,7 @@ from welcome import welcome_page
 from stockCompare import pages
 #Pages managements
 def Pages_managements():
-    page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Welcome"), translate_word("User Entrance Field"), translate_word("Stock Analysis"),translate_word("Stock Comparation")])
+    page = st.sidebar.radio(translate_word("Select Page"), [translate_word("Welcome"), translate_word("User Entrance Field"), translate_word("Stock Analysis"),translate_word("Stock Comparison")])
 
     if page == translate_word("Welcome"):
         welcome_page()
@@ -361,7 +361,7 @@ def Pages_managements():
     elif page == translate_word("Stock Analysis"):
         stockanalyzer()
     
-    elif page == translate_word("Stock Comparation"):
+    elif page == translate_word("Stock Comparison"):
         pages()
         
 if __name__ == "__main__":

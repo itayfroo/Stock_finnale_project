@@ -453,20 +453,20 @@ def update_recom(username, stock_symbol, comment,rating='⭐⭐⭐⭐⭐', date=
                     expanded=False
                 )
 
-            time.sleep(0.5)
+            time.sleep(1.5)
 
             with st.status("🧮 Generating AES session key...", expanded=True) as aesStatus:
-                time.sleep(1)
+                time.sleep(1.5)
                 st.code(connection._aesKey)
             aesStatus.update(
                 label="✅ SSAP transmission completed successfully",
                 state="complete",
                 expanded=False
             )
-            time.sleep(1)
+            time.sleep(1.5)
 
             st.write("⚙️ Encrypting header + body with AES-ECB...")
-            time.sleep(0.7)
+            time.sleep(1.5)
 
 
 
