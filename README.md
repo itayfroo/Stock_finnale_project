@@ -13,7 +13,7 @@ Welcome to the Stock Analyzer App! This web application is built using Streamlit
   
 ### Pro-Grammer
 - Itay Froomer
-- 
+ 
 ## Features
 
 - Analyze stock prices and trends.
