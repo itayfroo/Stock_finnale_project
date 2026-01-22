@@ -3,7 +3,9 @@ import os
 from datetime import datetime, timedelta
 import csv
 
-RECOMMENDATIONS_PATH = r"/texts/recommendations.json"
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+RECOMMENDATIONS_PATH = os.path.join(BASE_DIR, "texts", "recommendations.json")
+OUTPUT_DIR = os.path.join(BASE_DIR, "reports")
 OUTPUT_DIR = "reports"
 OUTPUT_FILE = "weekly_recommendations.csv"
 

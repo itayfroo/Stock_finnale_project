@@ -3,8 +3,11 @@ import os
 import csv
 from datetime import datetime, timedelta
 
-USERS_PATH = r"texts/users.json"
-OUTPUT_DIR = "reports"
+# 🔹 compute project root
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+
+USERS_PATH = os.path.join(BASE_DIR, "texts", "users.json")
+OUTPUT_DIR = os.path.join(BASE_DIR, "reports")
 OUTPUT_FILE = "new_users_weekly.csv"
 DAYS_BACK = 7
 

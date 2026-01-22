@@ -1,6 +1,13 @@
 from codes.handleRecom import Recommendations
 import os, csv, json
 
+# 🔹 project root
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+
+RECOMMENDATIONS_PATH = os.path.join(BASE_DIR, "texts", "recommendations.json")
+OUTPUT_DIR = os.path.join(BASE_DIR, "reports")
+OUTPUT_FILE = "stock_recommendation_stats.csv"
+
 
 class BackendRecommendations(Recommendations):
     def __init__(self, stock):
@@ -25,14 +32,10 @@ class BackendRecommendations(Recommendations):
         pass
 
 
-OUTPUT_DIR = "reports"
-OUTPUT_FILE = "stock_recommendation_stats.csv"
-
-
 def generate_stock_stats_report():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    with open(r"/texts/recommendations.json", encoding="utf-8") as f:
+    with open(RECOMMENDATIONS_PATH, encoding="utf-8") as f:
         stocks = {v[0] for v in json.load(f).values() if len(v) > 1 and v[1].strip()}
 
     rows = []
