@@ -405,6 +405,7 @@ def Compare():
             data = update_recom(username, stock_recommend, recommendation, rate)
             if data != False:
                 st.caption(translate_word("Comment uploaded."))
+
             else:
                 st.caption("")
         except:
@@ -456,10 +457,11 @@ def update_recom(username, stock_symbol, comment,rating='⭐⭐⭐⭐⭐', date=
             time.sleep(1.5)
 
             with st.status("🧮 Generating AES session key...", expanded=True) as aesStatus:
-                time.sleep(1.5)
+                time.sleep(1)
                 st.code(connection._aesKey)
+                time.sleep(1.5)
             aesStatus.update(
-                label="✅ SSAP transmission completed successfully",
+                label="✅ Generating AES session key completed successfully",
                 state="complete",
                 expanded=False
             )
@@ -476,7 +478,6 @@ def update_recom(username, stock_symbol, comment,rating='⭐⭐⭐⭐⭐', date=
             st.write("📡 Sending encrypted packet to server...")
             time.sleep(0.7)
 
-            # Now this correctly updates the OUTER status
             main_status.update(
                 label="✅ SSAP transmission completed successfully",
                 state="complete",
@@ -497,8 +498,8 @@ def update_recom(username, stock_symbol, comment,rating='⭐⭐⭐⭐⭐', date=
 
 
 def pages():
-    page = translate_word("Comparation")
-    if page == translate_word("Comparation"):
+    page = translate_word("Comparison")
+    if page == translate_word("Comparison"):
         Compare()
 
 

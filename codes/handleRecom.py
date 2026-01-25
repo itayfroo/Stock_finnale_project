@@ -1,91 +1,40 @@
+import json
 import streamlit as st
 from chooseLangauge import translate_word
-import json
+from handleReport import Reports
 
 
-class Recommendations:
-
+class Recommendations(Reports):
     def __init__(self, stock):
         self.company_dict = load_company_dict()
-        self.stock_name = stock
-        self.sum = 0
-        self.counter = 0
-        self.load_recom()
-        self.printAverage()
+        super().__init__(stock)
 
-    def printAverage(self):
-        stars = ['⭐☆☆☆☆', '⭐⭐☆☆☆', '⭐⭐⭐☆☆', '⭐⭐⭐⭐☆', '⭐⭐⭐⭐⭐']
-        try:
-            average = int(self.sum / self.counter)
-            st.write(translate_word(f"Average is: {stars[average - 1]}"))
-        except:
-            pass
+    def on_average(self, stars_text):
+        st.write(translate_word(f"Average is: {stars_text}"))
 
-    def MarkDownCode(name, comment, rate, date):
+    def on_recommendation(self, name, comment, rate, date):
         try:
             with st.expander(name):
                 st.subheader("Comment")
-                st.text(comment)
-                st.subheader(f'Rating: {rate}')
+                st.text(translate_word(comment))
+                st.subheader(f"Rating: {rate}")
                 st.subheader(f"Date: {date}")
-        except UnicodeDecodeError:
-            st.error(f"An error loading the comment: {UnicodeDecodeError}")
+        except UnicodeDecodeError as e:
+            st.error(f"An error loading the comment: {e}")
 
-    def average(self, rate):
-        stars = ['⭐☆☆☆☆', '⭐⭐☆☆☆', '⭐⭐⭐☆☆', '⭐⭐⭐⭐☆', '⭐⭐⭐⭐⭐']
-        if rate == stars[0]:
-            self.sum += 1
+    def on_no_recommendations(self):
+        st.info(translate_word("No recommendations about this stock yet"))
 
-        if rate == stars[1]:
-            self.sum += 2
+    def on_count(self, count):
+        st.caption(translate_word(f"{count} recommendations found."))
 
-        if rate == stars[2]:
-            self.sum += 3
-
-        if rate == stars[3]:
-            self.sum += 4
-
-        if rate == stars[4]:
-            self.sum += 5
-
-    def load_recom(self):
-        try:
-
-            counter = 0
-            with open(r"texts\stocks.json", "r") as stocks_file:
-                stocks_data = json.load(stocks_file)
-                stock_symbol = stocks_data[self.stock_name]
-            with open(r"texts\recommendations.json", "r") as recom_file:
-                recom_data = json.load(recom_file)
-                for key in recom_data:
-                    if recom_data[key][0] == stock_symbol and recom_data[key][1].strip():
-                        counter += 1
-                        stock_initial = key[0:key.index('_')]
-                        comment = recom_data[key][1]
-                        try:
-                            rating = recom_data[key][2]
-                        except:
-                            rating = '⭐⭐⭐⭐☆'
-                        Recommendations.average(self, rating)
-                        words = comment.split()
-                        try:
-                            date = recom_data[key][3][:10]
-                        except:
-                            date = 'Two years ago'
-                        wrapped_comment = '\n'.join([' '.join(words[i:i + 8]) for i in range(0, len(words), 8)])
-                        Recommendations.MarkDownCode(stock_initial, f"{translate_word(wrapped_comment)}", rating, date)
-                        self.counter += 1
-                if counter == 0:
-                    st.info(translate_word("No recommendations about this stock yet"))
-                else:
-                    st.caption(translate_word(f"{counter} recommendations found."))
-        except Exception as e:
-            st.warning(e)
+    def on_warning(self, e):
+        st.warning(e)
 
 
 def load_company_dict():
     try:
-        with open(r"texts\stocks.json", "r") as json_file:
-            return json.load(json_file)
+        with open(r"texts\stocks.json", "r", encoding="utf-8") as f:
+            return json.load(f)
     except FileNotFoundError:
         return {}
