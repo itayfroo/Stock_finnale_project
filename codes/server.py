@@ -17,7 +17,7 @@ PORT_KEY  = 5001
 
 PRIVATE_KEY_PATH = "Encription_System/Encription_System/server_private.pem"
 PUBLIC_KEY_PATH  = "Encription_System/Encription_System/server_public.pem"
-path = r"C:\Users\user\Documents\Stock_finnale_project\texts\recommendations.json"
+path = r"texts\recommendations.json"
 
 
 
@@ -170,3 +170,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
