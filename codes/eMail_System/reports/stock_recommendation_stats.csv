@@ -1,5 +1,5 @@
 Stock Name,Symbol,Recommendations,Average (Numeric),Average (Stars)
-APPLE,AAPL,8,4.0,⭐⭐⭐⭐☆
+APPLE,AAPL,6,3.83,⭐⭐⭐☆☆
 ABBVIE,ABBV,1,4.0,⭐⭐⭐⭐☆
 ADOBE,ADBE,1,4.0,⭐⭐⭐⭐☆
 AMC ENTERTAINMENT,AMC,1,4.0,⭐⭐⭐⭐☆
@@ -32,7 +32,7 @@ MICRON,MU,1,4.0,⭐⭐⭐⭐☆
 NASDAQ,NDAQ,1,4.0,⭐⭐⭐⭐☆
 NETFLIX,NFLX,1,4.0,⭐⭐⭐⭐☆
 NIKE,NKE,1,4.0,⭐⭐⭐⭐☆
-NVIDIA,NVDA,17,4.47,⭐⭐⭐⭐☆
+NVIDIA,NVDA,15,4.4,⭐⭐⭐⭐☆
 PALANTIR TECHNOLOGIES,PLTR,1,4.0,⭐⭐⭐⭐☆
 PLUG POWER,PLUG,1,4.0,⭐⭐⭐⭐☆
 PAYPAL HOLDINGS,PYPL,1,4.0,⭐⭐⭐⭐☆

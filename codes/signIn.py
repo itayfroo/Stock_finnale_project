@@ -6,6 +6,7 @@ import yfinance as yf
 import requests
 from datetime import datetime
 import random
+from removeUser import RemoveUser
 json_file_path = r"texts\users.json"
 main_script_path = "codes/main.py"
 
@@ -149,25 +150,6 @@ def get_stock_symbol(company_name):
         st.caption(translate_word(f"Error: {e}"))
 
     return None
-
-
-class RemoveUser:
-    def __init__(self, username) -> None:
-        self.name = username
-        self.delete_user(self.name)
-        self.delete_user(f"{self.name}_info")
-
-    def delete_user(self, content):
-        file_path = r"texts\users.json"
-        if os.path.exists(file_path):
-            with open(file_path, "r") as json_file:
-                data = json.load(json_file)
-                if content in data:
-                    del data[content]
-            with open(file_path, "w") as json_file:
-                json.dump(data, json_file)
-        else:
-            print("JSON file does not exist.")
 
 
 def end(username, password):
