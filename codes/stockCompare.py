@@ -492,7 +492,7 @@ def update_recom(username, stock_symbol, comment,rating='⭐⭐⭐⭐⭐', date=
         return to_ciphe
 
     except Exception as e:
-        st.warning(e)
+        st.warning("Server is off, turn on codes/server.py!")
         return False
 
 

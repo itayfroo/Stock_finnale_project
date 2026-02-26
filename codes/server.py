@@ -20,7 +20,6 @@ PUBLIC_KEY_PATH  = "Encription_System/Encription_System/server_public.pem"
 path = r"texts\recommendations.json"
 
 
-
 def push_recommendation(key, value_list):
     data = {}
 
@@ -32,18 +31,17 @@ def push_recommendation(key, value_list):
     # add new entry
     data[key] = value_list
 
-    # save without changing layout style
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(
-            data,
-            f,
-            ensure_ascii=True,
-            separators=(',', ':')   # keeps one-line horizontal format
-        )
+    try:
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(
+                data,
+                f,
+                ensure_ascii=True,
+                separators=(',', ':')
+            )
+    except:
+        print("No such file or directory: 'texts\\recommendations.json'")
 
-# -----------------------------------------
-# GENERATE RSA KEYS IF MISSING
-# -----------------------------------------
 def generate_keys_if_missing():
     key_dir = os.path.dirname(PRIVATE_KEY_PATH)
     os.makedirs(key_dir, exist_ok=True)
@@ -65,9 +63,7 @@ def generate_keys_if_missing():
     print("[KEYS] RSA keypair generated.")
 
 
-# -----------------------------------------
-# PUBLIC KEY SERVER
-# -----------------------------------------
+
 def public_key_server():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         s.bind((HOST, PORT_KEY))
@@ -82,9 +78,7 @@ def public_key_server():
                     conn.sendall(f.read())
 
 
-# -----------------------------------------
-# PARSE PACKET
-# -----------------------------------------
+
 def parse_packet(data):
     if data[:4] != b"SSAP":
         print("Invalid header")
@@ -121,9 +115,38 @@ def parse_packet(data):
     return ip, port, enc_key, cipher_header, cipher_body
 
 
-# -----------------------------------------
-# PACKET SERVER
-# -----------------------------------------
+
+def handle_client(conn, addr, private_key):
+    print(f"\n[PACKET] Client: {addr}")
+
+    with conn:
+        packet = conn.recv(65535)
+        if not packet:
+            return
+
+        parsed = parse_packet(packet)
+        if not parsed:
+            return
+
+        ip, port, enc_key, cipher_header, cipher_body = parsed
+
+        aes_key = rsa_decrypt_aes_key(enc_key, private_key)
+        header = aes_decrypt_ecb(cipher_header, aes_key)
+        body = aes_decrypt_ecb(cipher_body, aes_key)
+
+        try:
+            body = json.loads(body)
+        except:
+            pass
+        recomand = {header: body}
+        print("\n=== PACKET RECEIVED ===")
+        print(f"FROM: {ip}:{port}")
+        print(f"recommendation: {recomand}")
+        print("=======================\n")
+        push_recommendation(header, body)
+
+
+
 def packet_server():
     private_key = load_rsa_private_key(PRIVATE_KEY_PATH)
 
@@ -134,33 +157,12 @@ def packet_server():
 
         while True:
             conn, addr = server.accept()
-            print(f"\n[PACKET] Client: {addr}")
 
-            with conn:
-                packet = conn.recv(65535)
-                if not packet:
-                    continue
-
-                parsed = parse_packet(packet)
-                if not parsed:
-                    continue
-
-                ip, port, enc_key, cipher_header, cipher_body = parsed
-
-                aes_key = rsa_decrypt_aes_key(enc_key, private_key)
-                header = aes_decrypt_ecb(cipher_header, aes_key)
-                body = aes_decrypt_ecb(cipher_body, aes_key)
-
-                try:
-                    body = json.loads(body)
-                except:
-                    pass
-                recomand = {header: body}
-                print("\n=== PACKET RECEIVED ===")
-                print(f"FROM: {ip}:{port}")
-                print(f"recommendation: {recomand}")
-                print("=======================\n")
-                push_recommendation(header,body)
+            threading.Thread(
+                target=handle_client,
+                args=(conn, addr, private_key),
+                daemon=True
+            ).start()
 
 
 def main():
@@ -170,4 +172,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

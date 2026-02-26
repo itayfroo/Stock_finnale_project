@@ -12,6 +12,8 @@ import datetime
 import json
 from chooseLangauge import translate_word,language_chooser
 import random
+import os
+os.system("codes/server.py")
 check = False
 
 data=[]
