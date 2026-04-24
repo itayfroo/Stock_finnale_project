@@ -4,6 +4,7 @@ import streamlit as st
 import pandas as pd
 from chooseLangauge import translate_word
 import datetime
+import hashlib
 
 json_file_path = r"texts\users.json"
 main_script_path = "codes/main.py"
@@ -29,6 +30,10 @@ class Users:
 
     def click_button(self):
         st.session_state.clicked = True
+
+
+    def hash_password(self, password: str) -> str:
+        return hashlib.sha256(password.encode("utf-8")).hexdigest()
 
 
     def user_exists(self, username):
@@ -72,7 +77,8 @@ class Users:
             st.caption(translate_word("You have to enter a password"))
         else:
             date = str(datetime.datetime.now())
-            user_data = {"password": password}
+            # ONLY CHANGE: store hashed password
+            user_data = {"password": self.hash_password(password)}
             age =""
             city =""
             amount_invested = 0
@@ -91,7 +97,12 @@ class Users:
             with open(json_file_path, "r") as file:
                 users = json.load(file)
                 user_data = users.get(username)
-                if user_data and user_data.get("password") == password:
+
+                # ONLY CHANGE: compare hash of entered password with stored hash
+                stored_pw = user_data.get("password") if user_data else None
+                entered_hash = self.hash_password(password)
+
+                if user_data and (stored_pw == entered_hash or stored_pw == password):
                     additional_info = users.get(f"{username}_info")
                     rememberAge = additional_info["Age"]
                     st.write(translate_word("User info"))
@@ -141,7 +152,8 @@ class Users:
                         json.dump(users, file)
                     d = {
                         'Username': username,
-                        'Password': user_data['password'],
+                        # ONLY CHANGE: keep same look, show entered password not stored hash
+                        'Password': password,
                         'Age': additional_info['Age'],
                         'Stock':additional_info['Stock_investment'],
                         'City':additional_info['City'],

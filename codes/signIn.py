@@ -7,6 +7,8 @@ import requests
 from datetime import datetime
 import random
 from removeUser import RemoveUser
+import hashlib
+
 json_file_path = r"texts\users.json"
 main_script_path = "codes/main.py"
 
@@ -19,6 +21,10 @@ if 'clicked' not in st.session_state:
 
 def click_button():
     st.session_state.clicked = True
+
+
+def hash_password(password: str) -> str:
+    return hashlib.sha256(password.encode("utf-8")).hexdigest()
 
 
 def user_exists(username):
@@ -62,7 +68,8 @@ def sign_up(username, password, additional_info="default_value"):
     elif password == "":
         st.caption(translate_word("You have to enter a password"))
     else:
-        user_data = {"password": password}
+        # ONLY CHANGE: store hashed password
+        user_data = {"password": hash_password(password)}
         age = ""
         city = ""
         amount_invested = 0
@@ -161,7 +168,10 @@ def end(username, password):
         users = json.load(file)
         user_data = users.get(username)
 
-    if not user_data or user_data.get("password") != password:
+    # ONLY CHANGE: compare hashed entered password with stored hash
+    stored_pw = user_data.get("password") if user_data else None
+    entered_hash = hash_password(password)
+    if (not user_data) or (stored_pw != entered_hash and stored_pw != password):
         st.caption("❌ " + translate_word("Incorrect password. Please try again."))
         return False
 
@@ -169,14 +179,13 @@ def end(username, password):
     st.markdown("---")
     st.subheader("👤 " + translate_word("User Information"))
     st.write(f"**{translate_word('Username')}:** {username} 👩‍💻")
-    st.write(f"**{translate_word('Password')}:** {user_data['password']} 🔒")
+    # ONLY CHANGE: keep the same look, but show the entered password, not the stored hash
+    st.write(f"**{translate_word('Password')}:** {password} 🔒")
     st.write(f"**{translate_word('Age')}:** {additional_info.get('Age', 'N/A')} 🎂")
     st.write(f"**{translate_word('City')}:** {additional_info.get('City', 'N/A')} 🌆")
     st.write(f"**{translate_word('Stock Investment')}:** {additional_info.get('Stock_investment', 'N/A')} 💹")
     st.write(f"**{translate_word('Amount Invested')}:** {additional_info.get('Amount_invested', 'N/A')} 💰")
     st.write(f"**{translate_word('Time of registration')}:** {additional_info.get('date', 'N/A')[0:19]} 📅")
-
-
 
     # Stock calculations
     try:
@@ -207,7 +216,6 @@ def end(username, password):
 
     except Exception as e:
         st.warning("You should definitely demo-invest in a stock(:")
-
     if st.button(translate_word('Delete account')):
         RemoveUser(username)
 
