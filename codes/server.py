@@ -15,9 +15,10 @@ HOST = "127.0.0.1"
 PORT_DATA = 5000
 PORT_KEY  = 5001
 
-PRIVATE_KEY_PATH = "Encription_System/Encription_System/server_private.pem"
-PUBLIC_KEY_PATH  = "Encription_System/Encription_System/server_public.pem"
-path = r"texts\recommendations.json"
+PRIVATE_KEY_PATH = "Encription_System/keys/private.pem"
+PUBLIC_KEY_PATH  = "Encription_System/keys/public.pem"
+
+path = os.path.join("texts", "recommendations.json")
 
 
 def push_recommendation(key, value_list):
